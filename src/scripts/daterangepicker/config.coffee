@@ -1,8 +1,9 @@
-class ConfigParser
-  constructor: (obj, options = {}) ->
+class Config
+  constructor: (options = {}) ->
     @firstDayOfWeek = @_firstDayOfWeek(options.firstDayOfWeek)
     @timeZone = @_timeZone(options.timeZone)
     @period = @_period(options.period)
+    @periods = @_periods(options.periods)
     @single = @_single(options.single)
     @opened = @_opened(options.opened)
     @expanded = @_expanded(options.expanded)
@@ -13,19 +14,20 @@ class ConfigParser
     @endDate = @_endDate(options.endDate)
 
     @ranges = @_ranges(options.ranges)
-
-    for key, val of @
-      if key[0] != '_' && @hasOwnProperty(key)
-        obj[key] = val
+    @edgeMode = @_edgeMode(options.edgeMode)
+    @locale = @_locale(options.locale)
 
   _firstDayOfWeek: (val) ->
-    if val then val else 0 # default to Sunday (0)
+    ko.observable(if val then val else 0) # default to Sunday (0)
 
   _timeZone: (val) ->
     ko.observable(val || 'UTC')
 
   _period: (val) ->
     Period.extendObservable(ko.observable(val || 'day'))
+
+  _periods: (val) ->
+    ko.observableArray(val || Period.allPeriods)
 
   _single: (val) ->
     ko.observable(val || false)
@@ -63,3 +65,16 @@ class ConfigParser
         new CustomDateRange(title)
       else
         new DateRange(title, startDate, endDate)
+
+  _edgeMode: (val) ->
+    val = 'inclusive' unless val in ['exclusive', 'inclisuve', 'extended']
+    ko.observable(val)
+
+  _locale: (val) ->
+    val || {
+      applyButtonTitle: 'Apply'
+      cancelButtonTitle: 'Cancel'
+      inputFormat: 'L'
+      startLabel: 'Start'
+      endLabel: 'End'
+    }

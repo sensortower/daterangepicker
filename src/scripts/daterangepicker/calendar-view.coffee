@@ -1,9 +1,9 @@
 class CalendarView
-  constructor: (config, dateSubscribable, alignment, label, minBoundary) ->
+  constructor: (config, dateSubscribable, alignment, minBoundary) ->
     @config = config
     @period = config.period
     @alignment = alignment
-    @label = label
+    @label = config.locale["#{alignment}Label"] || ''
 
     @hoverDate = ko.observable(null)
     @activeDate = dateSubscribable

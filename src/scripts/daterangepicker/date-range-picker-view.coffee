@@ -1,42 +1,34 @@
 class DateRangePickerView
-  @defaultPeriods: [
-    'day'
-    'week'
-    'month'
-    'quarter'
-    'year'
-  ]
-  @defaultLocale:
-    applyButtonTitle: 'Apply'
-    cancelButtonTitle: 'Cancel'
-    inputFormat: 'L'
-
   constructor: (options = {}) ->
-    config = new ConfigParser(@, options)
-    @periodProxy = Period
-    MomentUtil.setFirstDayOfTheWeek(@firstDayOfWeek || 0)
-    @periods = ko.observableArray(options.periods || @constructor.defaultPeriods)
+    @config = new Config(options)
+    @_extend(@config)
+
+    @firstDayOfWeek.subscribe (newValue) ->
+      MomentUtil.setFirstDayOfTheWeek(newValue)
+    MomentUtil.setFirstDayOfTheWeek(@firstDayOfWeek())
 
     @dateRange = ko.observable([@startDate(), @endDate()])
 
-    @locale = options.locale || @constructor.defaultLocale
-
-    @startCalendar = new CalendarView(@, @startDate, 'start', 'Start')
-    @endCalendar = new CalendarView(@, @endDate, 'end', 'End', @startDate)
+    @startCalendar = new CalendarView(@, @startDate, 'start')
+    @endCalendar = new CalendarView(@, @endDate, 'end', @startDate)
 
     @expanded = ko.observable(false)
     @period.subscribe (newValue) =>
       @expanded(true)
 
-    @calendars =
+    @startDateInput = @startCalendar.inputDate
+    @endDateInput = @endCalendar.inputDate
+
+    @calendars = ko.pureComputed =>
       if @single()
         [@startCalendar]
       else
         [@startCalendar, @endCalendar]
 
+    @startDate.subscribe (newValue) =>
+      @endDate(newValue.clone().endOf(@period())) if @single()
 
-    @startDateInput = @startCalendar.inputDate
-    @endDateInput = @endCalendar.inputDate
+  periodProxy: Period
 
   updateDateRange: () ->
     @dateRange([@startDate(), @endDate()])
@@ -94,3 +86,6 @@ class DateRangePickerView
 
   toggle: () ->
     @opened(!@opened())
+
+  _extend: (obj) ->
+    @[k] = v for k, v of obj when obj.hasOwnProperty(k) && k[0] != '_'

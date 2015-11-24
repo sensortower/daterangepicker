@@ -4,7 +4,7 @@
 #= require "./daterangepicker/util/jquery.coffee"
 #= require "./daterangepicker/date-range.coffee"
 #= require "./daterangepicker/period.coffee"
-#= require "./daterangepicker/config-parser.coffee"
+#= require "./daterangepicker/config.coffee"
 #= require "./daterangepicker/calendar.coffee"
 #= require "./daterangepicker/calendar-header-view.coffee"
 #= require "./daterangepicker/calendar-view.coffee"
