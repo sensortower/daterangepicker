@@ -78,9 +78,10 @@ $border-radius: 4px;
     }
   }
 
-   .custom-range-inputs {
+  $m: 3px;
+
+  .custom-range-inputs {
     display: flex;
-    $m: 3px;
     margin: - $m;
     margin-bottom: 8px - $m;
 
@@ -93,23 +94,30 @@ $border-radius: 4px;
     }
   }
 
-  .custom-range-buttons button {
-    @include button-sizing;
+  .custom-range-buttons {
+    display: flex;
+    margin: - $m;
 
-    border-radius: $border-radius;
-    background: $grey-color;
-    color: $active-color;
+    button {
+      @include button-sizing;
 
-    &:hover {
-      background: darken($grey-color, 10%);
-    }
+      margin: $m;
 
-    &.apply-btn {
-      background: $green-color;
-      color: white;
+      border-radius: $border-radius;
+      background: $grey-color;
+      color: $active-color;
 
       &:hover {
-        background: darken($green-color, 10%);
+        background: darken($grey-color, 10%);
+      }
+
+      &.apply-btn {
+        background: $green-color;
+        color: white;
+
+        &:hover {
+          background: darken($green-color, 10%);
+        }
       }
     }
   }
