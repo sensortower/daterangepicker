@@ -19,11 +19,10 @@ class MomentUtil
       })
 
   @firstYearOfDecade: (date) ->
-    # tz = @parent.tz()
-    tz = 'UTC'
+    timeZone = date.tz()
     # we use current year here so that it's always in the middle of the calendar
-    currentYear = moment().tz(tz).year()
+    currentYear = moment().tz(timeZone).year()
     firstYear = currentYear - 4
     offset = Math.floor((date.year() - firstYear) / 9)
     year = firstYear + offset * 9
-    moment.tz([year], tz)
+    moment.tz([year], timeZone)
