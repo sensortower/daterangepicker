@@ -38,10 +38,16 @@ class CalendarView
   weekDayNames: ->
     moment.weekdaysMin()
 
-  withinBoundaries: (date, inclusive) =>
+  withinBoundaries: (date) =>
+    inclusive = @config.edgeMode() != 'exclusive'
     date.isBetween(@minBoundary(), @config.maxDate(), @period()) || (inclusive && (date.isSame(@minBoundary(), @period()) || date.isSame(@config.maxDate(), @period())))
 
   fitWithinBoundaries: (date) =>
+    minDate = @minBoundary()
+    maxDate = @config.maxDate()
+    if @config.edgeMode() == 'extended'
+      minDate = minDate.clone().startOf(@period())
+      maxDate = maxDate.clone().endOf(@period())
     MomentUtil.fit(date, @minBoundary(), @config.maxDate())
 
   inRange: (date) =>
@@ -82,16 +88,16 @@ class CalendarView
   eventsForDate: (date) =>
     {
       click: =>
-        @activeDate(@fitWithinBoundaries(date)) if @withinBoundaries(date, true)
+        @activeDate(@fitWithinBoundaries(date)) if @withinBoundaries(date)
       mouseenter: =>
-        @hoverDate(@fitWithinBoundaries(date)) if @withinBoundaries(date, true)
+        @hoverDate(@fitWithinBoundaries(date)) if @withinBoundaries(date)
       mouseleave: =>
         @hoverDate(null)
     }
 
   cssForDate: (date, periodIsDay) =>
     onRangeEnd = date.isSame(@activeDate(), @period())
-    withinBoundaries = @withinBoundaries(date, true)
+    withinBoundaries = @withinBoundaries(date)
     periodIsDay ||= @period() == 'day'
     differentMonth = !date.isSame(@currentDate(), 'month')
     inRange = @inRange(date)

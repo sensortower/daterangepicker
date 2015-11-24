@@ -53,15 +53,15 @@ class CalendarHeaderView
     @currentDate(@fitWithinBoundaries(@nextDate()))
 
   prevAvailable: ->
-    @withinBoundaries(@prevDate().clone().endOf(@period.scale()), true)
+    @withinBoundaries(@prevDate().clone().endOf(@period.scale()))
 
   nextAvailable: ->
-    @withinBoundaries(@nextDate().clone().startOf(@period.scale()), true)
+    @withinBoundaries(@nextDate().clone().startOf(@period.scale()))
 
 
 
   monthOptions: ->
-    month for month in [0..11] when @withinBoundaries(@currentDate().clone().month(month), true)
+    month for month in [0..11] when @withinBoundaries(@currentDate().clone().month(month))
 
   yearOptions: ->
     [@config.minDate().year()..@config.maxDate().year()]
