@@ -1,0 +1,126 @@
+.calendar {
+  display: none;
+  margin: 4px;
+
+  .calendar-header,
+  .calendar-table {
+    min-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .calendar-title {
+    @include button-sizing;
+    margin: 0 auto;
+    margin-bottom: 8px;
+    text-align: center;
+    display: block;
+  }
+
+  .calendar-header button {
+    @include button-sizing;
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: $border-radius;
+    background: transparent;
+
+    &:hover {
+      background: $grey-color;
+    }
+  }
+
+  .calendar-header {
+    display: flex;
+    margin: 0 6px 4px;
+
+    .selects {
+      flex: 5;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      padding: 2px;
+    }
+
+    button {
+      width: 100%;
+    }
+
+    > div {
+      flex: 1;
+    }
+    .arrow {
+      text-align: center;
+
+      &.hidden {
+        display: block;
+        visibility: hidden;
+      }
+    }
+  }
+
+
+  .calendar-table {
+    height: 180px;
+    border: 1px solid $grey-color;
+    border-radius: $border-radius;
+    padding: 5px;
+    display: flex;
+    align-content: stretch;
+    justify-content: space-around;
+    flex-direction: column;
+
+    .table-row {
+      display: flex;
+      align-content: stretch;
+      justify-content: space-around;
+      flex: 1;
+
+      .table-col {
+        flex: 1;
+        display: flex;
+        align-content: stretch;
+        align-items: center;
+        justify-content: space-around;
+        text-align: center;
+        line-height: 1;
+
+        cursor: default;
+
+        &.out-of-boundaries,
+        &.unavailable,
+        .week-day.unavailable {
+          color: $dark-grey-color;
+        }
+
+        &.clickable {
+          cursor: pointer;
+
+          &:hover {
+            background: $grey-color;
+          }
+        }
+
+        &.in-range {
+          background: $in-range-color;
+        }
+
+        &.active {
+          &, &:hover {
+            background: $active-color;
+            color: white;
+          }
+          border-radius: $border-radius;
+        }
+
+        .week-day {
+          flex: 1;
+          text-align: center;
+        }
+      }
+
+      &.weekdays .table-col {
+        font-weight: bold;
+      }
+    }
+  }
+}

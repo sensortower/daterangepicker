@@ -1,0 +1,48 @@
+.daterangepicker {
+  &.opened {
+    display: inline-flex;
+  }
+
+  &.expanded .calendar {
+    display: block;
+  }
+
+  &.single {
+    flex-direction: column;
+
+    .ranges,
+    .custom-range-inputs,
+    .custom-range-buttons,
+    .calendar-title {
+      display: none;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+
+      .periods {
+        margin-bottom: -4px;
+      }
+    }
+  }
+
+  &.month-period .table-col {
+    font-size: 1.25em;
+  }
+
+  &.year-period .table-col {
+    font-size: 1.25em;
+  }
+
+  &.quarter-period .table-col {
+    flex-direction: column;
+    font-size: 2em;
+    padding: 0.55em 0;
+
+    .months {
+      font-size: 0.5em;
+      opacity: 0.75;
+    }
+  }
+}

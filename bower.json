@@ -1,0 +1,15 @@
+{
+  "name": "daterangepicker",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "moment": "~2.10.6",
+    "bootstrap": "~2.3.2",
+    "knockout": "~3.4.0",
+    "moment-timezone": "~0.4.1"
+  },
+  "devDependencies": {
+    "chai": "~3.4.0",
+    "mocha": "~2.3.3"
+  }
+}

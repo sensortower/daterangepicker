@@ -1,0 +1,29 @@
+.daterangepicker select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 2px 7px;
+  height: auto;
+  font-size: 12px;
+  line-height: 1.5em;
+  text-align: center;
+  margin: 0 2px;
+
+  &.hidden {
+    display: none;
+  }
+
+  &.month-select {
+    flex: 10;
+    max-width: 75%;
+  }
+
+  &.year-select {
+    flex: 11;
+    max-width: 75%;
+  }
+
+  &.decade-select {
+    flex: 11;
+    max-width: 75%;
+  }
+}
