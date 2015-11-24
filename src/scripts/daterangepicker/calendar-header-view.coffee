@@ -38,7 +38,7 @@ class CalendarHeaderView
       read: =>
         MomentUtil.firstYearOfDecade(@currentDate()).year()
       write: (newValue) =>
-        offset = (@currentDate().year() - newValue) % 9
+        offset = (@currentDate().year() - @selectedDecade()) % 9
         newYear = newValue + offset
         newDate = @currentDate().clone().year(newYear)
         # TODO: don't write if the year is not in options
