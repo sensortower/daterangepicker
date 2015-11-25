@@ -1,13 +1,18 @@
-class DateRangePickerButton
+class JqueryWrapper
   constructor: (element, options, cb) ->
-    @options = options
+    @view = new DateRangePickerView(options)
     @element = $(element)
-    @parent = @element.parent()
-    @container = $(DateRangePickerView.template).appendTo(@parent)
+    @parent = $('body')
+    wrapper = $("<div data-bind=\"stopBinding: true\"></div>").appendTo(@parent)
+    @container = $(DateRangePickerView.template).appendTo(wrapper)
 
     @setPosition()
     @setupMainView()
     @setupEvents()
+
+    @view.dateRange.subscribe (newValue) =>
+      [startDate, endDate] = newValue
+      cb(startDate, endDate, @view.period())
 
   setPosition: () ->
     parentOffset =
@@ -20,30 +25,29 @@ class DateRangePickerButton
         left: @parent.offset().left - @parent.scrollLeft()
       parentRightEdge = @parent[0].clientWidth + @parent.offset().left
 
-    switch @options.opens
+    top = (@element.offset().top + @element.outerHeight() - (parentOffset.top)) + 'px'
+    left = 'auto'
+    right = 'auto'
+
+    switch @view.opens
       when 'left'
-        @container.css
-          top: @element.offset().top + @element.outerHeight() - (parentOffset.top)
-          right: parentRightEdge - (@element.offset().left) - @element.outerWidth()
-          left: 'auto'
         if @container.offset().left < 0
-          @container.css
-            right: 'auto'
-            left: 9
+          left = '9px'
+        else
+          right = (parentRightEdge - (@element.offset().left) - @element.outerWidth()) + 'px'
       else
-        @container.css
-          top: @element.offset().top + @element.outerHeight() - (parentOffset.top)
-          left: @element.offset().left - (parentOffset.left)
-          right: 'auto'
         if @container.offset().left + @container.outerWidth() > $(window).width()
-          @container.css
-            left: 'auto'
-            right: 0
+          right = '0'
+        else
+          left = (@element.offset().left - (parentOffset.left)) + 'px'
+
+    @view.style
+      top: top
+      left: left
+      right: right
 
   setupMainView: () ->
-    @view = new DateRangePickerView(@options)
-    ko.cleanNode(@container.get(0))
-    ko.applyBindings(@view, @container.get(0))
+    ko.applyBindings(@view, @container.get(0));
 
   setupEvents: () ->
     $doc = $(document)
