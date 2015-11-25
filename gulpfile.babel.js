@@ -16,14 +16,12 @@ gulp.task('styles', () => {
       'app/styles/*.scss'
     ])
     .pipe($.plumber())
-    .pipe($.sourcemaps.init())
     .pipe($.sass.sync({
       outputStyle: 'expanded',
       precision: 10,
       includePaths: ['.']
     }).on('error', gutil.log))
     .pipe($.autoprefixer({browsers: ['last 1 version']}))
-    .pipe($.sourcemaps.write())
     .pipe(gulp.dest('.tmp/styles'))
     .pipe(reload({stream: true}));
 });
@@ -35,7 +33,6 @@ gulp.task('scripts', () => {
     ])
     .pipe(include()).on('error', gutil.log)
     .pipe($.plumber())
-    .pipe($.sourcemaps.init())
     .pipe(coffee({bare: true}).on('error', gutil.log))
     .pipe(gulp.dest('.tmp/scripts'))
     .pipe(reload({stream: true}));
