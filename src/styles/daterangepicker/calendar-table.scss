@@ -86,6 +86,8 @@
 
         cursor: default;
 
+        user-select: none;
+
         &.out-of-boundaries,
         &.unavailable,
         .week-day.unavailable {
