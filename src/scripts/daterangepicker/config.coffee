@@ -57,15 +57,19 @@ class Config
     val = moment.tz(val, @timeZone())
     ko.observable(MomentUtil.fit(val, @minDate(), @maxDate()))
 
-  _ranges: (val) ->
-    (val || []).map (arr) =>
-      [title, startDate, endDate] = arr
-      if startDate == 'all-time'
-        new AllTimeDateRange(title, @minDate().clone(), @maxDate().clone())
-      else if startDate == 'custom'
-        new CustomDateRange(title)
-      else
-        new DateRange(title, startDate.tz(@timeZone()), endDate.tz(@timeZone()))
+  _ranges: (obj) ->
+    obj ||= {}
+    for title, value of obj
+      switch value
+        when 'all-time'
+          new AllTimeDateRange(title, @minDate().clone(), @maxDate().clone())
+        when 'custom'
+          new CustomDateRange(title)
+        else
+          [startDate, endDate] = value
+          from = MomentUtil.tz(startDate, @timeZone())
+          to = MomentUtil.tz(endDate, @timeZone())
+          new DateRange(title, from, to)
 
   _edgeMode: (val) ->
     val = 'inclusive' unless val in ['exclusive', 'inclisuve', 'extended']

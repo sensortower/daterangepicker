@@ -3,10 +3,8 @@
     <ul class="periods" data-bind="foreach: $data.periods">
       <li class="period" data-bind="css: {active: $parent.isActivePeriod($data)}, text: $parent.periodProxy.title($data), click: function(){ $parent.setPeriod($data); }"></li>
     </ul>
-    <ul class="ranges">
-      <!-- ko foreach: $data.ranges -->
-        <li class="range" data-bind="css: {active: $parent.isActiveDateRange($data)}, text: $data.title, click: function(){ $parent.setDateRange($data); }"></li>
-      <!-- /ko -->
+    <ul class="ranges" data-bind="foreach: $data.ranges">
+      <li class="range" data-bind="css: {active: $parent.isActiveDateRange($data)}, text: $data.title, click: function(){ $parent.setDateRange($data); }"></li>
     </ul>
     <form data-bind="submit: $data.applyChanges">
       <div class="custom-range-inputs">
