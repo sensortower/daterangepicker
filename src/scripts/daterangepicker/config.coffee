@@ -64,7 +64,7 @@ class Config
       else if startDate == 'custom'
         new CustomDateRange(title)
       else
-        new DateRange(title, startDate, endDate)
+        new DateRange(title, startDate.tz(@timeZone()), endDate.tz(@timeZone()))
 
   _edgeMode: (val) ->
     val = 'inclusive' unless val in ['exclusive', 'inclisuve', 'extended']
