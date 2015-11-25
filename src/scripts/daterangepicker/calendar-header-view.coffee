@@ -52,11 +52,11 @@ class CalendarHeaderView
   clickNextButton: =>
     @currentDate(@fitWithinBoundaries(@nextDate()))
 
-  prevAvailable: ->
-    @withinBoundaries(@prevDate().clone().endOf(@period.scale()))
+  prevArrowCss: ->
+    'arrow-hidden': !@withinBoundaries(@prevDate().clone().endOf(@period.scale()))
 
-  nextAvailable: ->
-    @withinBoundaries(@nextDate().clone().startOf(@period.scale()))
+  nextArrowCss: ->
+    'arrow-hidden': !@withinBoundaries(@nextDate().clone().startOf(@period.scale()))
 
 
 

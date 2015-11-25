@@ -24,7 +24,7 @@
     <div class="calendar">
       <div class="calendar-title" data-bind="text: $data.label"></div>
       <div class="calendar-header" data-bind="with: $data.headerView">
-        <div class="arrow" data-bind="css: {hidden: !$data.prevAvailable()}">
+        <div class="arrow" data-bind="css: $data.prevArrowCss()">
           <button data-bind="click: $data.clickPrevButton"><i class="icon-arrow-left glyphicon glyphicon-arrow-left"></i></button>
         </div>
         <div class="selects">
@@ -32,7 +32,7 @@
           <select class="year-select" data-bind="options: $data.yearOptions(), optionsText: $data.yearFormatter, valueAllowUnset: true, value: $data.selectedYear, css: {hidden: !$data.yearSelectorAvailable()}"></select>
           <select class="decade-select" data-bind="options: $data.decadeOptions(), optionsText: $data.decadeFormatter, valueAllowUnset: true, value: $data.selectedDecade, css: {hidden: !$data.decadeSelectorAvailable()}"></select>
         </div>
-        <div class="arrow" data-bind="css: {hidden: !$data.nextAvailable()}">
+        <div class="arrow" data-bind="css: $data.nextArrowCss()">
           <button data-bind="click: $data.clickNextButton"><i class="icon-arrow-right glyphicon glyphicon-arrow-right"></i></button>
         </div>
       </div>
