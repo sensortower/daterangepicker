@@ -46,20 +46,20 @@ class Config
 
   _minDate: (val) ->
     val ||= moment().subtract(30, 'year')
-    ko.observable(moment.tz(val, @timeZone()))
+    ko.observable(MomentUtil.tz(val, @timeZone()))
 
   _maxDate: (val) ->
     val ||= moment()
-    ko.observable(moment.tz(val, @timeZone()))
+    ko.observable(MomentUtil.tz(val, @timeZone()))
 
   _startDate: (val) ->
     val ||= moment().subtract(30, 'days')
-    val = moment.tz(val, @timeZone())
+    val = MomentUtil.tz(val, @timeZone())
     ko.observable(MomentUtil.fit(val, @minDate(), @maxDate()))
 
   _endDate: (val) ->
     val ||= moment()
-    val = moment.tz(val, @timeZone())
+    val = MomentUtil.tz(val, @timeZone())
     ko.observable(MomentUtil.fit(val, @minDate(), @maxDate()))
 
   _ranges: (obj) ->

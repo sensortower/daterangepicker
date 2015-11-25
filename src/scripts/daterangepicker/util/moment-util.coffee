@@ -1,5 +1,8 @@
 class MomentUtil
   @fit: (date, min, max) ->
+    timeZone = date.tz && date.tz()
+    min = @tz(min, timeZone)
+    max = @tz(max, timeZone)
     moment.max(moment.min(date, max), min)
 
   @patchCurrentLocale: (obj) ->
@@ -19,10 +22,22 @@ class MomentUtil
       })
 
   @firstYearOfDecade: (date) ->
-    timeZone = date.tz()
+    timeZone = date.tz && date.tz()
     # we use current year here so that it's always in the middle of the calendar
-    currentYear = moment().tz(timeZone).year()
+    currentYear =
+      if timeZone
+        moment().tz(timeZone).year()
+      else
+        moment().year()
+
     firstYear = currentYear - 4
     offset = Math.floor((date.year() - firstYear) / 9)
     year = firstYear + offset * 9
-    moment.tz([year], timeZone)
+    @tz([year], timeZone)
+
+  @tz: (date, timeZone) ->
+    if moment.tz
+      moment.tz(date, timeZone)
+    else
+      moment(date)
+

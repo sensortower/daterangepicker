@@ -68,7 +68,8 @@ class CalendarHeaderView
 
   decadeOptions: ->
     uniqArray( @yearOptions().map (year) =>
-      MomentUtil.firstYearOfDecade(moment.tz([year], @config.timeZone())).year()
+      momentObj = MomentUtil.tz([year], @config.timeZone())
+      MomentUtil.firstYearOfDecade(momentObj).year()
     )
 
   monthSelectorAvailable: ->
