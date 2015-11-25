@@ -19,7 +19,7 @@ class DateRangePickerButton
         top: @parent.offset().top - @parent.scrollTop()
         left: @parent.offset().left - @parent.scrollLeft()
       parentRightEdge = @parent[0].clientWidth + @parent.offset().left
-    # @parent.css({ position: 'relative' })
+
     switch @options.opens
       when 'left'
         @container.css
