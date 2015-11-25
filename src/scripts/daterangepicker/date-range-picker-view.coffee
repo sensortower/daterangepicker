@@ -38,6 +38,8 @@ class DateRangePickerView
       single: @single()
       opened: @opened()
       expanded: @single() || @expanded()
+      'opens-left': @opens == 'left'
+      'opens-right': @opens == 'right'
     }
     for period in Period.allPeriods
       obj["#{period}-period"] = period == @period()

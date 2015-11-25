@@ -16,6 +16,7 @@ class Config
     @ranges = @_ranges(options.ranges)
     @edgeMode = @_edgeMode(options.edgeMode)
     @locale = @_locale(options.locale)
+    @opens = @_opens(options.opens)
 
   _firstDayOfWeek: (val) ->
     ko.observable(if val then val else 0) # default to Sunday (0)
@@ -78,3 +79,7 @@ class Config
       startLabel: 'Start'
       endLabel: 'End'
     }
+
+  _opens: (val) ->
+    val = 'right' unless val in ['right', 'left']
+    val

@@ -45,4 +45,10 @@
       opacity: 0.75;
     }
   }
+
+  &.opens-left:not(.single) {
+    .controls {
+      order: 2;
+    }
+  }
 }
