@@ -10,9 +10,10 @@ class JqueryWrapper
     @setupMainView()
     @setupEvents()
 
-    @view.dateRange.subscribe (newValue) =>
-      [startDate, endDate] = newValue
-      cb(startDate, endDate, @view.period())
+    if cb
+      @view.dateRange.subscribe (newValue) =>
+        [startDate, endDate] = newValue
+        cb(startDate, endDate, @view.period())
 
   setPosition: () ->
     parentOffset =
