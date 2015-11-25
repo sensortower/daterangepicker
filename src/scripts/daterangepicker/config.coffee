@@ -29,7 +29,8 @@ class Config
     ko.observable(val || 'UTC')
 
   _period: (val) ->
-    Period.extendObservable(ko.observable(val || 'day'))
+    val = 'day' unless val in ['day', 'week', 'month', 'quarter', 'year']
+    Period.extendObservable(ko.observable(val))
 
   _periods: (val) ->
     ko.observableArray(val || Period.allPeriods)
