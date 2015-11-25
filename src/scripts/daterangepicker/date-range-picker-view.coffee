@@ -3,27 +3,12 @@ class DateRangePickerView
     @config = new Config(options)
     @_extend(@config)
 
-    @firstDayOfWeek.subscribe (newValue) ->
-      MomentUtil.setFirstDayOfTheWeek(newValue)
-    MomentUtil.setFirstDayOfTheWeek(@firstDayOfWeek())
-
-    @dateRange = ko.observable([@startDate(), @endDate()])
-
     @startCalendar = new CalendarView(@, @startDate, 'start')
     @endCalendar = new CalendarView(@, @endDate, 'end', @startDate)
 
-    @expanded = ko.observable(false)
-    @period.subscribe (newValue) =>
-      @expanded(true)
-
     @startDateInput = @startCalendar.inputDate
     @endDateInput = @endCalendar.inputDate
-
-    @calendars = ko.pureComputed =>
-      if @single()
-        [@startCalendar]
-      else
-        [@startCalendar, @endCalendar]
+    @dateRange = ko.observable([@startDate(), @endDate()])
 
     @startDate.subscribe (newValue) =>
       @endDate(newValue.clone().endOf(@period())) if @single()
@@ -31,6 +16,12 @@ class DateRangePickerView
     @style = ko.observable({})
 
   periodProxy: Period
+
+  calendars: () ->
+    if @single()
+      [@startCalendar]
+    else
+      [@startCalendar, @endCalendar]
 
   updateDateRange: () ->
     @dateRange([@startDate(), @endDate()])
@@ -64,6 +55,7 @@ class DateRangePickerView
 
   setPeriod: (period) ->
     @period(period)
+    @expanded(true)
 
   setDateRange: (dateRange) =>
     if dateRange.constructor == CustomDateRange

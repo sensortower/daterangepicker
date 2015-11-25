@@ -18,7 +18,7 @@
     </form>
   </div>
 
-  <!-- ko foreach: $data.calendars -->
+  <!-- ko foreach: $data.calendars() -->
     <div class="calendar">
       <div class="calendar-title" data-bind="text: $data.label"></div>
       <div class="calendar-header" data-bind="with: $data.headerView">

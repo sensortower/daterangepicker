@@ -18,6 +18,10 @@ class Config
     @locale = @_locale(options.locale)
     @opens = @_opens(options.opens)
 
+    @firstDayOfWeek.subscribe (newValue) ->
+      MomentUtil.setFirstDayOfTheWeek(newValue)
+    MomentUtil.setFirstDayOfTheWeek(@firstDayOfWeek())
+
   _firstDayOfWeek: (val) ->
     ko.observable(if val then val else 0) # default to Sunday (0)
 
