@@ -51,8 +51,7 @@
     .arrow {
       text-align: center;
 
-      &.hidden {
-        display: block;
+      &.arrow-hidden {
         visibility: hidden;
       }
     }

@@ -28,6 +28,8 @@ class DateRangePickerView
     @startDate.subscribe (newValue) =>
       @endDate(newValue.clone().endOf(@period())) if @single()
 
+    @style = ko.observable({})
+
   periodProxy: Period
 
   updateDateRange: () ->

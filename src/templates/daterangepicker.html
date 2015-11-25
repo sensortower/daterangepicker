@@ -1,4 +1,4 @@
-<div class="daterangepicker" data-bind="css: $data.cssClasses()">
+<div class="dropdown-menu daterangepicker" data-bind="css: $data.cssClasses(), style: $data.style()">
   <div class="controls">
     <ul class="periods" data-bind="foreach: $data.periods">
       <li class="period" data-bind="css: {active: $parent.isActivePeriod($data)}, text: $parent.periodProxy.title($data), click: function(){ $parent.setPeriod($data); }"></li>

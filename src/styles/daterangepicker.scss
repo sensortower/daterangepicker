@@ -12,9 +12,7 @@ $border-radius: 4px;
 
 .daterangepicker {
   display: none;
-  position: absolute;
   justify-content: flex-start;
-  border: 1px solid $grey-color;
   border-radius: $border-radius;
   padding: 4px;
   font-size: 13px;
@@ -125,5 +123,6 @@ $border-radius: 4px;
 }
 
 @import 'daterangepicker/modifiers';
+@import 'daterangepicker/arrows';
 @import 'daterangepicker/selects';
 @import 'daterangepicker/calendar-table';
