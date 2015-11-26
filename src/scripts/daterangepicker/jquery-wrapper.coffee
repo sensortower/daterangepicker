@@ -30,7 +30,7 @@ class JqueryWrapper
     left = 'auto'
     right = 'auto'
 
-    switch @view.opens
+    switch @view.opens()
       when 'left'
         if @container.offset().left < 0
           left = '9px'

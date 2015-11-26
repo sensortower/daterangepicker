@@ -91,4 +91,5 @@ class Config
 
   _opens: (val) ->
     val = 'right' unless val in ['right', 'left']
+    ko.observable(val)
     val
