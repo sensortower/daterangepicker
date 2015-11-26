@@ -21,7 +21,7 @@ class CalendarView
       read: =>
         (@hoverDate() || @activeDate()).format(@locale.inputFormat)
       write: (newValue) =>
-        newDate = moment(newValue, @locale.inputFormat)
+        newDate = MomentUtil.tz(newValue, @locale.inputFormat, @timeZone())
         @activeDate(newDate) if newDate.isValid()
 
     @minBoundary = minBoundary || @minDate

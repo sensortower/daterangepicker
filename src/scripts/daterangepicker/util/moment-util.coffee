@@ -35,9 +35,13 @@ class MomentUtil
     year = firstYear + offset * 9
     @tz([year], timeZone)
 
-  @tz: (date, timeZone) ->
+  @tz: (input) ->
+    args = Array.prototype.slice.call(arguments, 0, -1)
+    timeZone = arguments[arguments.length - 1]
     if moment.tz
-      moment.tz(date, timeZone)
+      moment.tz.apply(null, args.concat([timeZone]))
+    else if timeZone == 'UTC'
+      moment.utc.apply(null, args)
     else
-      moment(date)
+      moment.apply(null, args)
 
