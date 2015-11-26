@@ -1,10 +1,4 @@
 class MomentUtil
-  @fit: (date, min, max) ->
-    timeZone = date.tz && date.tz()
-    min = @tz(min, timeZone)
-    max = @tz(max, timeZone)
-    moment.max(moment.min(date, max), min)
-
   @patchCurrentLocale: (obj) ->
     moment.locale(moment.locale(), obj)
 
