@@ -2,6 +2,7 @@ class Config
   constructor: (options = {}) ->
     @firstDayOfWeek = @_firstDayOfWeek(options.firstDayOfWeek)
     @timeZone = @_timeZone(options.timeZone)
+    @edgeMode = @_edgeMode(options.edgeMode)
     @period = @_period(options.period)
     @periods = @_periods(options.periods)
     @single = @_single(options.single)
@@ -14,13 +15,15 @@ class Config
     @endDate = @_endDate(options.endDate)
 
     @ranges = @_ranges(options.ranges)
-    @edgeMode = @_edgeMode(options.edgeMode)
     @locale = @_locale(options.locale)
     @opens = @_opens(options.opens)
 
     @firstDayOfWeek.subscribe (newValue) ->
       MomentUtil.setFirstDayOfTheWeek(newValue)
     MomentUtil.setFirstDayOfTheWeek(@firstDayOfWeek())
+
+  extend: (obj) ->
+    obj[k] = v for k, v of @ when @.hasOwnProperty(k) && k[0] != '_'
 
   _firstDayOfWeek: (val) ->
     ko.observable(if val then val else 0) # default to Sunday (0)
@@ -46,21 +49,19 @@ class Config
 
   _minDate: (val) ->
     val ||= moment().subtract(30, 'year')
-    ko.observable(MomentUtil.tz(val, @timeZone()))
+    @_dateObservable(val)
 
   _maxDate: (val) ->
     val ||= moment()
-    ko.observable(MomentUtil.tz(val, @timeZone()))
+    @_dateObservable(val)
 
   _startDate: (val) ->
     val ||= moment().subtract(30, 'days')
-    val = MomentUtil.tz(val, @timeZone())
-    ko.observable(MomentUtil.fit(val, @minDate(), @maxDate()))
+    @_dateObservable(val, @minDate, @maxDate)
 
   _endDate: (val) ->
     val ||= moment()
-    val = MomentUtil.tz(val, @timeZone())
-    ko.observable(MomentUtil.fit(val, @minDate(), @maxDate()))
+    @_dateObservable(val, @startDate, @maxDate)
 
   _ranges: (obj) ->
     obj ||= {}
@@ -92,4 +93,28 @@ class Config
   _opens: (val) ->
     val = 'right' unless val in ['right', 'left']
     ko.observable(val)
-    val
+
+  _dateObservable: (val, minBoundary, maxBoundary) ->
+    observable = ko.observable()
+    computed = ko.computed
+      read: ->
+        observable()
+      write: (newValue) =>
+        newValue = MomentUtil.tz(newValue, @timeZone())
+        if minBoundary
+          min = minBoundary()
+          min = min.clone().startOf(@period()) if @edgeMode() == 'extended'
+          newValue = moment.max(min, newValue)
+        if maxBoundary
+          max = maxBoundary()
+          max = max.clone().endOf(@period()) if @edgeMode() == 'extended'
+          newValue = moment.min(max, newValue)
+        observable(newValue)
+    computed.clone = =>
+      @_dateObservable(observable(), minBoundary, maxBoundary)
+    computed(val)
+    if minBoundary
+      minBoundary.subscribe -> computed(observable())
+    if maxBoundary
+      maxBoundary.subscribe -> computed(observable())
+    computed

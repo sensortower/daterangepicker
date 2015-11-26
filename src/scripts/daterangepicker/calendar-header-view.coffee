@@ -2,9 +2,10 @@ class CalendarHeaderView
   constructor: (calendarView) ->
     @currentDate = calendarView.currentDate
     @period = calendarView.period
-    @config = calendarView.config
+    @minDate = calendarView.minDate
+    @maxDate = calendarView.maxDate
+    @timeZone = calendarView.timeZone
     @withinBoundaries = calendarView.withinBoundaries
-    @fitWithinBoundaries = calendarView.fitWithinBoundaries
 
     @prevDate = ko.computed =>
       [amount, period] = @period.nextPageArguments()
@@ -21,7 +22,7 @@ class CalendarHeaderView
         newDate = @currentDate().clone().month(newValue)
         # TODO: don't write if the year is not in options
         unless newDate.isSame(@currentDate(), 'month')
-          @currentDate(@fitWithinBoundaries(newDate))
+          @currentDate(newDate)
       pure: true
 
     @selectedYear = ko.computed
@@ -31,7 +32,7 @@ class CalendarHeaderView
         newDate = @currentDate().clone().year(newValue)
         # TODO: don't write if the year is not in options
         unless newDate.isSame(@currentDate(), 'year')
-          @currentDate(@fitWithinBoundaries(newDate))
+          @currentDate(newDate)
       pure: true
 
     @selectedDecade = ko.computed
@@ -43,14 +44,14 @@ class CalendarHeaderView
         newDate = @currentDate().clone().year(newYear)
         # TODO: don't write if the year is not in options
         unless newDate.isSame(@currentDate(), 'year')
-          @currentDate(@fitWithinBoundaries(newDate))
+          @currentDate(newDate)
       pure: true
 
   clickPrevButton: =>
-    @currentDate(@fitWithinBoundaries(@prevDate()))
+    @currentDate(@prevDate())
 
   clickNextButton: =>
-    @currentDate(@fitWithinBoundaries(@nextDate()))
+    @currentDate(@nextDate())
 
   prevArrowCss: ->
     'arrow-hidden': !@withinBoundaries(@prevDate().clone().endOf(@period.scale()))
@@ -64,11 +65,11 @@ class CalendarHeaderView
     month for month in [0..11] when @withinBoundaries(@currentDate().clone().month(month))
 
   yearOptions: ->
-    [@config.minDate().year()..@config.maxDate().year()]
+    [@minDate().year()..@maxDate().year()]
 
   decadeOptions: ->
     uniqArray( @yearOptions().map (year) =>
-      momentObj = MomentUtil.tz([year], @config.timeZone())
+      momentObj = MomentUtil.tz([year], @timeZone())
       MomentUtil.firstYearOfDecade(momentObj).year()
     )
 

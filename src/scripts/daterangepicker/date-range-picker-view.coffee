@@ -1,7 +1,6 @@
 class DateRangePickerView
   constructor: (options = {}) ->
-    @config = new Config(options)
-    @_extend(@config)
+    new Config(options).extend(@)
 
     @startCalendar = new CalendarView(@, @startDate, 'start')
     @endCalendar = new CalendarView(@, @endDate, 'end', @startDate)
@@ -11,7 +10,10 @@ class DateRangePickerView
     @dateRange = ko.observable([@startDate(), @endDate()])
 
     @startDate.subscribe (newValue) =>
-      @endDate(newValue.clone().endOf(@period())) if @single()
+      if @single()
+        @endDate(newValue.clone().endOf(@period()))
+        @updateDateRange()
+        @close()
 
     @style = ko.observable({})
 
@@ -82,6 +84,3 @@ class DateRangePickerView
 
   toggle: () ->
     @opened(!@opened())
-
-  _extend: (obj) ->
-    @[k] = v for k, v of obj when obj.hasOwnProperty(k) && k[0] != '_'
