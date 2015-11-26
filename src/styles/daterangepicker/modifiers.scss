@@ -7,29 +7,44 @@
     display: block;
   }
 
+  &.hide-periods {
+    .periods {
+      display: none;
+    }
+
+    .calendar .calendar-title {
+      display: none;
+    }
+  }
+
   &.single {
     flex-direction: column;
 
     .ranges,
     .custom-range-inputs,
     .custom-range-buttons,
-    .calendar-title {
+    .calendar .calendar-title {
       display: none;
-    }
-
-    .calendar-table {
-      border: none;
-      padding: 0;
     }
 
     .controls {
       display: flex;
       justify-content: center;
-
-      .periods {
-        margin-bottom: -4px;
-      }
     }
+
+    .calendar .calendar-header {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .calendar .calendar-table {
+      border: none;
+      padding: 0;
+    }
+  }
+
+  &.single.hide-periods .controls {
+    display: none;
   }
 
   &.month-period .table-col {

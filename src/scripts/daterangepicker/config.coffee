@@ -1,6 +1,7 @@
 class Config
   constructor: (options = {}) ->
     @firstDayOfWeek = @_firstDayOfWeek(options.firstDayOfWeek)
+    @showPeriods = @_showPeriods(options.showPeriods)
     @timeZone = @_timeZone(options.timeZone)
     @edgeMode = @_edgeMode(options.edgeMode)
     @period = @_period(options.period)
@@ -34,6 +35,9 @@ class Config
 
   _timeZone: (val) ->
     ko.observable(val || 'UTC')
+
+  _showPeriods: (val) ->
+    ko.observable(val || false)
 
   _period: (val) ->
     val = 'day' unless val in ['day', 'week', 'month', 'quarter', 'year']
