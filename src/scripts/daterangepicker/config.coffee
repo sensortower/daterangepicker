@@ -8,6 +8,8 @@ class Config
     @single = @_single(options.single)
     @opened = @_opened(options.opened)
     @expanded = @_expanded(options.expanded)
+    @locale = @_locale(options.locale)
+    @opens = @_opens(options.opens)
 
     @minDate = @_minDate(options.minDate)
     @maxDate = @_maxDate(options.maxDate)
@@ -15,8 +17,10 @@ class Config
     @endDate = @_endDate(options.endDate)
 
     @ranges = @_ranges(options.ranges)
-    @locale = @_locale(options.locale)
-    @opens = @_opens(options.opens)
+
+    @anchorElement = @_anchorElement(options.anchorElement)
+    @parentElement = @_parentElement(options.parentElement)
+    @callback = @_callback(options.callback)
 
     @firstDayOfWeek.subscribe (newValue) ->
       MomentUtil.setFirstDayOfTheWeek(newValue)
@@ -109,7 +113,9 @@ class Config
           max = maxBoundary()
           max = max.clone().endOf(@period()) if @edgeMode() == 'extended'
           newValue = moment.min(max, newValue)
-        observable(newValue)
+        currentValue = observable()
+        unless currentValue && currentValue.isSame(newValue)
+          observable(newValue)
     computed.clone = =>
       @_dateObservable(observable(), minBoundary, maxBoundary)
     computed(val)
@@ -118,3 +124,12 @@ class Config
     if maxBoundary
       maxBoundary.subscribe -> computed(observable())
     computed
+
+  _anchorElement: (val) ->
+    $(val)
+
+  _parentElement: (val) ->
+    $(val || 'body') if @anchorElement
+
+  _callback: (val) ->
+    val

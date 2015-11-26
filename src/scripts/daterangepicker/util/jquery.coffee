@@ -1,6 +1,8 @@
-$.fn.daterangepicker = (options, cb) ->
+$.fn.daterangepicker = (options, callback) ->
   @each ->
-    el = $(this)
-    unless el.data('daterangepicker')
-      el.data('daterangepicker', new JqueryWrapper(el, options, cb))
+    $element = $(this)
+    unless $element.data('daterangepicker')
+      options.anchorElement = $element
+      options.callback = callback if callback
+      $element.data('daterangepicker', new DateRangePickerView(options))
   this

@@ -17,6 +17,24 @@ class DateRangePickerView
 
     @style = ko.observable({})
 
+    if @callback
+      @dateRange.subscribe (newValue) =>
+        [startDate, endDate] = newValue
+        @callback(startDate, endDate, @period())
+
+    if @anchorElement
+      wrapper = $("<div data-bind=\"stopBinding: true\"></div>").appendTo(@parentElement)
+      @containerElement = $(@constructor.template).appendTo(wrapper)
+      ko.applyBindings(@, @containerElement.get(0))
+      @anchorElement.click =>
+        @updatePosition()
+        @toggle()
+      $(document)
+        .on('mousedown.daterangepicker', @outsideClick)
+        .on('touchend.daterangepicker', @outsideClick)
+        .on('click.daterangepicker', '[data-toggle=dropdown]', @outsideClick)
+        .on('focusin.daterangepicker', @outsideClick)
+
   periodProxy: Period
 
   calendars: () ->
@@ -63,8 +81,9 @@ class DateRangePickerView
     if dateRange.constructor == CustomDateRange
       @expanded(true)
     else
-      @period('day')
       @expanded(false)
+      @close()
+      @period('day')
       @startDate(dateRange.startDate)
       @endDate(dateRange.endDate)
       @updateDateRange()
@@ -84,3 +103,38 @@ class DateRangePickerView
 
   toggle: () ->
     @opened(!@opened())
+
+  updatePosition: () ->
+    parentOffset =
+      top: 0
+      left: 0
+    parentRightEdge = $(window).width()
+    if !@parentElement.is('body')
+      parentOffset =
+        top: @parentElement.offset().top - @parentElement.scrollTop()
+        left: @parentElement.offset().left - @parentElement.scrollLeft()
+      parentRightEdge = @parentElement.get(0).clientWidth + @parentElement.offset().left
+
+    style =
+      top: (@anchorElement.offset().top + @anchorElement.outerHeight() - (parentOffset.top)) + 'px'
+      left: 'auto'
+      right: 'auto'
+
+    switch @opens()
+      when 'left'
+        if @containerElement.offset().left < 0
+          style.left = '9px'
+        else
+          style.right = (parentRightEdge - (@anchorElement.offset().left) - @anchorElement.outerWidth()) + 'px'
+      else
+        if @containerElement.offset().left + @containerElement.outerWidth() > $(window).width()
+          style.right = '0'
+        else
+          style.left = (@anchorElement.offset().left - (parentOffset.left)) + 'px'
+
+    @style(style)
+
+  outsideClick: (event) =>
+    target = $(event.target)
+    unless event.type == 'focusin' || target.closest(@anchorElement).length || target.closest(@containerElement).length || target.closest('.calendar').length
+      @close()
