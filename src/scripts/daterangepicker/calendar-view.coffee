@@ -79,7 +79,7 @@ class CalendarView
   eventsForDate: (date) =>
     {
       click: =>
-        @activeDate(date)
+        @activeDate(date) if @withinBoundaries(date)
       mouseenter: =>
         @hoverDate(date) if @withinBoundaries(date)
       mouseleave: =>
