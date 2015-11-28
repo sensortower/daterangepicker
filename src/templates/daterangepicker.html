@@ -42,7 +42,9 @@
         <!-- /ko -->
         <!-- ko foreach: $data.calendar() -->
           <div class="table-row" data-bind="foreach: $data">
-            <div class="table-col" data-bind="template: $parents[1].formatDateTemplate($data), event: $parents[1].eventsForDate($data), css: $parents[1].cssForDate($data)"></div>
+            <div class="table-col" data-bind="event: $parents[1].eventsForDate($data), css: $parents[1].cssForDate($data)">
+              <div class="table-value-wrapper" data-bind="template: $parents[1].formatDateTemplate($data)"></div>
+            </div>
           </div>
         <!-- /ko -->
       </div>

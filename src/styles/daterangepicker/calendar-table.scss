@@ -75,11 +75,19 @@
       flex: 1;
 
       .table-col {
-        flex: 1;
         display: flex;
-        align-content: stretch;
-        align-items: center;
-        justify-content: space-around;
+        flex: 1;
+
+        .table-value-wrapper {
+          display: flex;
+          flex: 1;
+          align-items: center;
+
+          .table-value {
+            flex: 1;
+          }
+        }
+
         text-align: center;
         line-height: 1;
 
@@ -93,24 +101,36 @@
           color: $dark-grey-color;
         }
 
-        &.clickable {
-          cursor: pointer;
-
-          &:hover {
-            background: $grey-color;
-          }
-        }
-
         &.in-range {
           background: $in-range-color;
         }
 
-        &.active {
-          &, &:hover {
-            background: $active-color;
-            color: white;
+        &.clickable {
+          cursor: pointer;
+
+          &:hover .table-value-wrapper {
+            background: $slightly-darker-grey-color;
+            border-radius: $border-radius;
           }
+        }
+
+        &.active {
           border-radius: $border-radius;
+
+          .table-value-wrapper {
+            border-radius: $border-radius;
+
+            &, &:hover {
+              background: $active-color;
+              color: white;
+            }
+          }
+
+          &.out-of-boundaries .table-value-wrapper{
+            &, &:hover {
+              background: $dark-grey-color;
+            }
+          }
         }
 
         .week-day {
