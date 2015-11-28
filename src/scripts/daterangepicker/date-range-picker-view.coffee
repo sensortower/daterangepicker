@@ -3,7 +3,7 @@ class DateRangePickerView
     new Config(options).extend(@)
 
     @startCalendar = new CalendarView(@, @startDate, 'start')
-    @endCalendar = new CalendarView(@, @endDate, 'end', @startDate)
+    @endCalendar = new CalendarView(@, @endDate, 'end')
 
     @startDateInput = @startCalendar.inputDate
     @endDateInput = @endCalendar.inputDate

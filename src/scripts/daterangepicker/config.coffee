@@ -3,7 +3,6 @@ class Config
     @firstDayOfWeek = @_firstDayOfWeek(options.firstDayOfWeek)
     @showPeriods = @_showPeriods(options.showPeriods)
     @timeZone = @_timeZone(options.timeZone)
-    @edgeMode = @_edgeMode(options.edgeMode)
     @period = @_period(options.period)
     @periods = @_periods(options.periods)
     @single = @_single(options.single)
@@ -40,7 +39,8 @@ class Config
     ko.observable(val || false)
 
   _period: (val) ->
-    val = 'day' unless val in ['day', 'week', 'month', 'quarter', 'year']
+    val ||= 'day'
+    console.warn("invalid period #{val}") unless val in ['day', 'week', 'month', 'quarter', 'year']
     Period.extendObservable(ko.observable(val))
 
   _periods: (val) ->
@@ -56,20 +56,22 @@ class Config
     ko.observable(val || false)
 
   _minDate: (val) ->
+    [val, mode] = val if val instanceof Array
     val ||= moment().subtract(30, 'year')
-    @_dateObservable(val)
+    @_dateObservable(val, mode)
 
   _maxDate: (val) ->
+    [val, mode] = val if val instanceof Array
     val ||= moment()
-    @_dateObservable(val)
+    @_dateObservable(val, mode, @minDate)
 
   _startDate: (val) ->
     val ||= moment().subtract(30, 'days')
-    @_dateObservable(val, @minDate, @maxDate)
+    @_dateObservable(val, null, @minDate, @maxDate)
 
   _endDate: (val) ->
     val ||= moment()
-    @_dateObservable(val, @startDate, @maxDate)
+    @_dateObservable(val, null, @startDate, @maxDate)
 
   _ranges: (obj) ->
     obj ||= {}
@@ -85,10 +87,6 @@ class Config
           to = MomentUtil.tz(endDate, @timeZone())
           new DateRange(title, from, to)
 
-  _edgeMode: (val) ->
-    val = 'inclusive' unless val in ['exclusive', 'inclisuve', 'extended']
-    ko.observable(val)
-
   _locale: (val) ->
     val || {
       applyButtonTitle: 'Apply'
@@ -102,7 +100,7 @@ class Config
     val = 'right' unless val in ['right', 'left']
     ko.observable(val)
 
-  _dateObservable: (val, minBoundary, maxBoundary) ->
+  _dateObservable: (val, mode, minBoundary, maxBoundary) ->
     observable = ko.observable()
     computed = ko.computed
       read: ->
@@ -111,22 +109,47 @@ class Config
         newValue = MomentUtil.tz(newValue, @timeZone())
         if minBoundary
           min = minBoundary()
-          min = min.clone().startOf(@period()) if @edgeMode() == 'extended'
+          switch minBoundary.mode
+            when 'extended'
+              min = min.clone().startOf(@period())
+            when 'exclusive'
+              min = min.clone().endOf(@period()).subtract(1, 'millisecond')
           newValue = moment.max(min, newValue)
         if maxBoundary
           max = maxBoundary()
-          max = max.clone().endOf(@period()) if @edgeMode() == 'extended'
+          switch maxBoundary.mode
+            when 'extended'
+              max = max.clone().endOf(@period())
+            when 'exclusive'
+              max = max.clone().startOf(@period()).subtract(1, 'millisecond')
           newValue = moment.min(max, newValue)
-        currentValue = observable()
-        unless currentValue && currentValue.isSame(newValue)
-          observable(newValue)
-    computed.clone = =>
-      @_dateObservable(observable(), minBoundary, maxBoundary)
+        observable(newValue)
+
+    computed.mode = mode || 'inclusive'
+
     computed(val)
+
+    computed.clone = =>
+      @_dateObservable(observable(), computed.mode, minBoundary, maxBoundary)
+
+    computed.isWithinBoundaries = (date) =>
+      min = minBoundary()
+      max = maxBoundary()
+      between = date.isBetween(min, max, @period())
+      sameMin = date.isSame(min, @period())
+      sameMax = date.isSame(max, @period())
+      minExclusive = minBoundary.mode == 'exclusive'
+      maxExclusive = maxBoundary.mode == 'exclusive'
+      between || (!minExclusive && sameMin && !(maxExclusive && sameMax)) || (!maxExclusive && sameMax && !(minExclusive && sameMin))
+
     if minBoundary
+      computed.minBoundary = minBoundary
       minBoundary.subscribe -> computed(observable())
+
     if maxBoundary
+      computed.maxBoundary = maxBoundary
       maxBoundary.subscribe -> computed(observable())
+
     computed
 
   _anchorElement: (val) ->

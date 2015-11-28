@@ -2,16 +2,13 @@ class CalendarHeaderView
   constructor: (calendarView) ->
     @currentDate = calendarView.currentDate
     @period = calendarView.period
-    @minDate = calendarView.minDate
-    @maxDate = calendarView.maxDate
     @timeZone = calendarView.timeZone
-    @withinBoundaries = calendarView.withinBoundaries
 
-    @prevDate = ko.computed =>
+    @prevDate = ko.pureComputed =>
       [amount, period] = @period.nextPageArguments()
       @currentDate().clone().subtract(amount, period)
 
-    @nextDate = ko.computed =>
+    @nextDate = ko.pureComputed =>
       [amount, period] = @period.nextPageArguments()
       @currentDate().clone().add(amount, period)
 
@@ -54,18 +51,24 @@ class CalendarHeaderView
     @currentDate(@nextDate())
 
   prevArrowCss: ->
-    'arrow-hidden': !@withinBoundaries(@prevDate().clone().endOf(@period.scale()))
+    date = @prevDate().clone().endOf(@period.scale())
+    # TODO: handle decade properly
+    {'arrow-hidden': !@currentDate.isWithinBoundaries(date)}
 
   nextArrowCss: ->
-    'arrow-hidden': !@withinBoundaries(@nextDate().clone().startOf(@period.scale()))
+    date = @nextDate().clone().startOf(@period.scale())
+    # TODO: handle decade properly
+    {'arrow-hidden': !@currentDate.isWithinBoundaries(date)}
 
 
 
   monthOptions: ->
-    month for month in [0..11] when @withinBoundaries(@currentDate().clone().month(month))
+    minMonth = if @currentDate.minBoundary().isSame(@currentDate(), 'year') then @currentDate.minBoundary().month() else 0
+    maxMonth = if @currentDate.maxBoundary().isSame(@currentDate(), 'year') then @currentDate.maxBoundary().month() else 11
+    [minMonth..maxMonth]
 
   yearOptions: ->
-    [@minDate().year()..@maxDate().year()]
+    [@currentDate.minBoundary().year()..@currentDate.maxBoundary().year()]
 
   decadeOptions: ->
     uniqArray( @yearOptions().map (year) =>

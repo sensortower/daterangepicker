@@ -1,12 +1,9 @@
 class CalendarView
-  constructor: (mainView, dateSubscribable, type, minBoundary) ->
+  constructor: (mainView, dateSubscribable, type) ->
     @period = mainView.period
     @single = mainView.single
-    @edgeMode = mainView.edgeMode
     @timeZone = mainView.timeZone
     @locale = mainView.locale
-    @minDate = mainView.minDate
-    @maxDate = mainView.maxDate
     @startDate = mainView.startDate
     @endDate = mainView.endDate
 
@@ -23,8 +20,7 @@ class CalendarView
       write: (newValue) =>
         newDate = MomentUtil.tz(newValue, @locale.inputFormat, @timeZone())
         @activeDate(newDate) if newDate.isValid()
-
-    @minBoundary = minBoundary || @minDate
+      pure: true
 
     @activeDate.subscribe (newValue) =>
       @currentDate(newValue)
@@ -36,10 +32,6 @@ class CalendarView
 
   weekDayNames: ->
     moment.weekdaysMin()
-
-  withinBoundaries: (date) =>
-    exclusive = @edgeMode() == 'exclusive'
-    date.isBetween(@minBoundary(), @maxDate(), @period()) || (!exclusive && (date.isSame(@minBoundary(), @period()) || date.isSame(@maxDate(), @period())))
 
   inRange: (date) =>
     date.isAfter(@startDate(), @period()) && date.isBefore(@endDate(), @period()) || (date.isSame(@startDate(), @period()) || date.isSame(@endDate(), @period()))
@@ -79,16 +71,16 @@ class CalendarView
   eventsForDate: (date) =>
     {
       click: =>
-        @activeDate(date) if @withinBoundaries(date)
+        @activeDate(date) if @activeDate.isWithinBoundaries(date)
       mouseenter: =>
-        @hoverDate(date) if @withinBoundaries(date)
+        @hoverDate(date) if @activeDate.isWithinBoundaries(date)
       mouseleave: =>
         @hoverDate(null)
     }
 
   cssForDate: (date, periodIsDay) =>
     onRangeEnd = date.isSame(@activeDate(), @period())
-    withinBoundaries = @withinBoundaries(date)
+    withinBoundaries = @activeDate.isWithinBoundaries(date)
     periodIsDay ||= @period() == 'day'
     differentMonth = !date.isSame(@currentDate(), 'month')
     inRange = @inRange(date)
