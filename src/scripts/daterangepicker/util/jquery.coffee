@@ -3,6 +3,6 @@ $.fn.daterangepicker = (options, callback) ->
     $element = $(this)
     unless $element.data('daterangepicker')
       options.anchorElement = $element
-      options.callback = callback if callback
+      options.callback = $.proxy(callback, @) if callback
       $element.data('daterangepicker', new DateRangePickerView(options))
   this

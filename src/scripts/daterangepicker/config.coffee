@@ -10,6 +10,7 @@ class Config
     @expanded = @_expanded(options.expanded)
     @locale = @_locale(options.locale)
     @opens = @_opens(options.opens)
+    @forceUpdate = options.forceUpdate
 
     @minDate = @_minDate(options.minDate)
     @maxDate = @_maxDate(options.maxDate)
@@ -74,7 +75,13 @@ class Config
     @_dateObservable(val, null, @startDate, @maxDate)
 
   _ranges: (obj) ->
-    obj ||= {}
+    obj ||= {
+      'Last 30 days': [moment().subtract(30, 'days'), moment()]
+      'Last 90 days': [moment().subtract(90, 'days'), moment()]
+      'Last Year': [moment().subtract(1, 'year'), moment()]
+      'All Time': 'all-time'
+      'Custom Range': 'custom'
+    }
     for title, value of obj
       switch value
         when 'all-time'

@@ -24,6 +24,9 @@ class DateRangePickerView
       @dateRange.subscribe (newValue) =>
         [startDate, endDate] = newValue
         @callback(startDate.clone(), endDate.clone(), @period())
+      if @forceUpdate
+        [startDate, endDate] = @dateRange()
+        @callback(startDate.clone(), endDate.clone(), @period())
 
     if @anchorElement
       wrapper = $("<div data-bind=\"stopBinding: true\"></div>").appendTo(@parentElement)

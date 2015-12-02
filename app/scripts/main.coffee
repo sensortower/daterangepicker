@@ -1,17 +1,14 @@
-ko.applyBindings({})
-
-config =
-  single: true
+# jQuery integration example
+$(".jquery-example").daterangepicker(
   showPeriods: true
-  extended: true
-  minDate: [null, 'exclusive']
-  maxDate: [null, 'exclusive']
-  ranges:
-    'Last 30 Days': [moment().subtract(30, 'days'), moment()]
-    'Last 90 Days': [moment().subtract(90, 'days'), moment()]
-    'Last Year': [moment().subtract(1, 'year'), moment()]
-    'All Time': 'all-time'
-    'Custom Range': 'custom'
+  expanded: true
+  forceUpdate: true
+  callback: (startDate, endDate, period) ->
+    $(this).val(startDate.format('MMM D, YYYY') + ' – ' + endDate.format('MMM D, YYYY'))
 
-$(".btn").daterangepicker config, (startDate, endDate, period) ->
-  console.log(startDate.format('L HH:mm z'), endDate.format('L HH:mm z'), period)
+# Knockout integration example
+class View
+  constructor: ->
+    @dateRange = ko.observable([moment().subtract(30, 'days'), moment(), 'day'])
+
+ko.applyBindings(new View())
