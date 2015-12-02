@@ -15,20 +15,6 @@ class MomentUtil
         }
       })
 
-  @firstYearOfDecade: (date) ->
-    timeZone = date.tz && date.tz()
-    # we use current year here so that it's always in the middle of the calendar
-    currentYear =
-      if timeZone
-        moment().tz(timeZone).year()
-      else
-        moment().year()
-
-    firstYear = currentYear - 4
-    offset = Math.floor((date.year() - firstYear) / 9)
-    year = firstYear + offset * 9
-    @tz([year], timeZone)
-
   @tz: (input) ->
     args = Array.prototype.slice.call(arguments, 0, -1)
     timeZone = arguments[arguments.length - 1]
