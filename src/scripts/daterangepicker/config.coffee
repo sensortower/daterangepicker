@@ -106,26 +106,31 @@ class Config
       read: ->
         observable()
       write: (newValue) =>
-        newValue = MomentUtil.tz(newValue, @timeZone())
-        if minBoundary
-          min = minBoundary()
-          switch minBoundary.mode
-            when 'extended'
-              min = min.clone().startOf(@period())
-            when 'exclusive'
-              min = min.clone().endOf(@period()).subtract(1, 'millisecond')
-          newValue = moment.max(min, newValue)
-        if maxBoundary
-          max = maxBoundary()
-          switch maxBoundary.mode
-            when 'extended'
-              max = max.clone().endOf(@period())
-            when 'exclusive'
-              max = max.clone().startOf(@period()).subtract(1, 'millisecond')
-          newValue = moment.min(max, newValue)
-        observable(newValue)
+        newValue = computed.fit(newValue)
+        oldValue = observable()
+        observable(newValue) unless oldValue && newValue.isSame(oldValue)
 
     computed.mode = mode || 'inclusive'
+
+    computed.fit = (val) =>
+      val = MomentUtil.tz(val, @timeZone())
+      if minBoundary
+        min = minBoundary()
+        switch minBoundary.mode
+          when 'extended'
+            min = min.clone().startOf(@period())
+          when 'exclusive'
+            min = min.clone().endOf(@period()).subtract(1, 'millisecond')
+        val = moment.max(min, val)
+      if maxBoundary
+        max = maxBoundary()
+        switch maxBoundary.mode
+          when 'extended'
+            max = max.clone().endOf(@period())
+          when 'exclusive'
+            max = max.clone().startOf(@period()).subtract(1, 'millisecond')
+        val = moment.min(max, val)
+      val
 
     computed(val)
 
