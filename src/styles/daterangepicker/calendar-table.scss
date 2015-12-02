@@ -62,6 +62,7 @@
     height: 180px;
     border: 1px solid $grey-color;
     border-radius: $border-radius;
+    overflow: hidden;
     padding: 5px;
     display: flex;
     align-content: stretch;
@@ -114,9 +115,8 @@
           }
         }
 
-        &.active {
-          border-radius: $border-radius;
-
+        &.start-date,
+        &.end-date {
           .table-value-wrapper {
             border-radius: $border-radius;
 
@@ -131,6 +131,14 @@
               background: $dark-grey-color;
             }
           }
+        }
+
+        &.start-date {
+          border-radius: $border-radius 0 0 $border-radius;
+        }
+
+        &.end-date {
+          border-radius: 0 $border-radius $border-radius 0;
         }
 
         .week-day {
