@@ -3,6 +3,8 @@ class CalendarHeaderView
     @currentDate = calendarView.currentDate
     @period = calendarView.period
     @timeZone = calendarView.timeZone
+    @firstDate = calendarView.firstDate
+    @firstYearOfDecade = calendarView.firstYearOfDecade
 
     @prevDate = ko.pureComputed =>
       [amount, period] = @period.nextPageArguments()
@@ -34,7 +36,7 @@ class CalendarHeaderView
 
     @selectedDecade = ko.computed
       read: =>
-        MomentUtil.firstYearOfDecade(@currentDate()).year()
+        @firstYearOfDecade(@currentDate()).year()
       write: (newValue) =>
         offset = (@currentDate().year() - @selectedDecade()) % 9
         newYear = newValue + offset
@@ -51,13 +53,12 @@ class CalendarHeaderView
     @currentDate(@nextDate())
 
   prevArrowCss: ->
-    date = @prevDate().clone().endOf(@period.scale())
-    # TODO: handle decade properly
+    date = @firstDate().clone().subtract(1, 'millisecond')
     {'arrow-hidden': !@currentDate.isWithinBoundaries(date)}
 
   nextArrowCss: ->
-    date = @nextDate().clone().startOf(@period.scale())
-    # TODO: handle decade properly
+    [cols, rows] = @period.dimentions()
+    date = @firstDate().clone().add(cols * rows, @period())
     {'arrow-hidden': !@currentDate.isWithinBoundaries(date)}
 
 
@@ -73,7 +74,7 @@ class CalendarHeaderView
   decadeOptions: ->
     uniqArray( @yearOptions().map (year) =>
       momentObj = MomentUtil.tz([year], @timeZone())
-      MomentUtil.firstYearOfDecade(momentObj).year()
+      @firstYearOfDecade(momentObj).year()
     )
 
   monthSelectorAvailable: ->

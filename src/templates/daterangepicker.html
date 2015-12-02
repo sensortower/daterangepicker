@@ -37,7 +37,11 @@
       <div class="calendar-table">
         <!-- ko if: $parent.periodProxy.showWeekDayNames($data.period()) -->
           <div class="table-row weekdays" data-bind="foreach: $data.weekDayNames()">
-            <div class="table-col" data-bind="text: $data"></div>
+            <div class="table-col">
+              <div class="table-value-wrapper">
+                <div class="table-value" data-bind="text: $data"></div>
+              </div>
+            </div>
           </div>
         <!-- /ko -->
         <!-- ko foreach: $data.calendar() -->

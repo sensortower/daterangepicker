@@ -14,6 +14,9 @@ class DateRangePickerView
         @endDate(newValue.clone().endOf(@period()))
         @updateDateRange()
         @close()
+      else
+        if @endDate().isSame(newValue)
+          @endDate(@endDate().clone().endOf(@period()))
 
     @style = ko.observable({})
 
@@ -76,6 +79,8 @@ class DateRangePickerView
 
   setPeriod: (period) ->
     @period(period)
+    # @startDate(@startDate())
+    # @endDate(@endDate())
     @expanded(true)
 
   setDateRange: (dateRange) =>
