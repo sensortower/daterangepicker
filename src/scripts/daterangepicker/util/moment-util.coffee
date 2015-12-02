@@ -20,8 +20,7 @@ class MomentUtil
     timeZone = arguments[arguments.length - 1]
     if moment.tz
       moment.tz.apply(null, args.concat([timeZone]))
-    else if timeZone == 'UTC'
+    else if timeZone && timeZone.toLowerCase() == 'utc'
       moment.utc.apply(null, args)
     else
       moment.apply(null, args)
-
