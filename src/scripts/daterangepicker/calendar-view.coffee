@@ -22,13 +22,33 @@ class CalendarView
         @activeDate(newDate) if newDate.isValid()
       pure: true
 
+    @firstDate = ko.pureComputed () =>
+      date = @currentDate().clone().startOf(@period.scale())
+      switch @period()
+        when 'day', 'week'
+          firstDayOfMonth = date.clone()
+          date.weekday(0)
+          if date.isAfter(firstDayOfMonth) || date.isSame(firstDayOfMonth, 'day')
+            date.subtract(1, 'week')
+        when 'year'
+          date = @firstYearOfDecade(date)
+      date
+
     @activeDate.subscribe (newValue) =>
       @currentDate(newValue)
 
     @headerView = new CalendarHeaderView(@)
 
   calendar: ->
-    new Calendar(@currentDate, @period, @type).calendar
+    [cols, rows] = @period.dimentions()
+    iterator = new MomentIterator(@firstDate(), @period())
+    for row in [1..rows]
+      for col in [1..cols]
+        date = iterator.next()
+        if @type == 'end'
+          date.endOf(@period())
+        else
+          date.startOf(@period())
 
   weekDayNames: ->
     moment.weekdaysMin()
@@ -73,7 +93,7 @@ class CalendarView
       click: =>
         @activeDate(date) if @activeDate.isWithinBoundaries(date)
       mouseenter: =>
-        @hoverDate(date) if @activeDate.isWithinBoundaries(date)
+        @hoverDate(@activeDate.fit(date)) if @activeDate.isWithinBoundaries(date)
       mouseleave: =>
         @hoverDate(null)
     }
@@ -86,8 +106,16 @@ class CalendarView
     inRange = @inRange(date)
     {
       "in-range": !@single() && (inRange || onRangeEnd)
-      "active": onRangeEnd
+      "#{@type}-date": onRangeEnd
       "clickable": withinBoundaries
       "out-of-boundaries": !withinBoundaries
       "unavailable": (periodIsDay && differentMonth)
     }
+
+  firstYearOfDecade: (date) ->
+    # we use current year here so that it's always in the middle of the calendar
+    currentYear = MomentUtil.tz(moment(), @timeZone()).year()
+    firstYear = currentYear - 4
+    offset = Math.floor((date.year() - firstYear) / 9)
+    year = firstYear + offset * 9
+    MomentUtil.tz([year], @timeZone())
