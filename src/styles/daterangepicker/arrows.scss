@@ -1,5 +1,3 @@
-// TODO: refactor
-
 @mixin arrow($size, $color, $alignment) {
   position: absolute;
   top: - $size;
@@ -11,18 +9,18 @@
   content: '';
 }
 
-.daterangepicker.opens-right:before {
+.daterangepicker.opens-right:not(.standalone):before {
   @include arrow(7px, rgba(0,0,0,0.2), 'left')
 }
 
-.daterangepicker.opens-left:before {
+.daterangepicker.opens-left:not(.standalone):before {
   @include arrow(7px, rgba(0,0,0,0.2), 'right')
 }
 
-.daterangepicker.opens-right:after {
+.daterangepicker.opens-right:not(.standalone):after {
   @include arrow(6px, #fff, 'left')
 }
 
-.daterangepicker.opens-left:after {
+.daterangepicker.opens-left:not(.standalone):after {
   @include arrow(6px, #fff, 'right')
 }

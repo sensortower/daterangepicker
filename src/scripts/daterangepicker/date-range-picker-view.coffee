@@ -17,6 +17,8 @@ class DateRangePickerView
       else
         if @endDate().isSame(newValue)
           @endDate(@endDate().clone().endOf(@period()))
+        if @standalone()
+          @updateDateRange()
 
     @style = ko.observable({})
 
@@ -35,11 +37,12 @@ class DateRangePickerView
       @anchorElement.click =>
         @updatePosition()
         @toggle()
-      $(document)
-        .on('mousedown.daterangepicker', @outsideClick)
-        .on('touchend.daterangepicker', @outsideClick)
-        .on('click.daterangepicker', '[data-toggle=dropdown]', @outsideClick)
-        .on('focusin.daterangepicker', @outsideClick)
+      unless @standalone()
+        $(document)
+          .on('mousedown.daterangepicker', @outsideClick)
+          .on('touchend.daterangepicker', @outsideClick)
+          .on('click.daterangepicker', '[data-toggle=dropdown]', @outsideClick)
+          .on('focusin.daterangepicker', @outsideClick)
 
   periodProxy: Period
 
@@ -56,7 +59,8 @@ class DateRangePickerView
     obj = {
       single: @single()
       opened: @opened()
-      expanded: @single() || @expanded()
+      expanded: @standalone() || @single() || @expanded()
+      standalone: @standalone()
       'opens-left': @opens() == 'left'
       'opens-right': @opens() == 'right'
       'hide-periods': !@showPeriods()
@@ -108,12 +112,13 @@ class DateRangePickerView
     @opened(true)
 
   close: () ->
-    @opened(false)
+    @opened(false) unless @standalone()
 
   toggle: () ->
     @opened(!@opened())
 
   updatePosition: () ->
+    return if @standalone()
     parentOffset =
       top: 0
       left: 0

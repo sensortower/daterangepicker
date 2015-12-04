@@ -17,6 +17,14 @@
     }
   }
 
+  &.standalone {
+    position: static;
+
+    .custom-range-buttons {
+      display: none;
+    }
+  }
+
   &.single {
     flex-direction: column;
 

@@ -8,6 +8,7 @@ class Config
     @single = @_single(options.single)
     @opened = @_opened(options.opened)
     @expanded = @_expanded(options.expanded)
+    @standalone = @_standalone(options.standalone)
     @locale = @_locale(options.locale)
     @opens = @_opens(options.opens)
     @forceUpdate = options.forceUpdate
@@ -54,6 +55,9 @@ class Config
     ko.observable(val || false)
 
   _expanded: (val) ->
+    ko.observable(val || false)
+
+  _standalone: (val) ->
     ko.observable(val || false)
 
   _minDate: (val) ->
