@@ -1,10 +1,9 @@
 class Config
   constructor: (options = {}) ->
     @firstDayOfWeek = @_firstDayOfWeek(options.firstDayOfWeek)
-    @showPeriods = @_showPeriods(options.showPeriods)
     @timeZone = @_timeZone(options.timeZone)
-    @period = @_period(options.period)
     @periods = @_periods(options.periods)
+    @period = @_period(options.period)
     @single = @_single(options.single)
     @opened = @_opened(options.opened)
     @expanded = @_expanded(options.expanded)
@@ -37,16 +36,13 @@ class Config
   _timeZone: (val) ->
     ko.observable(val || 'UTC')
 
-  _showPeriods: (val) ->
-    ko.observable(val || false)
-
-  _period: (val) ->
-    val ||= 'day'
-    console.warn("invalid period #{val}") unless val in ['day', 'week', 'month', 'quarter', 'year']
-    Period.extendObservable(ko.observable(val))
-
   _periods: (val) ->
     ko.observableArray(val || Period.allPeriods)
+
+  _period: (val) ->
+    val ||= @periods()[0]
+    console.warn("invalid period #{val}") unless val in ['day', 'week', 'month', 'quarter', 'year']
+    Period.extendObservable(ko.observable(val))
 
   _single: (val) ->
     ko.observable(val || false)
@@ -62,7 +58,7 @@ class Config
 
   _minDate: (val) ->
     [val, mode] = val if val instanceof Array
-    val ||= moment().subtract(30, 'year')
+    val ||= moment().subtract(30, 'years')
     @_dateObservable(val, mode)
 
   _maxDate: (val) ->
@@ -71,7 +67,7 @@ class Config
     @_dateObservable(val, mode, @minDate)
 
   _startDate: (val) ->
-    val ||= moment().subtract(30, 'days')
+    val ||= moment().subtract(29, 'days')
     @_dateObservable(val, null, @minDate, @maxDate)
 
   _endDate: (val) ->
@@ -79,13 +75,7 @@ class Config
     @_dateObservable(val, null, @startDate, @maxDate)
 
   _ranges: (obj) ->
-    obj ||= {
-      'Last 30 days': [moment().subtract(30, 'days'), moment()]
-      'Last 90 days': [moment().subtract(90, 'days'), moment()]
-      'Last Year': [moment().subtract(1, 'year'), moment()]
-      'All Time': 'all-time'
-      'Custom Range': 'custom'
-    }
+    obj ||= @_defaultRanges()
     for title, value of obj
       switch value
         when 'all-time'
@@ -167,6 +157,15 @@ class Config
       maxBoundary.subscribe -> computed(observable())
 
     computed
+
+  _defaultRanges: ->
+    {
+      'Last 30 days': [moment().subtract(29, 'days'), moment()]
+      'Last 90 days': [moment().subtract(89, 'days'), moment()]
+      'Last Year': [moment().subtract(1, 'year').add(1,'day'), moment()]
+      'All Time': 'all-time'
+      'Custom Range': 'custom'
+    }
 
   _anchorElement: (val) ->
     $(val)

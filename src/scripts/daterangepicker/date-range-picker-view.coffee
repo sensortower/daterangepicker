@@ -44,6 +44,9 @@ class DateRangePickerView
           .on('click.daterangepicker', '[data-toggle=dropdown]', @outsideClick)
           .on('focusin.daterangepicker', @outsideClick)
 
+    if @opened()
+      @updatePosition()
+
   periodProxy: Period
 
   calendars: () ->
@@ -63,7 +66,7 @@ class DateRangePickerView
       standalone: @standalone()
       'opens-left': @opens() == 'left'
       'opens-right': @opens() == 'right'
-      'hide-periods': !@showPeriods()
+      'hide-periods': @periods().length == 1
     }
     for period in Period.allPeriods
       obj["#{period}-period"] = period == @period()
@@ -115,7 +118,7 @@ class DateRangePickerView
     @opened(false) unless @standalone()
 
   toggle: () ->
-    @opened(!@opened())
+    if @opened() then @close() else open()
 
   updatePosition: () ->
     return if @standalone()
