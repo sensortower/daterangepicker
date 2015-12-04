@@ -1,8 +1,8 @@
 $grey-color: #f5f5f5;
 $slightly-darker-grey-color: #eee;
 $dark-grey-color: #bbb;
-$in-range-color: #ebf4f8;
 $active-color: #08c;
+$in-range-color: rgba($active-color, 0.1);
 $green-color: #38A551;
 $border-radius: 4px;
 
@@ -13,6 +13,9 @@ $border-radius: 4px;
 
 .daterangepicker {
   display: none;
+  position: absolute;
+  background: white;
+  box-shadow: 0 2px 15px rgba(black, 0.3);
   justify-content: flex-start;
   border-radius: $border-radius;
   padding: 4px;
@@ -119,6 +122,44 @@ $border-radius: 4px;
           background: darken($green-color, 10%);
         }
       }
+    }
+  }
+
+  i.arrow-left,
+  i.arrow-right {
+    display: inline-block;
+    position: relative;
+    background-color: #333;
+    width: 7px;
+    height: 3px;
+    margin-bottom: 2px;
+    vertical-align: middle;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      border: 5px solid transparent;
+    }
+  }
+
+  i.arrow-left {
+    margin-left: 5px;
+
+    &:before {
+      border-right-width: 6px;
+      border-right-color: #333;
+      transform: translate(-10px, -3.5px);
+    }
+  }
+
+  i.arrow-right {
+    margin-right: 5px;
+
+    &:before {
+      border-left-width: 6px;
+      border-left-color: #333;
+      transform: translate(6px, -3.5px);
     }
   }
 }

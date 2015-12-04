@@ -1,4 +1,4 @@
-<div class="dropdown-menu daterangepicker" data-bind="css: $data.cssClasses(), style: $data.style()">
+<div class="daterangepicker" data-bind="css: $data.cssClasses(), style: $data.style()">
   <div class="controls">
     <ul class="periods" data-bind="foreach: $data.periods">
       <li class="period" data-bind="css: {active: $parent.isActivePeriod($data)}, text: $parent.periodProxy.title($data), click: function(){ $parent.setPeriod($data); }"></li>
@@ -23,7 +23,7 @@
       <div class="calendar-title" data-bind="text: $data.label"></div>
       <div class="calendar-header" data-bind="with: $data.headerView">
         <div class="arrow" data-bind="css: $data.prevArrowCss()">
-          <button data-bind="click: $data.clickPrevButton"><i class="icon-arrow-left glyphicon glyphicon-arrow-left"></i></button>
+          <button data-bind="click: $data.clickPrevButton"><i class="arrow-left"></i></button>
         </div>
         <div class="selects">
           <select class="month-select" data-bind="options: $data.monthOptions(), optionsText: $data.monthFormatter, valueAllowUnset: true, value: $data.selectedMonth, css: {hidden: !$data.monthSelectorAvailable()}"></select>
@@ -31,7 +31,7 @@
           <select class="decade-select" data-bind="options: $data.decadeOptions(), optionsText: $data.decadeFormatter, valueAllowUnset: true, value: $data.selectedDecade, css: {hidden: !$data.decadeSelectorAvailable()}"></select>
         </div>
         <div class="arrow" data-bind="css: $data.nextArrowCss()">
-          <button data-bind="click: $data.clickNextButton"><i class="icon-arrow-right glyphicon glyphicon-arrow-right"></i></button>
+          <button data-bind="click: $data.clickNextButton"><i class="arrow-right"></i></button>
         </div>
       </div>
       <div class="calendar-table">
