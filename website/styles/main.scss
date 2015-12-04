@@ -1,0 +1,283 @@
+@import "normalize";
+
+$main-color: #39CCCC; // teal
+$main-color: #0074D9; // blue
+$main-color: #20aa9c; // st
+$header-height: 60px;
+
+.container {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+body {
+  font-size: 15px;
+  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  + h1, + h2, + h3, + h4, + h5, + h6 {
+    // margin-top: -0.25em;
+  }
+
+  // position: relative;
+
+  // &:before {
+  //   content: '';
+  //   background: $main-color;
+  //   position: absolute;
+  //   left: -20px;
+  //   top: 0;
+  //   width: 10px;
+  //   height: 10px;
+  //   border-radius: 50%;
+  // }
+}
+
+h1, h2 {
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid #ddd;
+  // display: flex;
+  // align-items: center;
+  // &::after {
+  //   flex: 1;
+  //   display: block;
+  //   content: '';
+  //   height: 2px;
+  //   background: #ddd;
+  //   margin-left: 0.5em;
+  // }
+}
+
+li {
+  margin-bottom: 0.5em;
+}
+
+input {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 6px 8px;
+  font-size: 13px;
+  width: 200px;
+}
+
+header {
+  // position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #333;
+  color: white;
+  overflow: hidden;
+
+  .container {
+    display: flex;
+  }
+
+  .logo {
+    line-height: 60px;
+    padding: 0 20px;
+    background-color: $main-color;
+    background-image: url('../images/noise.png');
+    font-size: 1.25em;
+    text-shadow: 0 0 4px rgba(black, 0.33);
+    box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.33);
+  }
+
+  nav {
+    flex: 1;
+  }
+
+  nav ul {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 -5px;
+    list-style: none;
+    height: 60px;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+
+    li {
+      margin: 0;
+
+      a {
+        padding: 6px 11px;
+        margin: 0 5px;
+        border-radius: 3px;
+        cursor: pointer;
+        color: white;
+        text-decoration: none;
+        text-shadow: 0 0 4px rgba(black, 0.15);
+      }
+
+      &:hover a,
+      &.active a {
+        background: $main-color;
+      }
+
+      &.active a {
+        box-shadow: 0 2px 3px 0px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+}
+
+pre, p code {
+  border-radius: 4px;
+  background: rgba(#ddd, 0.15);
+  border: 1px solid rgba(#ddd, 0.33);
+  padding: 10px;
+  line-height: 1.5;
+}
+
+p code {
+  padding: 3px 5px;
+  margin: -3px 0;
+  line-height: 1.5;
+}
+
+.top-padding {
+  // margin-top: $header-height;
+}
+
+.main-section {
+  background: $main-color;
+  $from: $main-color;
+  $to: darken($main-color, 10%);
+  background-image: url('../images/noise.png'), linear-gradient($from 25%, $to);
+
+  .container {
+    padding: 60px 0;
+    text-align: center;
+  }
+
+  a {
+    color: white;
+    &:hover {
+      color: rgba(white, 0.8);
+    }
+  }
+}
+
+.main-input {
+  display: none;
+  margin: 0 auto 20px;
+  border: none;
+  text-align: center;
+  font-size: 1.25em;
+  padding: 0.66em 1em;
+  width: 15em;
+  box-shadow: 0 0 10px rgba(black, 0.33);
+  outline: none;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.daterangepicker-container {
+  min-height: 275px;
+  .daterangepicker {
+    animation: fade-in 1s;
+  }
+}
+
+.secondary-section {
+  padding-top: 30px;
+}
+
+footer {
+  margin: 10px 0;
+  padding: 10px 0 0;
+  .container {
+    display: flex;
+    border-top: 1px solid #ddd;
+  }
+  p {
+    flex: 1;
+  }
+  p:last-child {
+    text-align: right;
+  }
+}
+
+.docs .secondary-section .container {
+  position: relative;
+
+  .content {
+    width: 75%;
+  }
+
+  aside {
+    position: fixed;
+    top: $header-height;
+    background: white;
+    overflow: scroll;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    left: 50%;
+    margin-left: 250px + 20px;
+    width: 250px - 20px;
+
+    h3, ul, li {
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    h3 {
+      padding: 6px 10px;
+      border-left: 2px solid transparent;
+      // cursor: pointer;
+
+      &.highlighted,
+      &.active {
+        + ul li {
+          display: block;
+          // border-left-color: rgba($main-color, 0.2);
+        }
+      }
+
+      &.highlighted {
+        background: rgba($main-color, 0.1);
+        border-left-color: rgba($main-color, 0.2);
+      }
+      &.active {
+        background: rgba($main-color, 0.1);
+        border-left-color: $main-color;
+      }
+    }
+
+    ul {
+      li {
+        display: none;
+        // font-weight: bold;
+        list-style: none;
+        padding: 6px 10px;
+        padding-left: 20px;
+        border-left: 2px solid transparent;
+        // cursor: pointer;
+
+        &.active {
+          background: rgba($main-color, 0.1);
+          border-left-color: $main-color !important;
+        }
+      }
+    }
+  }
+}
+

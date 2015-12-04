@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <title>daterangepicker Documentation</title>
+
+    <!-- build:css styles/vendor.css -->
+    <link rel="stylesheet" href="/bower_components/highlightjs/styles/github.css">
+    <!-- endbuild -->
+
+    <!-- build:css styles/daterangepicker.css -->
+    <link rel="stylesheet" href="styles/daterangepicker.css">
+    <!-- endbuild -->
+
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+
+  </head>
+  <body class="docs">
+    <header>
+      <div class="container">
+        <div class="logo">
+          daterangepicker
+        </div>
+        <nav>
+          <ul>
+            <li><a href="./">Home</a></li>
+            <li class="active"><a href="./docs.html">Docs</a></li>
+            <li><a href="https://github.com/sensortower/daterangepicker">Fork on Github</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="top-padding"></div>
+
+    <section class="secondary-section">
+      <div class="container">
+        <div class="content">
+          @@include(markdown('../docs/index.md'))
+        </div>
+        <aside>
+          <!-- ko foreach: tree -->
+            <!-- ko with: $data[0] -->
+              <h3 data-bind="css: { active: $data == $root.activeItem(), highlighted: $data == $root.activeItem().parent }">
+                <a href="#" data-bind="attr: {href: $data.id}, text: $data.name"></a>
+              </h3>
+            <!-- /ko -->
+            <ul data-bind="foreach: $data.slice(1)">
+              <li data-bind="css: { active: $data == $root.activeItem() }">
+                <a href="#" data-bind="attr: {href: $data.id}, text: $data.name"></a>
+              </li>
+            </ul>
+          <!-- /ko -->
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p><strong>daterangepicker</strong> is freely distributable under the terms of the MIT license</p>
+        <p>&copy; <a href="https://sensortower.com/">Sensor Tower</a> 2015</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript">window.docs = true;</script>
+
+    <!-- build:js scripts/vendor.js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/moment/moment.js"></script>
+    <script src="/bower_components/knockout/dist/knockout.debug.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/daterangepicker.js -->
+    <script src="scripts/daterangepicker.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/main.js -->
+    <script src="scripts/main.js"></script>
+    <!-- endbuild -->
+
+  </body>
+</html>
