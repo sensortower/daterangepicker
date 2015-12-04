@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <title>daterangepicker Documentation</title>
+
+    <link rel="stylesheet" href="styles/vendor.css">
+
+    <link rel="stylesheet" href="styles/daterangepicker.css">
+
+    <link rel="stylesheet" href="styles/main.css">
+
+  </head>
+  <body class="docs">
+    <header>
+      <div class="container">
+        <div class="logo">
+          daterangepicker
+        </div>
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/docs.html">Docs</a></li>
+            <li><a href="https://github.com/sensortower/daterangepicker">Fork on Github</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="top-padding"></div>
+
+    <section class="secondary-section">
+      <div class="container">
+        <div class="content">
+          <h1 id="documentation">Documentation</h1>
+<h2 id="installation">Installation</h2>
+<p>You can download daterangepicker using bower:</p>
+<pre><code class="lang-bash">bower install daterangepicker --save
+</code></pre>
+<p>Or you can always download the latest release <a href="https://github.com/sensortower/daterangepicker/releases">from Github</a>.</p>
+<h2 id="integration">Integration</h2>
+<h3 id="jquery">jQuery</h3>
+<p>jQuery integration includes <code>daterangepicker</code> function that takes 2 parameters: configuration &amp; callback.</p>
+<pre><code class="lang-javascript">$(<span class="hljs-string">"input"</span>).daterangepicker({
+  minDate: moment().subtract(<span class="hljs-number">2</span>, <span class="hljs-string">'years'</span>)
+}, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">startDate, endDate, period</span>) </span>{
+  $(<span class="hljs-keyword">this</span>).val(startDate.format(<span class="hljs-string">'L'</span>) + <span class="hljs-string">' – '</span> + endDate.format(<span class="hljs-string">'L'</span>))
+});
+</code></pre>
+<h3 id="knockout">Knockout</h3>
+<p>If you&#39;re using Knockout, there&#39;s a custom binding you can use:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">data-bind</span>=<span class="hljs-string">"daterangepicker: dateRange, daterangepickerOptions: { maxDate: moment() }"</span>/&gt;</span>
+</code></pre>
+<pre><code class="lang-javascript">ko.applyBindings({
+  dateRange: ko.observable([moment().subtract(<span class="hljs-number">1</span>, <span class="hljs-string">'month'</span>), moment(), <span class="hljs-string">'day'</span>])
+});
+</code></pre>
+<h2 id="configuration">Configuration</h2>
+<h3 id="timezone">timeZone</h3>
+<pre><code class="lang-javascript">timeZone: <span class="hljs-built_in">String</span>
+</code></pre>
+<p>Sets time zone. If you want to use user&#39;s computer time zone, pass <code>null</code>. By default, it&#39;s UTC. If you want to use other time zones you will need <a href="http://momentjs.com/timezone/">moment.timezone</a> library.</p>
+<p>Default:</p>
+<pre><code class="lang-javascript">timeZone: <span class="hljs-string">'utc'</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">timeZone: <span class="hljs-string">'Australia/Sydney'</span>
+timeZone: <span class="hljs-literal">null</span> <span class="hljs-comment">// user's computer time zone</span>
+</code></pre>
+<h3 id="firstdayofweek">firstDayOfWeek</h3>
+<pre><code class="lang-javascript">firstDayOfWeek: <span class="hljs-built_in">Number</span>
+</code></pre>
+<p>Sets first day of the week. 0 is Sunday, 1 is Monday. In case you were wondering, 4 is Thursday.</p>
+<p><strong>Important</strong>: this setting will globally change moment.js locale</p>
+<p>Default:</p>
+<pre><code class="lang-javascript">firstDayOfWeek: <span class="hljs-number">1</span> <span class="hljs-comment">// Monday</span>
+</code></pre>
+<h3 id="mindate">minDate</h3>
+<pre><code class="lang-javascript">minDate: [(moment.js-compatible object), (<span class="hljs-string">'inclusive'</span> | <span class="hljs-string">'exclusive'</span> | <span class="hljs-string">'expanded'</span>)]
+</code></pre>
+<p>Sets a minimum possible date a user can select. By default, that means you can select days (weeks, months, etc) that are the same as <code>minDate</code> or after <code>minDate</code> — this is what we call <strong>inclusive</strong> mode. In <strong>exclusive</strong> you can&#39;t select days (weeks, months, etc) that fall on <code>minDate</code>. When you select a month (week, quarter, etc) in <strong>expanded</strong> mode and <code>minDate</code> falls on the middle of the month, the first day of the month will be selected.</p>
+<p>For example, if <code>minDate</code> is 14th of February, <code>period</code> is set to <code>month</code> and you click on February, the new <code>startDate</code> is:</p>
+<ul>
+<li><strong>inclusive</strong> mode: 14th of February;</li>
+<li><strong>exclusive</strong> mode: You won&#39;t be able to select February, minimum available date will be March 1st;</li>
+<li><strong>expanded</strong> mode: 1st of February.</li>
+</ul>
+<p>Default:</p>
+<pre><code class="lang-javascript">minDate: [moment().subtract(<span class="hljs-number">30</span>, <span class="hljs-string">'years'</span>), <span class="hljs-string">'inclusive'</span>]
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">minDate: <span class="hljs-string">'2015-11-10'</span> <span class="hljs-comment">// mode defaults to inclusive</span>
+minDate: moment().subtract(<span class="hljs-number">2</span>, <span class="hljs-string">'years'</span>)
+minDate: [<span class="hljs-string">'2015-11-10'</span>, <span class="hljs-string">'expanded'</span>]
+minDate: [<span class="hljs-string">'2015-11-10'</span>, <span class="hljs-string">'exclusive'</span>]
+minDate: [<span class="hljs-literal">null</span>, <span class="hljs-string">'exclusive'</span>] <span class="hljs-comment">// date defaults to moment().subtract(2, 'years')</span>
+</code></pre>
+<h3 id="maxdate">maxDate</h3>
+<pre><code class="lang-javascript">maxDate: [(moment.js-compatible object), (<span class="hljs-string">'inclusive'</span> | <span class="hljs-string">'exclusive'</span> | <span class="hljs-string">'expanded'</span>)]
+</code></pre>
+<p>Sets a minimum possible date a user can select. By default, that means you can select days (weeks, months, etc) that are the same as <code>maxDate</code> or after <code>maxDate</code> — this is what we call <strong>inclusive</strong> mode. In <strong>exclusive</strong> you can&#39;t select days (weeks, months, etc) that fall on <code>maxDate</code>. When you select a month (week, quarter, etc) in <strong>expanded</strong> mode and <code>maxDate</code> falls on the middle of the month, the last day of the month will be selected.</p>
+<p>For example, if <code>maxDate</code> is 14th of February, <code>period</code> is set to <code>month</code> and you click on February, the new <code>startDate</code> is:</p>
+<ul>
+<li><strong>inclusive</strong> mode: 14th of February;</li>
+<li><strong>exclusive</strong> mode: You won&#39;t be able to select February, maximum available date will be January 31st;</li>
+<li><strong>expanded</strong> mode: 28th of February.</li>
+</ul>
+<p>Default:</p>
+<pre><code class="lang-javascript">maxDate: [moment(), <span class="hljs-string">'inclusive'</span>]
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">maxDate: <span class="hljs-string">'2015-11-10'</span> <span class="hljs-comment">// mode defaults to inclusive</span>
+maxDate: moment().add(<span class="hljs-number">2</span>, <span class="hljs-string">'years'</span>)
+maxDate: [<span class="hljs-string">'2015-11-10'</span>, <span class="hljs-string">'expanded'</span>]
+maxDate: [<span class="hljs-string">'2015-11-10'</span>, <span class="hljs-string">'exclusive'</span>]
+maxDate: [<span class="hljs-literal">null</span>, <span class="hljs-string">'exclusive'</span>] <span class="hljs-comment">// date defaults to moment().subtract(2, 'years')</span>
+</code></pre>
+<h3 id="startdate">startDate</h3>
+<pre><code class="lang-javascript">startDate: (moment.js-compatible object)
+</code></pre>
+<p>Sets the start date.</p>
+<p>Default:</p>
+<pre><code class="lang-javascript">startDate: moment().subtract(<span class="hljs-number">29</span>, <span class="hljs-string">'days'</span>)
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">startDate: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+startDate: <span class="hljs-string">'2015-11-10'</span>
+startDate: [<span class="hljs-number">2015</span>, <span class="hljs-number">11</span>, <span class="hljs-number">10</span>]
+startDate: <span class="hljs-number">1449159600</span>
+startDate: moment().subtract(<span class="hljs-number">1</span>, <span class="hljs-string">'week'</span>)
+</code></pre>
+<h3 id="enddate">endDate</h3>
+<pre><code class="lang-javascript">endDate: (moment.js-compatible object)
+</code></pre>
+<p>Sets the end date.</p>
+<p>Default:</p>
+<pre><code class="lang-javascript">endDate: moment()
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">endDate: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+endDate: <span class="hljs-string">'2015-11-10'</span>
+endDate: [<span class="hljs-number">2015</span>, <span class="hljs-number">11</span>, <span class="hljs-number">10</span>]
+endDate: <span class="hljs-number">1449159600</span>
+endDate: moment().add(<span class="hljs-number">1</span>, <span class="hljs-string">'week'</span>)
+</code></pre>
+<h3 id="ranges">ranges</h3>
+<pre><code class="lang-javascript">ranges: <span class="hljs-built_in">Object</span>
+</code></pre>
+<p>Default:</p>
+<pre><code class="lang-javascript">{
+  <span class="hljs-string">'Last 30 days'</span>: [moment().subtract(<span class="hljs-number">29</span>, <span class="hljs-string">'days'</span>), moment()]
+  <span class="hljs-string">'Last 90 days'</span>: [moment().subtract(<span class="hljs-number">89</span>, <span class="hljs-string">'days'</span>), moment()]
+  <span class="hljs-string">'Last Year'</span>: [moment().subtract(<span class="hljs-number">1</span>, <span class="hljs-string">'year'</span>).add(<span class="hljs-number">1</span>,<span class="hljs-string">'day'</span>), moment()]
+  <span class="hljs-string">'All Time'</span>: <span class="hljs-string">'all-time'</span> <span class="hljs-comment">// [minDate, maxDate]</span>
+  <span class="hljs-string">'Custom Range'</span>: <span class="hljs-string">'custom'</span>
+}
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">ranges: {
+  <span class="hljs-string">'Last 245 Days'</span>: [moment().subtract(<span class="hljs-number">244</span>, <span class="hljs-string">'days'</span>), moment()]
+  <span class="hljs-string">'Last 3 Years'</span>: [moment().subtract(<span class="hljs-number">3</span>, <span class="hljs-string">'years'</span>).add(<span class="hljs-number">1</span>, <span class="hljs-string">'day'</span>), moment()]
+}
+</code></pre>
+<h3 id="period">period</h3>
+<pre><code class="lang-javascript">period: (<span class="hljs-string">'day'</span> | <span class="hljs-string">'week'</span> | <span class="hljs-string">'month'</span> | <span class="hljs-string">'quarter'</span> | <span class="hljs-string">'year'</span>)
+</code></pre>
+<p>Default:</p>
+<pre><code class="lang-javascript">period: <span class="hljs-string">'day'</span>
+</code></pre>
+<h3 id="periods">periods</h3>
+<pre><code class="lang-javascript">periods: <span class="hljs-built_in">String</span>[]
+</code></pre>
+<p>Array of available periods</p>
+<h3 id="single">single</h3>
+<pre><code class="lang-javascript">single: <span class="hljs-built_in">Boolean</span>
+</code></pre>
+<p>Default:</p>
+<pre><code class="lang-javascript">single: <span class="hljs-literal">false</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">single: <span class="hljs-literal">false</span>
+single: <span class="hljs-literal">true</span>
+</code></pre>
+<h3 id="opens">opens</h3>
+<pre><code class="lang-javascript">opens: <span class="hljs-built_in">Boolean</span>
+</code></pre>
+<p>Default:</p>
+<pre><code class="lang-javascript">opens: <span class="hljs-literal">false</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">opens: <span class="hljs-literal">false</span>
+opens: <span class="hljs-literal">true</span>
+</code></pre>
+<h3 id="opened">opened</h3>
+<pre><code class="lang-javascript">opened: <span class="hljs-built_in">Boolean</span>
+</code></pre>
+<p>Default:</p>
+<pre><code class="lang-javascript">opened: <span class="hljs-literal">false</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">opened: <span class="hljs-literal">false</span>
+opened: <span class="hljs-literal">true</span>
+</code></pre>
+<h3 id="expanded">expanded</h3>
+<pre><code class="lang-javascript">expanded: <span class="hljs-built_in">Boolean</span>
+</code></pre>
+<p>Default:</p>
+<pre><code class="lang-javascript">expanded: <span class="hljs-literal">false</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">expanded: <span class="hljs-literal">false</span>
+expanded: <span class="hljs-literal">true</span>
+</code></pre>
+<h3 id="standalone">standalone</h3>
+<pre><code class="lang-javascript">standalone: <span class="hljs-built_in">Boolean</span>
+</code></pre>
+<p>Default:</p>
+<pre><code class="lang-javascript">standalone: <span class="hljs-literal">false</span>
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">standalone: <span class="hljs-literal">false</span>
+standalone: <span class="hljs-literal">true</span>
+</code></pre>
+<h3 id="anchorelement">anchorElement</h3>
+<pre><code class="lang-javascript">anchorElement: (jQuery-compatible object)
+</code></pre>
+<h3 id="parentelement">parentElement</h3>
+<pre><code class="lang-javascript">parentElement: (jQuery-compatible object)
+</code></pre>
+<p>Default:</p>
+<pre><code class="lang-javascript">parentElement: <span class="hljs-built_in">document</span>.body
+</code></pre>
+<p>Examples:</p>
+<pre><code class="lang-javascript">parentElement: <span class="hljs-string">'.daterangepicker-container'</span>
+parentElement: $(<span class="hljs-string">'.daterangepicker-container'</span>)
+parentElement: <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.daterangepicker-container'</span>)
+</code></pre>
+<h3 id="callback">callback</h3>
+<h2 id="api">API</h2>
+<h3 id="startdate">startDate</h3>
+<pre><code class="lang-javascript">daterangepicker.startDate(moment.js-compatible object)
+</code></pre>
+<p>Allows you to dynamically set startDate.</p>
+<h3 id="enddate">endDate</h3>
+<pre><code class="lang-javascript">daterangepicker.endDate(moment.js-compatible object)
+</code></pre>
+<p>Allows you to dynamically set endDate.</p>
+<h3 id="period">period</h3>
+<pre><code class="lang-javascript">daterangepicker.period(<span class="hljs-string">'day'</span> | <span class="hljs-string">'week'</span> | <span class="hljs-string">'month'</span> | <span class="hljs-string">'quarter'</span> | <span class="hljs-string">'year'</span>)
+</code></pre>
+<p>Allows you to dynamically set period.</p>
+<h2 id="customizing">Customizing</h2>
+
+        </div>
+        <aside>
+          <!-- ko foreach: tree -->
+            <!-- ko with: $data[0] -->
+              <h3 data-bind="css: { active: $data == $root.activeItem(), highlighted: $data == $root.activeItem().parent }">
+                <a href="#" data-bind="attr: {href: $data.id}, text: $data.name"></a>
+              </h3>
+            <!-- /ko -->
+            <ul data-bind="foreach: $data.slice(1)">
+              <li data-bind="css: { active: $data == $root.activeItem() }">
+                <a href="#" data-bind="attr: {href: $data.id}, text: $data.name"></a>
+              </li>
+            </ul>
+          <!-- /ko -->
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p><strong>daterangepicker</strong> is freely distributable under the terms of the MIT license</p>
+        <p>&copy; <a href="https://sensortower.com/">Sensor Tower</a> 2015</p>
+      </div>
+    </footer>
+
+    <script type="text/javascript">window.docs = true;</script>
+
+    <script src="scripts/vendor.js"></script>
+
+    <script src="scripts/daterangepicker.js"></script>
+
+    <script src="scripts/main.js"></script>
+
+  </body>
+</html>

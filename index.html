@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <title>daterangepicker</title>
+
+    <link rel="stylesheet" href="styles/vendor.css">
+
+    <link rel="stylesheet" href="styles/daterangepicker.css">
+
+    <link rel="stylesheet" href="styles/main.css">
+
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="logo">
+          daterangepicker
+        </div>
+        <nav>
+          <ul>
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/docs.html">Docs</a></li>
+            <li><a href="https://github.com/sensortower/daterangepicker">Fork on Github</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="top-padding"></div>
+
+    <section class="main-section">
+      <div class="container">
+        <input type="text" class="main-input" data-bind="daterangepicker: dateRange, daterangepickerOptions: {showPeriods: true, opened: true, expanded: true, parentElement: '.daterangepicker-container', standalone: true}" />
+        <div class="daterangepicker-container"></div>
+      </div>
+    </section>
+
+    <section class="secondary-section">
+      <div class="container">
+        <h2 id="notable-features">Notable Features</h2>
+<ul>
+<li>Day / Week / Month / Quarter / Year calendar modes</li>
+<li>Single calendar mode</li>
+<li>Customazible &amp; extendable</li>
+<li>Integration with jQuery &amp; Knockout</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>jquery</li>
+<li>moment</li>
+<li>knockout</li>
+</ul>
+<h2 id="download">Download</h2>
+<p><a href="https://github.com/sensortower/daterangepicker/releases">Latest Release</a></p>
+<h2 id="install">Install</h2>
+<pre><code class="lang-bash">bower install daterangepicker --save
+</code></pre>
+<h2 id="usage">Usage</h2>
+<h3 id="with-jquery">With jQuery</h3>
+<pre><code class="lang-javascript">$(<span class="hljs-string">"input"</span>).daterangepicker({
+  minDate: moment().subtract(<span class="hljs-number">2</span>, <span class="hljs-string">'years'</span>),
+  callback: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">startDate, endDate, period</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(startDate.format(<span class="hljs-string">'L'</span>), endDate.format(<span class="hljs-string">'L'</span>), period);
+  }
+});
+</code></pre>
+<h3 id="with-knockout-js">With Knockout.js</h3>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">data-bind</span>=<span class="hljs-string">"daterangepicker: dateRange, daterangepickerOptions: { maxDate: moment() }"</span>/&gt;</span>
+</code></pre>
+<pre><code class="lang-javascript">ko.applyBindings({
+  dateRange: ko.observable([moment().subtract(<span class="hljs-number">1</span>, <span class="hljs-string">'month'</span>), moment(), <span class="hljs-string">'day'</span>])
+});
+</code></pre>
+<h2 id="development">Development</h2>
+<pre><code class="lang-bash">git <span class="hljs-built_in">clone</span> git@github.com:sensortower/daterangepicker.git &amp;&amp; <span class="hljs-built_in">cd</span> daterangepicker
+npm install &amp;&amp; bower install
+gulp serve
+</code></pre>
+
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p><strong>daterangepicker</strong> is freely distributable under the terms of the MIT license</p>
+        <p>&copy; <a href="https://sensortower.com/">Sensor Tower</a> 2015</p>
+      </div>
+    </footer>
+
+    <script src="scripts/vendor.js"></script>
+
+    <script src="scripts/daterangepicker.js"></script>
+
+    <script src="scripts/main.js"></script>
+
+  </body>
+</html>
