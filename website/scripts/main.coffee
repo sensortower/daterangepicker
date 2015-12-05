@@ -69,7 +69,6 @@ do ->
     drawRoundRect(ctx, x + border, y + border, w - border * 2, h - border * 2, r - border, fill)
 
   drawText = (ctx, text, x, y, color) ->
-    ctx.textBaseline = "middle"
     ctx.textAlign = "center"
     ctx.font = 'bold 9px sans-serif'
     ctx.fillStyle = color
@@ -91,7 +90,7 @@ do ->
     drawRectWithBorder(ctx, 0, 2, 16, 14, 2, 1, '#20aa9c', '#1b8e82')
     drawRoundRect(ctx, 2, 1, 3, 3, 1.5, '#1b8e82')
     drawRoundRect(ctx, 11, 1, 3, 3, 1.5, '#1b8e82')
-    drawText(ctx, moment().format('DD'), 8, 9.5, '#146960')
-    drawText(ctx, moment().format('DD'), 8, 8.5, '#fff')
+    drawText(ctx, moment().format('DD'), 8, 12.5, '#146960')
+    drawText(ctx, moment().format('DD'), 8, 11.5, '#fff')
 
     canvasToFavicon(canvas)
