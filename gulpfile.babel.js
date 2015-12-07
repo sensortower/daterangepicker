@@ -130,12 +130,22 @@ gulp.task('build', ['scripts', 'styles'], () => {
     .pipe($.size({title: 'build', gzip: true}));
 });
 
+gulp.task('build:min', ['build'], () => {
+  return gulp.src(['dist/daterangepicker.js', 'dist/daterangepicker.css'])
+    .pipe($.if('*.js', $.uglify({preserveComments: 'license'})))
+    .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
+    .pipe($.if('*.js', $.extReplace('.min.js')))
+    .pipe($.if('*.css', $.extReplace('.min.css')))
+    .pipe(gulp.dest('dist/'))
+    .pipe($.size({title: 'build:min', gzip: true}));
+});
+
 gulp.task('build:website', ['html', 'scripts', 'styles', 'images'], () => {
   const assets = $.useref.assets({searchPath: ['.tmp', 'website', '.']});
 
   return gulp.src('.tmp/*.html')
     .pipe(assets)
-    .pipe($.if('*.js', $.uglify()))
+    .pipe($.if('*.js', $.uglify({preserveComments: 'license'})))
     .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
     .pipe(assets.restore())
     .pipe($.useref())
@@ -153,9 +163,30 @@ gulp.task('serve:website', ['build:website'], () => {
   });
 });
 
-gulp.task('github', ['build:website'], () => {
+gulp.task('github:pages', ['build:website'], () => {
   return gulp.src('./dist/website/**/*')
     .pipe($.ghPages());
+});
+
+gulp.task('github:release', ['build:min'], () => {
+  if (!process.env.GITHUB_TOKEN) {
+    throw "env.GITHUB_TOKEN is empty";
+  }
+
+  const manifest = require('./package.json');
+  const match = manifest.repository.url.split('/').slice(-2)
+
+  return gulp.src([
+    'dist/daterangepicker.js',
+    'dist/daterangepicker.css',
+    'dist/daterangepicker.min.js',
+    'dist/daterangepicker.min.css'
+  ])
+    .pipe($.githubRelease({
+      manifest: manifest,
+      owner: match[0],
+      repo: match[1]
+    }));
 });
 
 gulp.task('default', ['clean'], () => {
