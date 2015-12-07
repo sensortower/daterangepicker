@@ -1,13 +1,7 @@
 // generated using generator-gulp-webapp 1.0.3
 import gulp from 'gulp';
-import coffee from 'gulp-coffee';
-import gutil from 'gulp-util';
-import include from 'gulp-include';
 import marked from 'marked';
-import pygmentize from 'pygmentize-bundled';
 import highlight from 'highlight.js';
-import fileinclude from 'gulp-file-include';
-import ghPages from 'gulp-gh-pages';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import browserSync from 'browser-sync';
 import del from 'del';
@@ -48,7 +42,7 @@ gulp.task('styles', () => {
       outputStyle: 'expanded',
       precision: 10,
       includePaths: ['.']
-    }).on('error', gutil.log))
+    }).on('error', $.util.log))
     .pipe($.autoprefixer({browsers: ['last 1 version']}))
     .pipe(gulp.dest('.tmp/styles'))
     .pipe(reload({stream: true}));
@@ -59,22 +53,22 @@ gulp.task('scripts', () => {
       'src/scripts/*.coffee',
       'website/scripts/*.coffee'
     ])
-    .pipe(include()).on('error', gutil.log)
+    .pipe($.include()).on('error', $.util.log)
     .pipe($.plumber())
-    .pipe(coffee({bare: true}).on('error', gutil.log))
+    .pipe($.coffee({bare: true}).on('error', $.util.log))
     .pipe(gulp.dest('.tmp/scripts'))
     .pipe(reload({stream: true}));
 });
 
 gulp.task('html', ['styles', 'scripts'], () => {
   return gulp.src('website/*.html')
-    .pipe(fileinclude({
+    .pipe($.fileInclude({
       prefix: '@@',
       basepath: '@file',
       filters: {
         markdown: markdown
       }
-    })).on('error', gutil.log)
+    })).on('error', $.util.log)
     .pipe(gulp.dest('.tmp'))
     .pipe(reload({stream: true}));
 });
@@ -146,7 +140,7 @@ gulp.task('serve:website', ['build:website'], () => {
 
 gulp.task('github', ['build:website'], () => {
   return gulp.src('./dist/website/**/*')
-    .pipe(ghPages());
+    .pipe($.ghPages());
 });
 
 gulp.task('default', ['clean'], () => {
