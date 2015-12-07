@@ -5,9 +5,12 @@ import highlight from 'highlight.js';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import browserSync from 'browser-sync';
 import del from 'del';
+import fs from 'fs';
+import childProcess from 'child_process';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
+const exec = childProcess.exec;
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -23,13 +26,20 @@ marked.setOptions({
   }
 });
 
-const markdown = (code) => {
-  return marked(code.replace(/#+ daterangepicker\n\n/, '').replace(/#+ Copyright[\s\S]*/m, ''));
+function markdownFilter(code) {
+  code = code
+    .replace(/#+ daterangepicker\n\n/, '')
+    .replace(/#+ Copyright[\s\S]*/m, '');
+  return marked(code);
 }
 
-const banner = () => {
-  const pkg = require('./package.json');
-  const bower = require('./bower.json');
+function readJson(path) {
+  return JSON.parse(fs.readFileSync(path, 'utf8'));
+}
+
+function banner() {
+  var pkg = readJson('./package.json');
+  var bower = readJson('./bower.json');
   return `
     /*!
      * ${bower.name}
@@ -40,6 +50,13 @@ const banner = () => {
      */
   `.replace(/\n\s{0,4}/g, '\n').replace('\n', '');
 }
+
+function bump(type) {
+  gulp.src('./package.json')
+    .pipe($.bump({type: type}))
+    .pipe(gulp.dest('./'))
+    .pipe($.callback(() => { gulp.start('build:min'); }));
+};
 
 gulp.task('images', () => {
   return gulp.src('website/images/*')
@@ -80,7 +97,7 @@ gulp.task('html', ['styles', 'scripts'], () => {
       prefix: '@@',
       basepath: '@file',
       filters: {
-        markdown: markdown
+        markdown: markdownFilter
       }
     })).on('error', $.util.log)
     .pipe(gulp.dest('.tmp'))
@@ -169,7 +186,6 @@ gulp.task('github:pages', ['build:website'], () => {
 });
 
 gulp.task('consistency-check', ['build:min'], (cb) => {
-  const exec = require('child_process').exec;
   exec('git status', function callback(error, stdout, stderr) {
     const pendingChanges = stdout.match(/modified:\s*dist/)
     if (pendingChanges) {
@@ -185,7 +201,7 @@ gulp.task('github:release', ['consistency-check'], () => {
     throw new Error('env.GITHUB_TOKEN is empty');
   }
 
-  const manifest = require('./package.json');
+  var manifest = readJson('./package.json');
   const match = manifest.repository.url.split('/').slice(-2)
 
   return gulp.src([
@@ -199,6 +215,18 @@ gulp.task('github:release', ['consistency-check'], () => {
       owner: match[0],
       repo: match[1]
     }));
+});
+
+gulp.task('bump:major', () => {
+  bump('major');
+});
+
+gulp.task('bump:minor', () => {
+  bump('minor');
+});
+
+gulp.task('bump:patch', () => {
+  bump('patch');
 });
 
 gulp.task('default', ['clean'], () => {
