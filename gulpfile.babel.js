@@ -118,7 +118,8 @@ gulp.task('serve', ['html', 'styles', 'scripts'], () => {
     server: {
       baseDir: ['.tmp', 'website'],
       routes: {
-        '/bower_components': 'bower_components'
+        '/bower_components': 'bower_components',
+        '/docs': '.tmp/docs.html'
       }
     }
   });
