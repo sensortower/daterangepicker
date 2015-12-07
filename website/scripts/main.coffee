@@ -1,6 +1,6 @@
 class View
   constructor: ->
-    @dateRange = ko.observable([moment().subtract(60, 'days'), moment(), 'day'])
+    @dateRange = ko.observable([moment().subtract(29, 'days'), moment(), 'day'])
 
     if window.docs
       parent = []
