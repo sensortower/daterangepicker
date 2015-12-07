@@ -55,7 +55,7 @@ gulp.task('scripts', () => {
     ])
     .pipe($.include()).on('error', $.util.log)
     .pipe($.plumber())
-    .pipe($.coffee({bare: true}).on('error', $.util.log))
+    .pipe($.coffee().on('error', $.util.log))
     .pipe(gulp.dest('.tmp/scripts'))
     .pipe(reload({stream: true}));
 });
