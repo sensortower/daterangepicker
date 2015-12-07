@@ -6,9 +6,9 @@ class MomentUtil
     if moment.localeData().firstDayOfWeek() != dow
       offset = dow - moment.localeData().firstDayOfWeek()
       @patchCurrentLocale({
-        weekdays: rotateArray(moment.weekdays(), offset)
-        weekdaysMin: rotateArray(moment.weekdaysMin(), offset)
-        weekdaysShort: rotateArray(moment.weekdaysShort(), offset)
+        weekdays: ArrayUtils.rotateArray(moment.weekdays(), offset)
+        weekdaysMin: ArrayUtils.rotateArray(moment.weekdaysMin(), offset)
+        weekdaysShort: ArrayUtils.rotateArray(moment.weekdaysShort(), offset)
         week: {
           dow: dow
           doy: moment.localeData().firstDayOfYear()

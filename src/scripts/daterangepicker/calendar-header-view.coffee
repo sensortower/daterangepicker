@@ -19,7 +19,6 @@ class CalendarHeaderView
         @currentDate().month()
       write: (newValue) =>
         newDate = @currentDate().clone().month(newValue)
-        # TODO: don't write if the year is not in options
         unless newDate.isSame(@currentDate(), 'month')
           @currentDate(newDate)
       pure: true
@@ -29,7 +28,6 @@ class CalendarHeaderView
         @currentDate().year()
       write: (newValue) =>
         newDate = @currentDate().clone().year(newValue)
-        # TODO: don't write if the year is not in options
         unless newDate.isSame(@currentDate(), 'year')
           @currentDate(newDate)
       pure: true
@@ -41,7 +39,6 @@ class CalendarHeaderView
         offset = (@currentDate().year() - @selectedDecade()) % 9
         newYear = newValue + offset
         newDate = @currentDate().clone().year(newYear)
-        # TODO: don't write if the year is not in options
         unless newDate.isSame(@currentDate(), 'year')
           @currentDate(newDate)
       pure: true
@@ -72,7 +69,7 @@ class CalendarHeaderView
     [@currentDate.minBoundary().year()..@currentDate.maxBoundary().year()]
 
   decadeOptions: ->
-    uniqArray( @yearOptions().map (year) =>
+    ArrayUtils.uniqArray( @yearOptions().map (year) =>
       momentObj = MomentUtil.tz([year], @timeZone())
       @firstYearOfDecade(momentObj).year()
     )
