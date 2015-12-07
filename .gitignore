@@ -1,5 +1,5 @@
 node_modules
-dist
+dist/website
 .tmp
 .sass-cache
 bower_components
