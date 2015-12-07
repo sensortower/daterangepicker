@@ -168,9 +168,21 @@ gulp.task('github:pages', ['build:website'], () => {
     .pipe($.ghPages());
 });
 
-gulp.task('github:release', ['build:min'], () => {
+gulp.task('consistency-check', ['build:min'], (cb) => {
+  const exec = require('child_process').exec;
+  exec('git status', function callback(error, stdout, stderr) {
+    const pendingChanges = stdout.match(/modified:\s*dist/)
+    if (pendingChanges) {
+      throw new Error('consistency check failed');
+    } else {
+      cb();
+    }
+  });
+});
+
+gulp.task('github:release', ['consistency-check'], () => {
   if (!process.env.GITHUB_TOKEN) {
-    throw "env.GITHUB_TOKEN is empty";
+    throw new Error('env.GITHUB_TOKEN is empty');
   }
 
   const manifest = require('./package.json');
