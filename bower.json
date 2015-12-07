@@ -1,5 +1,5 @@
 {
-  "name": "st-daterangepicker",
+  "name": "knockout-daterangepicker",
   "description": "Date range selector with support for day, week, month, quarter & year selection",
   "main": [
     "src/scripts/daterangepicker.coffee",
