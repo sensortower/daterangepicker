@@ -56,34 +56,31 @@ class CalendarView
   inRange: (date) =>
     date.isAfter(@startDate(), @period()) && date.isBefore(@endDate(), @period()) || (date.isSame(@startDate(), @period()) || date.isSame(@endDate(), @period()))
 
-  formatDate: (date) =>
+  tableValues: (date) =>
     format = @period.format()
     switch @period()
       when 'day', 'month', 'year'
-        "<div class='table-value'>
-          #{date.format(format)}
-        </div>"
+        [{
+          html: date.format(format)
+        }]
       when 'week'
         date = date.clone().startOf(@period())
         MomentIterator.array(date, 7, 'day').map( (date) =>
-          clazz = "week-day"
-          clazz += " unavailable" if @cssForDate(date, true).unavailable
-          "<div class='table-value #{clazz}'>
-            #{date.format(format)}
-          </div>"
-        ).join("")
+          {
+            html: date.format(format)
+            css:
+              'week-day': true
+              unavailable: @cssForDate(date, true).unavailable
+          }
+        )
       when 'quarter'
         quarter = date.format(format)
         date = date.clone().startOf('quarter')
         months = MomentIterator.array(date, 3, 'month').map (date) ->
           date.format('MMM')
-        "<div class='table-value'>
-          #{quarter}
-          <br>
-          <span class='months'>
-            #{months.join(", ")}
-          </span>
-        </div>"
+        [{
+          html: "#{quarter}<br><span class='months'>#{months.join(", ")}</span>"
+        }]
 
   formatDateTemplate: (date) =>
     { nodes: $("<div>#{@formatDate(date)}</div>").children() }
