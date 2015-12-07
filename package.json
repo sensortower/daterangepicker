@@ -16,6 +16,7 @@
     "gulp-file-include": "^0.13.7",
     "gulp-fingerprint": "^0.3.2",
     "gulp-gh-pages": "^0.5.4",
+    "gulp-header": "^1.7.1",
     "gulp-if": "^1.2.5",
     "gulp-include": "^2.0.3",
     "gulp-load-plugins": "^0.10.0",

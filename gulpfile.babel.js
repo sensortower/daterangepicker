@@ -27,6 +27,20 @@ const markdown = (code) => {
   return marked(code.replace(/#+ daterangepicker\n\n/, '').replace(/#+ Copyright[\s\S]*/m, ''));
 }
 
+const banner = () => {
+  const pkg = require('./package.json');
+  const bower = require('./bower.json');
+  return `
+    /*!
+     * ${bower.name}
+     * version: ${pkg.version}
+     * authors: ${bower.authors}
+     * license: ${bower.license}
+     * ${bower.homepage}
+     */
+  `.replace(/\n\s{0,4}/g, '\n').replace('\n', '');
+}
+
 gulp.task('images', () => {
   return gulp.src('website/images/*')
     .pipe(gulp.dest('dist/website/images'))
@@ -111,6 +125,7 @@ gulp.task('serve', ['html', 'styles', 'scripts'], () => {
 
 gulp.task('build', ['scripts', 'styles'], () => {
   return gulp.src(['.tmp/scripts/daterangepicker.js', '.tmp/styles/daterangepicker.css'])
+    .pipe($.header(banner()))
     .pipe(gulp.dest('dist/'))
     .pipe($.size({title: 'build', gzip: true}));
 });
