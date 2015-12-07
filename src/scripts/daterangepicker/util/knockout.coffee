@@ -4,26 +4,30 @@ ko.bindingHandlers.stopBinding = init: ->
 
 ko.virtualElements.allowedBindings.stopBinding = true
 
-ko.bindingHandlers.daterangepicker =
-  init: (element, valueAccessor, allBindings) ->
-    observable = valueAccessor()
-    options = allBindings.get('daterangepickerOptions') || {}
-    $(element).daterangepicker(options, (startDate, endDate, period) ->
-      observable([startDate, endDate, period])
-    )
+ko.bindingHandlers.daterangepicker = do ->
+  $.extend @,
+    _optionsKey: 'daterangepickerOptions'
+    _formatKey: 'daterangepickerFormat'
 
-  update: (element, valueAccessor, allBindings) ->
-    $element = $(element)
-    [startDate, endDate, period] = valueAccessor()()
-    dateFormat = 'MMM D, YYYY'
-    startDateText = moment(startDate).format(dateFormat)
-    endDateText = moment(endDate).format(dateFormat)
-    ko.ignoreDependencies ->
-      if $element.data('daterangepicker').single()
-        $element.val(startDateText)
-      else
-        $element.val("#{startDateText} – #{endDateText}")
+    init: (element, valueAccessor, allBindings) ->
+      observable = valueAccessor()
+      options = ko.unwrap(allBindings.get(@_optionsKey)) || {}
+      $(element).daterangepicker(options, (startDate, endDate, period) ->
+        observable([startDate, endDate, period])
+      )
 
-      $element.data('daterangepicker').period(period)
-      $element.data('daterangepicker').startDate(startDate)
-      $element.data('daterangepicker').endDate(endDate)
+    update: (element, valueAccessor, allBindings) ->
+      $element = $(element)
+      [startDate, endDate, period] = valueAccessor()()
+      dateFormat = ko.unwrap(allBindings.get(@_formatKey)) || 'MMM D, YYYY'
+      startDateText = moment(startDate).format(dateFormat)
+      endDateText = moment(endDate).format(dateFormat)
+      ko.ignoreDependencies ->
+        if $element.data('daterangepicker').single()
+          $element.val(startDateText)
+        else
+          $element.val("#{startDateText} – #{endDateText}")
+
+        $element.data('daterangepicker').period(period)
+        $element.data('daterangepicker').startDate(startDate)
+        $element.data('daterangepicker').endDate(endDate)
