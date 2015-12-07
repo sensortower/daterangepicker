@@ -19,6 +19,7 @@
 
   .calendar-header button {
     @include button-sizing;
+    width: 100%;
     padding-left: 0;
     padding-right: 0;
     border-radius: $border-radius;
@@ -33,7 +34,7 @@
     display: flex;
     margin: 0 6px 4px;
 
-    .selects {
+    .calendar-selects {
       flex: 5;
       text-align: center;
       display: flex;
@@ -42,14 +43,8 @@
       padding: 2px;
     }
 
-    button {
-      width: 100%;
-    }
-
-    > div {
-      flex: 1;
-    }
     .arrow {
+      flex: 1;
       text-align: center;
 
       &.arrow-hidden {

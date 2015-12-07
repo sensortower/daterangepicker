@@ -8,8 +8,8 @@
     </ul>
     <form data-bind="submit: $data.applyChanges">
       <div class="custom-range-inputs">
-        <input class="error" type="text" data-bind="value: $data.startDateInput, event: {focus: $data.inputFocus}" />
-        <input class="error" type="text" data-bind="value: $data.endDateInput, event: {focus: $data.inputFocus}" />
+        <input type="text" data-bind="value: $data.startDateInput, event: {focus: $data.inputFocus}" />
+        <input type="text" data-bind="value: $data.endDateInput, event: {focus: $data.inputFocus}" />
       </div>
       <div class="custom-range-buttons">
         <button class="apply-btn" type="submit" data-bind="text: $data.locale.applyButtonTitle, click: $data.applyChanges"></button>
@@ -23,15 +23,15 @@
       <div class="calendar-title" data-bind="text: $data.label"></div>
       <div class="calendar-header" data-bind="with: $data.headerView">
         <div class="arrow" data-bind="css: $data.prevArrowCss()">
-          <button data-bind="click: $data.clickPrevButton"><i class="arrow-left"></i></button>
+          <button data-bind="click: $data.clickPrevButton"><span class="arrow-left"></span></button>
         </div>
-        <div class="selects">
+        <div class="calendar-selects">
           <select class="month-select" data-bind="options: $data.monthOptions(), optionsText: $data.monthFormatter, valueAllowUnset: true, value: $data.selectedMonth, css: {hidden: !$data.monthSelectorAvailable()}"></select>
           <select class="year-select" data-bind="options: $data.yearOptions(), optionsText: $data.yearFormatter, valueAllowUnset: true, value: $data.selectedYear, css: {hidden: !$data.yearSelectorAvailable()}"></select>
           <select class="decade-select" data-bind="options: $data.decadeOptions(), optionsText: $data.decadeFormatter, valueAllowUnset: true, value: $data.selectedDecade, css: {hidden: !$data.decadeSelectorAvailable()}"></select>
         </div>
         <div class="arrow" data-bind="css: $data.nextArrowCss()">
-          <button data-bind="click: $data.clickNextButton"><i class="arrow-right"></i></button>
+          <button data-bind="click: $data.clickNextButton"><span class="arrow-right"></span></button>
         </div>
       </div>
       <div class="calendar-table">
