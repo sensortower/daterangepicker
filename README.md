@@ -1,6 +1,6 @@
 # daterangepicker
 
-[![Demo screenshot](https://sensortower.github.io/daterangepicker/images/demo.jpg)](https://sensortower.github.io/daterangepicker/)
+[![Demo screenshot](https://sensortower.github.io/daterangepicker/images/demo.gif)](https://sensortower.github.io/daterangepicker/)
 
 [Demo available here](https://sensortower.github.io/daterangepicker/)
 
