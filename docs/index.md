@@ -41,11 +41,12 @@ ko.applyBindings({
 ## Configuration
 
 ### timeZone
+
+Sets time zone. If you want to use user's computer time zone, pass `null`. By default, it's UTC. If you want to use other time zones you will need [moment.timezone](http://momentjs.com/timezone/) library.
+
 ```javascript
 timeZone: String
 ```
-
-Sets time zone. If you want to use user's computer time zone, pass `null`. By default, it's UTC. If you want to use other time zones you will need [moment.timezone](http://momentjs.com/timezone/) library.
 
 Default:
 ```javascript
@@ -60,11 +61,12 @@ timeZone: null // user's computer time zone
 
 
 ### firstDayOfWeek
+
+Sets first day of the week. 0 is Sunday, 1 is Monday. In case you were wondering, 4 is Thursday.
+
 ```javascript
 firstDayOfWeek: Number
 ```
-
-Sets first day of the week. 0 is Sunday, 1 is Monday. In case you were wondering, 4 is Thursday.
 
 __Important__: this setting will globally change moment.js locale
 
@@ -75,11 +77,14 @@ firstDayOfWeek: 1 // Monday
 ```
 
 ### minDate
+
+Sets a minimum possible date a user can select.
+
 ```javascript
 minDate: [(moment.js-compatible object), ('inclusive' | 'exclusive' | 'expanded')]
 ```
 
-Sets a minimum possible date a user can select. By default, that means you can select days (weeks, months, etc) that are the same as `minDate` or after `minDate` — this is what we call __inclusive__ mode. In __exclusive__ you can't select days (weeks, months, etc) that fall on `minDate`. When you select a month (week, quarter, etc) in __expanded__ mode and `minDate` falls on the middle of the month, the first day of the month will be selected.
+By default, that means you can select days (weeks, months, etc) that are the same as `minDate` or after `minDate` — this is what we call __inclusive__ mode. In __exclusive__ you can't select days (weeks, months, etc) that fall on `minDate`. When you select a month (week, quarter, etc) in __expanded__ mode and `minDate` falls on the middle of the month, the first day of the month will be selected.
 
 For example, if `minDate` is 14th of February, `period` is set to `month` and you click on February, the new `startDate` is:
 
@@ -104,11 +109,14 @@ minDate: [null, 'exclusive'] // date defaults to moment().subtract(2, 'years')
 
 
 ### maxDate
+
+Sets a minimum possible date a user can select.
+
 ```javascript
 maxDate: [(moment.js-compatible object), ('inclusive' | 'exclusive' | 'expanded')]
 ```
 
-Sets a minimum possible date a user can select. By default, that means you can select days (weeks, months, etc) that are the same as `maxDate` or after `maxDate` — this is what we call __inclusive__ mode. In __exclusive__ you can't select days (weeks, months, etc) that fall on `maxDate`. When you select a month (week, quarter, etc) in __expanded__ mode and `maxDate` falls on the middle of the month, the last day of the month will be selected.
+By default, that means you can select days (weeks, months, etc) that are the same as `maxDate` or after `maxDate` — this is what we call __inclusive__ mode. In __exclusive__ you can't select days (weeks, months, etc) that fall on `maxDate`. When you select a month (week, quarter, etc) in __expanded__ mode and `maxDate` falls on the middle of the month, the last day of the month will be selected.
 
 For example, if `maxDate` is 14th of February, `period` is set to `month` and you click on February, the new `startDate` is:
 
@@ -132,11 +140,12 @@ maxDate: [null, 'exclusive'] // date defaults to moment().subtract(2, 'years')
 ```
 
 ### startDate
+
+This parameter sets the initial value for start date.
+
 ```javascript
 startDate: (moment.js-compatible object)
 ```
-
-Sets the start date.
 
 Default:
 ```javascript
@@ -153,11 +162,12 @@ startDate: moment().subtract(1, 'week')
 ```
 
 ### endDate
+
+This parameter sets the initial value for end date.
+
 ```javascript
 endDate: (moment.js-compatible object)
 ```
-
-Sets the end date.
 
 Default:
 ```javascript
@@ -175,6 +185,9 @@ endDate: moment().add(1, 'week')
 
 
 ### ranges
+
+Sets predefined date ranges a user can select from.
+
 ```javascript
 ranges: Object
 ```
@@ -198,7 +211,11 @@ ranges: {
 }
 ```
 
+
 ### period
+
+This parameter sets the initial value for period.
+
 ```javascript
 period: ('day' | 'week' | 'month' | 'quarter' | 'year')
 ```
@@ -208,14 +225,15 @@ Default:
 period: 'day'
 ```
 
+
 ### periods
+
+Array of available _periods_. Period selector disappears if only one period specified.
+
+
 ```javascript
 periods: String[]
 ```
-
-Array of available periods
-
-
 
 ### single
 ```javascript
@@ -227,92 +245,86 @@ Default:
 single: false
 ```
 
-Examples:
+
+### orientation
+
 ```javascript
-single: false
-single: true
+orientation: ('left' | 'right')
 ```
 
-
-### opens
-```javascript
-opens: Boolean
-```
+Sets the side to which daterangepicker opens.
 
 Default:
 ```javascript
-opens: false
-```
-
-Examples:
-```javascript
-opens: false
-opens: true
+orientation: 'left'
 ```
 
 
 ### opened
+
 ```javascript
 opened: Boolean
 ```
 
+By default, daterangepicker is hidden and you need to click the anchorElement to open it. This option allows you to make it opened on initialization.
+
 Default:
 ```javascript
 opened: false
-```
-
-Examples:
-```javascript
-opened: false
-opened: true
 ```
 
 
 ### expanded
+
 ```javascript
 expanded: Boolean
 ```
 
+By default, when you open daterangepicker you only see predefined ranges. This option allows you to make it expanded on initialization.
+
 Default:
 ```javascript
 expanded: false
-```
-
-Examples:
-```javascript
-expanded: false
-expanded: true
 ```
 
 
 ### standalone
+
 ```javascript
 standalone: Boolean
 ```
+
+By default, daterangepicker is attached to an element. You can specify it through this parameter.
 
 Default:
 ```javascript
 standalone: false
 ```
 
-Examples:
-```javascript
-standalone: false
-standalone: true
-```
-
-
 
 ### anchorElement
+
 ```javascript
 anchorElement: (jQuery-compatible object)
 ```
 
+Allows you to set anchor element for daterangepicker.
+
+Examples:
+```javascript
+anchorElement: '.daterange-field'
+anchorElement: $('.daterange-field')
+anchorElement: document.querySelector('.daterange-field')
+```
+
 
 ### parentElement
+
 ```javascript
 parentElement: (jQuery-compatible object)
 ```
+
+Allows you to set parent element for daterangepicker.
 
 Default:
 ```javascript
@@ -325,35 +337,3 @@ parentElement: '.daterangepicker-container'
 parentElement: $('.daterangepicker-container')
 parentElement: document.querySelector('.daterangepicker-container')
 ```
-
-
-
-
-### callback
-
-## API
-
-### startDate
-```javascript
-daterangepicker.startDate(moment.js-compatible object)
-```
-
-Allows you to dynamically set startDate.
-
-### endDate
-```javascript
-daterangepicker.endDate(moment.js-compatible object)
-```
-
-Allows you to dynamically set endDate.
-
-### period
-```javascript
-daterangepicker.period('day' | 'week' | 'month' | 'quarter' | 'year')
-```
-
-Allows you to dynamically set period.
-
-## Customizing
-
-
