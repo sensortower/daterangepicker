@@ -9,7 +9,7 @@ class Config
     @expanded = @_expanded(options.expanded)
     @standalone = @_standalone(options.standalone)
     @locale = @_locale(options.locale)
-    @opens = @_opens(options.opens)
+    @orientation = @_orientation(options.orientation)
     @forceUpdate = options.forceUpdate
 
     @minDate = @_minDate(options.minDate)
@@ -97,7 +97,7 @@ class Config
       endLabel: 'End'
     }
 
-  _opens: (val) ->
+  _orientation: (val) ->
     val = 'right' unless val in ['right', 'left']
     ko.observable(val)
 

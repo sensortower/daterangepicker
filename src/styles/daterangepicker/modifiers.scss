@@ -73,7 +73,7 @@
     }
   }
 
-  &.opens-left:not(.single) {
+  &.orientation-left:not(.single) {
     .controls {
       order: 2;
     }

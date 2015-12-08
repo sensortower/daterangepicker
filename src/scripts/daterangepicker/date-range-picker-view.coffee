@@ -64,8 +64,8 @@ class DateRangePickerView
       opened: @opened()
       expanded: @standalone() || @single() || @expanded()
       standalone: @standalone()
-      'opens-left': @opens() == 'left'
-      'opens-right': @opens() == 'right'
+      'orientation-left': @orientation() == 'left'
+      'orientation-right': @orientation() == 'right'
       'hide-periods': @periods().length == 1
     }
     for period in Period.allPeriods
@@ -137,7 +137,7 @@ class DateRangePickerView
       left: 'auto'
       right: 'auto'
 
-    switch @opens()
+    switch @orientation()
       when 'left'
         if @containerElement.offset().left < 0
           style.left = '9px'

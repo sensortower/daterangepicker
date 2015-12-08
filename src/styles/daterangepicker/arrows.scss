@@ -9,18 +9,18 @@
   content: '';
 }
 
-.daterangepicker.opens-right:not(.standalone):before {
+.daterangepicker.orientation-right:not(.standalone):before {
   @include arrow(7px, rgba(0,0,0,0.2), 'left')
 }
 
-.daterangepicker.opens-left:not(.standalone):before {
+.daterangepicker.orientation-left:not(.standalone):before {
   @include arrow(7px, rgba(0,0,0,0.2), 'right')
 }
 
-.daterangepicker.opens-right:not(.standalone):after {
+.daterangepicker.orientation-right:not(.standalone):after {
   @include arrow(6px, #fff, 'left')
 }
 
-.daterangepicker.opens-left:not(.standalone):after {
+.daterangepicker.orientation-left:not(.standalone):after {
   @include arrow(6px, #fff, 'right')
 }
