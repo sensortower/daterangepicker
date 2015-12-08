@@ -337,3 +337,27 @@ parentElement: '.daterangepicker-container'
 parentElement: $('.daterangepicker-container')
 parentElement: document.querySelector('.daterangepicker-container')
 ```
+
+
+## Customization
+
+Source code is available on [GitHub](https://github.com/sensortower/daterangepicker). You can fork it & monkey-patch it. Here are some starting points:
+* [Main view](https://github.com/sensortower/daterangepicker/blob/master/src/scripts/daterangepicker/date-range-picker-view.coffee);
+* [$.fn.daterangepicker implementation](https://github.com/sensortower/daterangepicker/blob/master/src/scripts/daterangepicker/util/jquery.coffee);
+* [Integration with Knockout](https://github.com/sensortower/daterangepicker/blob/master/src/scripts/daterangepicker/util/knockout.coffee);
+* [The template](https://github.com/sensortower/daterangepicker/blob/master/src/templates/daterangepicker.html).
+
+All classes used in daterangepicker are accessable through `$.fn.daterangepicker`:
+
+* `$.fn.daterangepicker.ArrayUtils`
+* `$.fn.daterangepicker.MomentIterator`
+* `$.fn.daterangepicker.MomentUtil`
+* `$.fn.daterangepicker.Period`
+* `$.fn.daterangepicker.Config`
+* `$.fn.daterangepicker.DateRange`
+* `$.fn.daterangepicker.AllTimeDateRange`
+* `$.fn.daterangepicker.CustomDateRange`
+* `$.fn.daterangepicker.DateRangePickerView`
+* `$.fn.daterangepicker.CalendarView`
+* `$.fn.daterangepicker.CalendarHeaderView`
+
