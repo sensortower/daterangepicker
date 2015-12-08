@@ -341,7 +341,7 @@ parentElement: document.querySelector('.daterangepicker-container')
 
 ## Customization
 
-Source code is available on [GitHub](https://github.com/sensortower/daterangepicker). You can fork it & monkey-patch it. Here are some starting points:
+Source code is available on [GitHub](https://github.com/sensortower/daterangepicker) for you to fork or monkey-patch. Here are some starting points:
 * [Main view](https://github.com/sensortower/daterangepicker/blob/master/src/scripts/daterangepicker/date-range-picker-view.coffee);
 * [$.fn.daterangepicker implementation](https://github.com/sensortower/daterangepicker/blob/master/src/scripts/daterangepicker/util/jquery.coffee);
 * [Integration with Knockout](https://github.com/sensortower/daterangepicker/blob/master/src/scripts/daterangepicker/util/knockout.coffee);
