@@ -22,6 +22,7 @@
           <ul>
             <li class="active"><a href="./">Home</a></li>
             <li><a href="./docs">Docs</a></li>
+            <li><a href="./examples">Examples</a></li>
             <li><a href="https://github.com/sensortower/daterangepicker">Fork on Github</a></li>
           </ul>
         </nav>
@@ -32,14 +33,13 @@
 
     <section class="main-section">
       <div class="container">
-        <input type="text" class="main-input" data-bind="daterangepicker: dateRange, daterangepickerOptions: {showPeriods: true, opened: true, expanded: true, parentElement: '.daterangepicker-container', standalone: true}" />
-        <div class="daterangepicker-container"></div>
+        <div class="daterangepicker-container" data-bind="daterangepicker: dateRange, daterangepickerOptions: {standalone: true}"></div>
       </div>
     </section>
 
     <section class="secondary-section">
       <div class="container">
-        <h2 id="notable-features">Notable Features</h2>
+        <h1 id="notable-features">Notable Features</h1>
 <ul>
 <li>Day / Week / Month / Quarter / Year calendar modes</li>
 <li>Single calendar mode</li>

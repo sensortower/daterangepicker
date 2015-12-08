@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <title>daterangepicker Documentation</title>
+
+    <link rel="stylesheet" href="styles/vendor.css">
+
+    <link rel="stylesheet" href="styles/daterangepicker.css">
+
+    <link rel="stylesheet" href="styles/main.css">
+
+  </head>
+  <body class="examples">
+    <header>
+      <div class="container">
+        <div class="logo">
+          daterangepicker
+        </div>
+        <nav>
+          <ul>
+            <li><a href="./">Home</a></li>
+            <li><a href="./docs">Docs</a></li>
+            <li class="active"><a href="./examples">Examples</a></li>
+            <li><a href="https://github.com/sensortower/daterangepicker">Fork on Github</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="top-padding"></div>
+
+    <section class="secondary-section">
+      <div class="container">
+        <h2 id="daterangepicker-attached-to-an-input">daterangepicker attached to an input</h2>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">data-bind</span>=<span class="hljs-string">"daterangepicker: dateRange"</span> /&gt;</span>
+</code></pre>
+<h2 id="daterangepicker-attached-to-a-button">daterangepicker attached to a button</h2>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">data-bind</span>=<span class="hljs-string">"daterangepicker: dateRange2"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+</code></pre>
+<h2 id="single-mode">Single mode</h2>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">data-bind</span>=<span class="hljs-string">"
+  daterangepicker: dateRange3,
+  daterangepickerOptions: {
+    single: true
+  }
+"</span>/&gt;</span>
+</code></pre>
+<h2 id="month-picker">Month picker</h2>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">data-bind</span>=<span class="hljs-string">"
+  daterangepicker: dateRange4,
+  daterangepickerFormat: 'MMMM YYYY',
+  daterangepickerOptions: {
+    single: true,
+    periods: ['month']
+  }
+"</span>/&gt;</span>
+</code></pre>
+<h2 id="standalone-single">Standalone &amp; Single</h2>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">data-bind</span>=<span class="hljs-string">"
+  daterangepicker: dateRange5,
+  daterangepickerFormat: 'MMMM YYYY',
+  daterangepickerOptions: {
+    single: true,
+    standalone: true
+  }
+"</span>/&gt;</span>
+</code></pre>
+<h2 id="jquery-example">jQuery example</h2>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"daterangepicker-field"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input</span>&gt;</span>
+</code></pre>
+<pre><code class="lang-javascript">$(<span class="hljs-string">".daterangepicker-field"</span>).daterangepicker({
+  forceUpdate: <span class="hljs-literal">true</span>,
+  callback: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">startDate, endDate, period</span>)</span>{
+    <span class="hljs-keyword">var</span> title = startDate.format(<span class="hljs-string">'L'</span>) + <span class="hljs-string">' – '</span> + endDate.format(<span class="hljs-string">'L'</span>);
+    $(<span class="hljs-keyword">this</span>).val(title)
+  }
+});
+</code></pre>
+
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p><strong>daterangepicker</strong> is freely distributable under the terms of the MIT license</p>
+        <p>&copy; <a href="https://sensortower.com/">Sensor Tower</a> 2015</p>
+      </div>
+    </footer>
+
+    <script src="scripts/vendor.js"></script>
+
+    <script src="scripts/daterangepicker.js"></script>
+
+    <script src="scripts/main.js"></script>
+
+  </body>
+</html>
