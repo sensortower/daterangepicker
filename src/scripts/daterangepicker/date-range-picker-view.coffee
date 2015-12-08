@@ -61,7 +61,7 @@ class DateRangePickerView
   cssClasses: () ->
     obj = {
       single: @single()
-      opened: @opened()
+      opened: @standalone() || @opened()
       expanded: @standalone() || @single() || @expanded()
       standalone: @standalone()
       'orientation-left': @orientation() == 'left'
@@ -118,7 +118,7 @@ class DateRangePickerView
     @opened(false) unless @standalone()
 
   toggle: () ->
-    if @opened() then @close() else open()
+    if @opened() then @close() else @open()
 
   updatePosition: () ->
     return if @standalone()

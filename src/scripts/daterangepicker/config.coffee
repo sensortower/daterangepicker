@@ -171,7 +171,10 @@ class Config
     $(val)
 
   _parentElement: (val) ->
-    $(val || 'body') if @anchorElement
+    if @standalone()
+      @anchorElement
+    else
+      $(val || 'body')
 
   _callback: (val) ->
     val
