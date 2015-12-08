@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker
- * version: 0.0.3
+ * version: 0.0.4
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -158,7 +158,7 @@
   transform: translate(6px, -3.5px);
 }
 
-.daterangepicker.opens-right:not(.standalone):before {
+.daterangepicker.orientation-right:not(.standalone):before {
   position: absolute;
   top: -7px;
   left: 9px;
@@ -169,7 +169,7 @@
   content: '';
 }
 
-.daterangepicker.opens-left:not(.standalone):before {
+.daterangepicker.orientation-left:not(.standalone):before {
   position: absolute;
   top: -7px;
   right: 9px;
@@ -180,7 +180,7 @@
   content: '';
 }
 
-.daterangepicker.opens-right:not(.standalone):after {
+.daterangepicker.orientation-right:not(.standalone):after {
   position: absolute;
   top: -6px;
   left: 10px;
@@ -191,7 +191,7 @@
   content: '';
 }
 
-.daterangepicker.opens-left:not(.standalone):after {
+.daterangepicker.orientation-left:not(.standalone):after {
   position: absolute;
   top: -6px;
   right: 10px;
@@ -451,6 +451,6 @@
   opacity: 0.75;
 }
 
-.daterangepicker.opens-left:not(.single) .controls {
+.daterangepicker.orientation-left:not(.single) .controls {
   order: 2;
 }

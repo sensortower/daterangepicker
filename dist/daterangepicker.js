@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker
- * version: 0.0.3
+ * version: 0.0.4
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -102,14 +102,18 @@
   })();
 
   $.fn.daterangepicker = function(options, callback) {
+    if (options == null) {
+      options = {};
+    }
     this.each(function() {
       var $element;
       $element = $(this);
       if (!$element.data('daterangepicker')) {
         options.anchorElement = $element;
         if (callback) {
-          options.callback = $.proxy(callback, this);
+          options.callback = callback;
         }
+        options.callback = $.proxy(options.callback, this);
         return $element.data('daterangepicker', new DateRangePickerView(options));
       }
     });
@@ -126,34 +130,37 @@
 
   ko.virtualElements.allowedBindings.stopBinding = true;
 
-  ko.bindingHandlers.daterangepicker = {
-    init: function(element, valueAccessor, allBindings) {
-      var observable, options;
-      observable = valueAccessor();
-      options = allBindings.get('daterangepickerOptions') || {};
-      return $(element).daterangepicker(options, function(startDate, endDate, period) {
-        return observable([startDate, endDate, period]);
-      });
-    },
-    update: function(element, valueAccessor, allBindings) {
-      var $element, dateFormat, endDate, endDateText, period, ref, startDate, startDateText;
-      $element = $(element);
-      ref = valueAccessor()(), startDate = ref[0], endDate = ref[1], period = ref[2];
-      dateFormat = 'MMM D, YYYY';
-      startDateText = moment(startDate).format(dateFormat);
-      endDateText = moment(endDate).format(dateFormat);
-      return ko.ignoreDependencies(function() {
-        if ($element.data('daterangepicker').single()) {
-          $element.val(startDateText);
-        } else {
-          $element.val(startDateText + " – " + endDateText);
-        }
-        $element.data('daterangepicker').period(period);
-        $element.data('daterangepicker').startDate(startDate);
-        return $element.data('daterangepicker').endDate(endDate);
-      });
-    }
-  };
+  ko.bindingHandlers.daterangepicker = (function() {
+    return $.extend(this, {
+      _optionsKey: 'daterangepickerOptions',
+      _formatKey: 'daterangepickerFormat',
+      init: function(element, valueAccessor, allBindings) {
+        var observable, options;
+        observable = valueAccessor();
+        options = ko.unwrap(allBindings.get(this._optionsKey)) || {};
+        return $(element).daterangepicker(options, function(startDate, endDate, period) {
+          return observable([startDate, endDate]);
+        });
+      },
+      update: function(element, valueAccessor, allBindings) {
+        var $element, dateFormat, endDate, endDateText, ref, startDate, startDateText;
+        $element = $(element);
+        ref = valueAccessor()(), startDate = ref[0], endDate = ref[1];
+        dateFormat = ko.unwrap(allBindings.get(this._formatKey)) || 'MMM D, YYYY';
+        startDateText = moment(startDate).format(dateFormat);
+        endDateText = moment(endDate).format(dateFormat);
+        return ko.ignoreDependencies(function() {
+          var text;
+          if (!$element.data('daterangepicker').standalone()) {
+            text = $element.data('daterangepicker').single() ? startDateText : startDateText + " – " + endDateText;
+            $element.val(text).text(text);
+          }
+          $element.data('daterangepicker').startDate(startDate);
+          return $element.data('daterangepicker').endDate(endDate);
+        });
+      }
+    });
+  })();
 
   DateRange = (function() {
     function DateRange(title, startDate, endDate) {
@@ -289,7 +296,7 @@
       this.expanded = this._expanded(options.expanded);
       this.standalone = this._standalone(options.standalone);
       this.locale = this._locale(options.locale);
-      this.opens = this._opens(options.opens);
+      this.orientation = this._orientation(options.orientation);
       this.forceUpdate = options.forceUpdate;
       this.minDate = this._minDate(options.minDate);
       this.maxDate = this._maxDate(options.maxDate);
@@ -414,7 +421,7 @@
       };
     };
 
-    Config.prototype._opens = function(val) {
+    Config.prototype._orientation = function(val) {
       if (val !== 'right' && val !== 'left') {
         val = 'right';
       }
@@ -518,7 +525,9 @@
     };
 
     Config.prototype._parentElement = function(val) {
-      if (this.anchorElement) {
+      if (this.standalone()) {
+        return this.anchorElement;
+      } else {
         return $(val || 'body');
       }
     };
@@ -971,11 +980,11 @@
       var j, len, obj, period, ref;
       obj = {
         single: this.single(),
-        opened: this.opened(),
+        opened: this.standalone() || this.opened(),
         expanded: this.standalone() || this.single() || this.expanded(),
         standalone: this.standalone(),
-        'opens-left': this.opens() === 'left',
-        'opens-right': this.opens() === 'right',
+        'orientation-left': this.orientation() === 'left',
+        'orientation-right': this.orientation() === 'right',
         'hide-periods': this.periods().length === 1
       };
       ref = Period.allPeriods;
@@ -1051,7 +1060,7 @@
       if (this.opened()) {
         return this.close();
       } else {
-        return open();
+        return this.open();
       }
     };
 
@@ -1077,7 +1086,7 @@
         left: 'auto',
         right: 'auto'
       };
-      switch (this.opens()) {
+      switch (this.orientation()) {
         case 'left':
           if (this.containerElement.offset().left < 0) {
             style.left = '9px';
