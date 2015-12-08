@@ -1,5 +1,7 @@
 # daterangepicker
 
+[Demo available here](https://sensortower.github.io/daterangepicker/)
+
 ## Notable Features
 
 * Day / Week / Month / Quarter / Year calendar modes

@@ -28,7 +28,7 @@ marked.setOptions({
 
 function markdownFilter(code) {
   code = code
-    .replace(/#+ daterangepicker\n\n/, '')
+    .replace(/[\s\S]*(?=#+ Notable Features)/m, '')
     .replace(/#+ Copyright[\s\S]*/m, '');
   return marked(code);
 }
@@ -119,7 +119,8 @@ gulp.task('serve', ['html', 'styles', 'scripts'], () => {
       baseDir: ['.tmp', 'website'],
       routes: {
         '/bower_components': 'bower_components',
-        '/docs': '.tmp/docs.html'
+        '/docs': '.tmp/docs.html',
+        '/examples': '.tmp/examples.html'
       }
     }
   });

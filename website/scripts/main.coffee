@@ -1,8 +1,8 @@
 class View
   constructor: ->
-    @dateRange = ko.observable([moment().subtract(29, 'days'), moment(), 'day'])
+    @dateRange = ko.observable([moment().subtract(29, 'days'), moment()])
 
-    if window.docs
+    if $("body").is(".docs")
       parent = []
       @tree = []
       @activeItem = ko.observable()
@@ -25,7 +25,6 @@ class View
           self.tree.push(parent)
         else
           obj.parent = parent[0]
-          console.log(obj)
           parent.push(obj)
 
       @updateActiveItem()

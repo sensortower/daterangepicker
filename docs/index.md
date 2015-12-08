@@ -222,7 +222,7 @@ period: ('day' | 'week' | 'month' | 'quarter' | 'year')
 
 Default:
 ```javascript
-period: 'day'
+period: @periods[0]
 ```
 
 
@@ -294,7 +294,7 @@ expanded: false
 standalone: Boolean
 ```
 
-By default, daterangepicker is attached to an element. You can specify it through this parameter.
+Set `standalone` to true to append daterangepicker to anchorElement.
 
 Default:
 ```javascript
