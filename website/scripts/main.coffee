@@ -1,6 +1,10 @@
 class View
   constructor: ->
     @dateRange = ko.observable([moment().subtract(29, 'days'), moment()])
+    @dateRange2 = ko.observable([moment().subtract(29, 'days'), moment()])
+    @dateRange3 = ko.observable([moment().subtract(29, 'days'), moment()])
+    @dateRange4 = ko.observable([moment().subtract(29, 'days'), moment()])
+    @dateRange5 = ko.observable([moment().subtract(29, 'days'), moment()])
 
     if $("body").is(".docs")
       parent = []
@@ -30,6 +34,19 @@ class View
       @updateActiveItem()
       $(window).scroll =>
         @updateActiveItem()
+
+    if $("body").is(".examples")
+      $("pre").each ->
+        code = $(this).text()
+        nodeType =
+          if $(this).children("code").is(".lang-html")
+            "div"
+          else
+            "script"
+        wrapper = "<div class='example-wrapper'></div>"
+        content = "<div><#{nodeType}>#{code}</#{nodeType}></div>"
+        $(this).wrap(wrapper).parent().prepend(content)
+
 
   updateActiveItem: ->
     lastItem = null

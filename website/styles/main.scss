@@ -256,6 +256,7 @@ footer {
         background: rgba($main-color, 0.1);
         border-left-color: rgba($main-color, 0.2);
       }
+
       &.active {
         background: rgba($main-color, 0.1);
         border-left-color: $main-color;
@@ -277,6 +278,49 @@ footer {
           border-left-color: $main-color !important;
         }
       }
+    }
+  }
+}
+
+.examples {
+  pre {
+    visibility: hidden;
+  }
+
+  button {
+    background: $main-color;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    padding: 8px 12px;
+    outline: none;
+
+    &:hover,
+    &:active {
+      background: darken($main-color, 10%);
+    }
+  }
+
+  $m: 30px;
+  $m: 0;
+
+  h1, h2, h3 {
+    margin-left: $m;
+    margin-right: $m;
+  }
+
+  .example-wrapper {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 1em;
+    > div {
+      flex: 2;
+      margin: 0 $m 50px;
+    }
+    > pre {
+      visibility: visible;
+      flex: 3;
+      margin: 0 $m;
     }
   }
 }

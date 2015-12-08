@@ -18,7 +18,7 @@
     <!-- endbuild -->
 
   </head>
-  <body class="docs">
+  <body class="examples">
     <header>
       <div class="container">
         <div class="logo">
@@ -27,8 +27,8 @@
         <nav>
           <ul>
             <li><a href="./">Home</a></li>
-            <li class="active"><a href="./docs">Docs</a></li>
-            <li><a href="./examples">Examples</a></li>
+            <li><a href="./docs">Docs</a></li>
+            <li class="active"><a href="./examples">Examples</a></li>
             <li><a href="https://github.com/sensortower/daterangepicker">Fork on Github</a></li>
           </ul>
         </nav>
@@ -39,23 +39,7 @@
 
     <section class="secondary-section">
       <div class="container">
-        <div class="content">
-          @@include(markdown('../docs/index.md'))
-        </div>
-        <aside>
-          <!-- ko foreach: tree -->
-            <!-- ko with: $data[0] -->
-              <h3 data-bind="css: { active: $data == $root.activeItem(), highlighted: $data == $root.activeItem().parent }">
-                <a href="#" data-bind="attr: {href: $data.id}, text: $data.name"></a>
-              </h3>
-            <!-- /ko -->
-            <ul data-bind="foreach: $data.slice(1)">
-              <li data-bind="css: { active: $data == $root.activeItem() }">
-                <a href="#" data-bind="attr: {href: $data.id}, text: $data.name"></a>
-              </li>
-            </ul>
-          <!-- /ko -->
-        </aside>
+        @@include(markdown('../docs/examples.md'))
       </div>
     </section>
 
