@@ -22,29 +22,34 @@
 [Latest Release](https://github.com/sensortower/daterangepicker/releases)
 
 ## Install
+
 ```bash
 bower install knockout-daterangepicker --save
 ```
+
 ## Usage
+
 ### With jQuery
 ```javascript
 $("input").daterangepicker({
   minDate: moment().subtract(2, 'years'),
   callback: function (startDate, endDate, period) {
-    console.log(startDate.format('L'), endDate.format('L'), period);
+    $(this).val(startDate.format('L') + ' – ' + endDate.format('L'));
   }
 });
 ```
+
 ### With Knockout.js
 ```html
-<input type="text" data-bind="daterangepicker: dateRange, daterangepickerOptions: { maxDate: moment() }"/>
+<input type="text" data-bind="daterangepicker: dateRange"/>
 ```
 
 ```javascript
 ko.applyBindings({
-  dateRange: ko.observable([moment().subtract(1, 'month'), moment(), 'day'])
+  dateRange: ko.observable([moment().subtract(1, 'month'), moment()])
 });
 ```
+
 
 ## Development
 
