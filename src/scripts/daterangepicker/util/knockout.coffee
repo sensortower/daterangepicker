@@ -13,21 +13,23 @@ ko.bindingHandlers.daterangepicker = do ->
       observable = valueAccessor()
       options = ko.unwrap(allBindings.get(@_optionsKey)) || {}
       $(element).daterangepicker(options, (startDate, endDate, period) ->
-        observable([startDate, endDate, period])
+        observable([startDate, endDate])
       )
 
     update: (element, valueAccessor, allBindings) ->
       $element = $(element)
-      [startDate, endDate, period] = valueAccessor()()
+      [startDate, endDate] = valueAccessor()()
       dateFormat = ko.unwrap(allBindings.get(@_formatKey)) || 'MMM D, YYYY'
       startDateText = moment(startDate).format(dateFormat)
       endDateText = moment(endDate).format(dateFormat)
       ko.ignoreDependencies ->
-        if $element.data('daterangepicker').single()
-          $element.val(startDateText)
-        else
-          $element.val("#{startDateText} – #{endDateText}")
+        unless $element.data('daterangepicker').standalone()
+          text =
+            if $element.data('daterangepicker').single()
+              startDateText
+            else
+              "#{startDateText} – #{endDateText}"
+          $element.val(text).text(text)
 
-        $element.data('daterangepicker').period(period)
         $element.data('daterangepicker').startDate(startDate)
         $element.data('daterangepicker').endDate(endDate)
