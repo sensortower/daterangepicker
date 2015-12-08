@@ -23,7 +23,7 @@
 
 ## Install
 ```bash
-bower install daterangepicker --save
+bower install knockout-daterangepicker --save
 ```
 ## Usage
 ### With jQuery
