@@ -232,6 +232,28 @@ anchorElement: <span class="hljs-built_in">document</span>.querySelector(<span c
 parentElement: $(<span class="hljs-string">'.daterangepicker-container'</span>)
 parentElement: <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.daterangepicker-container'</span>)
 </code></pre>
+<h2 id="customization">Customization</h2>
+<p>Source code is available on <a href="https://github.com/sensortower/daterangepicker">GitHub</a> for you to fork or monkey-patch. Here are some starting points:</p>
+<ul>
+<li><a href="https://github.com/sensortower/daterangepicker/blob/master/src/scripts/daterangepicker/date-range-picker-view.coffee">Main view</a>;</li>
+<li><a href="https://github.com/sensortower/daterangepicker/blob/master/src/scripts/daterangepicker/util/jquery.coffee">$.fn.daterangepicker implementation</a>;</li>
+<li><a href="https://github.com/sensortower/daterangepicker/blob/master/src/scripts/daterangepicker/util/knockout.coffee">Integration with Knockout</a>;</li>
+<li><a href="https://github.com/sensortower/daterangepicker/blob/master/src/templates/daterangepicker.html">The template</a>.</li>
+</ul>
+<p>All classes used in daterangepicker are accessable through <code>$.fn.daterangepicker</code>:</p>
+<ul>
+<li><code>$.fn.daterangepicker.ArrayUtils</code></li>
+<li><code>$.fn.daterangepicker.MomentIterator</code></li>
+<li><code>$.fn.daterangepicker.MomentUtil</code></li>
+<li><code>$.fn.daterangepicker.Period</code></li>
+<li><code>$.fn.daterangepicker.Config</code></li>
+<li><code>$.fn.daterangepicker.DateRange</code></li>
+<li><code>$.fn.daterangepicker.AllTimeDateRange</code></li>
+<li><code>$.fn.daterangepicker.CustomDateRange</code></li>
+<li><code>$.fn.daterangepicker.DateRangePickerView</code></li>
+<li><code>$.fn.daterangepicker.CalendarView</code></li>
+<li><code>$.fn.daterangepicker.CalendarHeaderView</code></li>
+</ul>
 
         </div>
         <aside>
