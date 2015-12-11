@@ -17,6 +17,10 @@
 * moment
 * knockout
 
+## Documentation
+
+[Documentation](https://sensortower.github.io/daterangepicker/docs) & [Examples](https://sensortower.github.io/daterangepicker/examples) are available on our website.
+
 ## Download
 
 [Latest Release](https://github.com/sensortower/daterangepicker/releases)
