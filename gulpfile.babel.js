@@ -126,7 +126,7 @@ gulp.task('serve', ['html', 'styles', 'scripts'], () => {
   });
 
   gulp.watch([
-    'website/*.html',
+    'website/**/*.html',
     '**/*.md',
     'src/scripts/**/*.coffee',
     'src/templates/**/*.html',
@@ -138,7 +138,7 @@ gulp.task('serve', ['html', 'styles', 'scripts'], () => {
   gulp.watch('src/scripts/**/*.coffee', ['scripts']);
   gulp.watch('src/templates/**/*.html', ['scripts']);
   gulp.watch('website/scripts/**/*.coffee', ['scripts']);
-  gulp.watch('website/*.html', ['html']);
+  gulp.watch('website/**/*.html', ['html']);
   gulp.watch('**/*.md', ['html']);
 });
 
