@@ -36,6 +36,7 @@
     "highlight.js": "^9.0.0",
     "main-bower-files": "^2.5.0",
     "marked": "^0.3.5",
+    "mocha": "^2.3.4",
     "opn": "^1.0.1",
     "wiredep": "^2.2.2"
   },
@@ -54,5 +55,8 @@
         "single"
       ]
     }
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
   }
 }
