@@ -67,3 +67,5 @@ gulp serve
 ## Copyright
 
 Copyright © 2015 SensorTower Inc. See LICENSE for further details.
+
+[![Analytics](https://ga-beacon.appspot.com/UA-71619034-2/daterangepicker/README)](https://github.com/igrigorik/ga-beacon)
