@@ -10,10 +10,19 @@
   "ignore": [
     "**/.*",
     "/website",
+    "/test",
     "/gulpfile.babel.js",
     "/package.json"
   ],
-  "keywords": ["daterangepicker", "date", "range", "picker", "sensortower", "sensor", "tower"],
+  "keywords": [
+    "daterangepicker",
+    "date",
+    "range",
+    "picker",
+    "sensortower",
+    "sensor",
+    "tower"
+  ],
   "authors": "Sensor Tower team",
   "homepage": "https://sensortower.github.io/daterangepicker",
   "repository": {

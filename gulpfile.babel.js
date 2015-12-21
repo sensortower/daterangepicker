@@ -52,7 +52,7 @@ function banner() {
 }
 
 function bump(type) {
-  gulp.src('./package.json')
+  return gulp.src('./package.json')
     .pipe($.bump({type: type}))
     .pipe(gulp.dest('./'))
     .pipe($.callback(() => { gulp.start('build:min'); }));
@@ -104,7 +104,7 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe(reload({stream: true}));
 });
 
-gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
+gulp.task('clean', del.bind(null, ['.tmp', '.publish', 'dist']));
 
 gulp.task('serve', ['html', 'styles', 'scripts'], () => {
   browserSync({
@@ -120,24 +120,22 @@ gulp.task('serve', ['html', 'styles', 'scripts'], () => {
       routes: {
         '/bower_components': 'bower_components',
         '/docs': '.tmp/docs.html',
+        '/tests': '.tmp/tests.html',
         '/examples': '.tmp/examples.html'
       }
     }
   });
 
   gulp.watch([
-    'website/**/*.html',
-    '**/*.md',
-    'src/scripts/**/*.coffee',
+    '{src,website}/scripts/**/*.coffee',
     'src/templates/**/*.html',
-    'website/scripts/**/*.coffee'
+    'website/**/*.html',
+    '**/*.md'
   ]).on('change', reload);
 
-  gulp.watch('src/styles/**/*.scss', ['styles']);
-  gulp.watch('website/styles/**/*.scss', ['styles']);
-  gulp.watch('src/scripts/**/*.coffee', ['scripts']);
+  gulp.watch('{src,website}/styles/**/*.scss', ['styles']);
+  gulp.watch('{src,website}/scripts/**/*.coffee', ['scripts']);
   gulp.watch('src/templates/**/*.html', ['scripts']);
-  gulp.watch('website/scripts/**/*.coffee', ['scripts']);
   gulp.watch('website/**/*.html', ['html']);
   gulp.watch('**/*.md', ['html']);
 });
@@ -220,15 +218,21 @@ gulp.task('github:release', ['consistency-check'], () => {
 });
 
 gulp.task('bump:major', () => {
-  bump('major');
+  return bump('major');
 });
 
 gulp.task('bump:minor', () => {
-  bump('minor');
+  return bump('minor');
 });
 
 gulp.task('bump:patch', () => {
-  bump('patch');
+  return bump('patch');
+});
+
+gulp.task('test', ['build:website'], () => {
+  return gulp
+    .src('dist/website/tests.html')
+    .pipe($.mochaPhantomjs());
 });
 
 gulp.task('default', ['clean'], () => {

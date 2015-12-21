@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <title>daterangepicker Tests</title>
+    @@include('partials/_styles.html')
+
+    <!-- build:css styles/tests.css -->
+    <link rel="stylesheet" href="/bower_components/mocha/mocha.css">
+    <link rel="stylesheet" href="styles/tests.css">
+    <!-- endbuild -->
+
+  </head>
+  <body>
+    @@include('partials/_header.html', {"name": "tests"})
+
+    <div class="top-padding"></div>
+
+    <section class="secondary-section">
+      <div class="container">
+        <div id="mocha"></div>
+      </div>
+    </section>
+
+    @@include('partials/_footer.html')
+    @@include('partials/_scripts.html')
+    @@include('partials/_ga.html')
+
+    <!-- build:js scripts/tests.js -->
+    <script src="/bower_components/chai/chai.js"></script>
+    <script src="/bower_components/mocha/mocha.js"></script>
+    <script src="scripts/tests.js"></script>
+    <!-- endbuild -->
+
+  </body>
+</html>

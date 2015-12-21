@@ -26,6 +26,7 @@
     "gulp-load-plugins": "^0.10.0",
     "gulp-minify-css": "^1.1.1",
     "gulp-minify-html": "^1.0.0",
+    "gulp-mocha-phantomjs": "^0.10.1",
     "gulp-plumber": "^1.0.1",
     "gulp-sass": "^2.0.0",
     "gulp-size": "^1.2.1",
@@ -55,8 +56,5 @@
         "single"
       ]
     }
-  },
-  "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
   }
 }
