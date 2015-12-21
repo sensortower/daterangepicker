@@ -1,8 +1,15 @@
 import gulp from 'gulp';
+import fs from 'fs';
 import gulpLoadPlugins from 'gulp-load-plugins';
+import childProcess from 'child_process';
 
 const $ = gulpLoadPlugins();
+const exec = childProcess.exec;
 
+
+function readJson(path) {
+  return JSON.parse(fs.readFileSync(path, 'utf8'));
+}
 
 gulp.task('github:pages', ['build:website'], () => {
   return gulp.src('./dist/website/**/*')
