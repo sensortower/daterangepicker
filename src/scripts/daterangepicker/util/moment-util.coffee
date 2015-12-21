@@ -3,6 +3,7 @@ class MomentUtil
     moment.locale(moment.locale(), obj)
 
   @setFirstDayOfTheWeek: (dow) ->
+    dow = (dow % 7 + 7) % 7
     if moment.localeData().firstDayOfWeek() != dow
       offset = dow - moment.localeData().firstDayOfWeek()
       @patchCurrentLocale({
