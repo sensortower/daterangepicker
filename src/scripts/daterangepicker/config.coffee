@@ -113,16 +113,18 @@ class Config
 
     computed.mode = mode || 'inclusive'
 
-    computed.fit = (val) =>
-      val = MomentUtil.tz(val, @timeZone())
+    fitMin = (val) =>
       if minBoundary
         min = minBoundary()
         switch minBoundary.mode
           when 'extended'
             min = min.clone().startOf(@period())
           when 'exclusive'
-            min = min.clone().endOf(@period()).subtract(1, 'millisecond')
+            min = min.clone().endOf(@period()).add(1, 'millisecond')
         val = moment.max(min, val)
+      val
+
+    fitMax = (val) =>
       if maxBoundary
         max = maxBoundary()
         switch maxBoundary.mode
@@ -132,6 +134,10 @@ class Config
             max = max.clone().startOf(@period()).subtract(1, 'millisecond')
         val = moment.min(max, val)
       val
+
+    computed.fit = (val) =>
+      val = MomentUtil.tz(val, @timeZone())
+      fitMax(fitMin(val))
 
     computed(val)
 
