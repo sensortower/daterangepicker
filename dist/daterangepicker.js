@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker
- * version: 0.0.4
+ * version: 0.0.5
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -20,6 +20,7 @@
 
     MomentUtil.setFirstDayOfTheWeek = function(dow) {
       var offset;
+      dow = (dow % 7 + 7) % 7;
       if (moment.localeData().firstDayOfWeek() !== dow) {
         offset = dow - moment.localeData().firstDayOfWeek();
         return this.patchCurrentLocale({
@@ -429,7 +430,7 @@
     };
 
     Config.prototype._dateObservable = function(val, mode, minBoundary, maxBoundary) {
-      var computed, observable;
+      var computed, fitMax, fitMin, observable;
       observable = ko.observable();
       computed = ko.computed({
         read: function() {
@@ -447,10 +448,9 @@
         })(this)
       });
       computed.mode = mode || 'inclusive';
-      computed.fit = (function(_this) {
+      fitMin = (function(_this) {
         return function(val) {
-          var max, min;
-          val = MomentUtil.tz(val, _this.timeZone());
+          var min;
           if (minBoundary) {
             min = minBoundary();
             switch (minBoundary.mode) {
@@ -458,10 +458,16 @@
                 min = min.clone().startOf(_this.period());
                 break;
               case 'exclusive':
-                min = min.clone().endOf(_this.period()).subtract(1, 'millisecond');
+                min = min.clone().endOf(_this.period()).add(1, 'millisecond');
             }
             val = moment.max(min, val);
           }
+          return val;
+        };
+      })(this);
+      fitMax = (function(_this) {
+        return function(val) {
+          var max;
           if (maxBoundary) {
             max = maxBoundary();
             switch (maxBoundary.mode) {
@@ -474,6 +480,12 @@
             val = moment.min(max, val);
           }
           return val;
+        };
+      })(this);
+      computed.fit = (function(_this) {
+        return function(val) {
+          val = MomentUtil.tz(val, _this.timeZone());
+          return fitMax(fitMin(val));
         };
       })(this);
       computed(val);
@@ -525,11 +537,7 @@
     };
 
     Config.prototype._parentElement = function(val) {
-      if (this.standalone()) {
-        return this.anchorElement;
-      } else {
-        return $(val || 'body');
-      }
+      return $(val || (this.standalone() ? this.anchorElement : 'body'));
     };
 
     Config.prototype._callback = function(val) {
