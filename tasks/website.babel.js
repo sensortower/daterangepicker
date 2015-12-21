@@ -69,12 +69,14 @@ gulp.task('serve', ['html', 'styles', 'scripts'], () => {
 
   gulp.watch([
     '{src,website}/scripts/**/*.coffee',
+    'test/**/*.coffee',
     'src/templates/**/*.html',
     'website/**/*.html',
     '**/*.md'
   ]).on('change', reload);
 
   gulp.watch('{src,website}/styles/**/*.scss', ['styles']);
+  gulp.watch('test/**/*.coffee', ['scripts']);
   gulp.watch('{src,website}/scripts/**/*.coffee', ['scripts']);
   gulp.watch('src/templates/**/*.html', ['scripts']);
   gulp.watch('website/**/*.html', ['html']);
