@@ -3,37 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="description" content="">
-    <title>daterangepicker Documentation</title>
-
-    <!-- build:css styles/vendor.css -->
-    <link rel="stylesheet" href="/bower_components/highlightjs/styles/github.css">
-    <!-- endbuild -->
-
-    <!-- build:css styles/daterangepicker.css -->
-    <link rel="stylesheet" href="styles/daterangepicker.css">
-    <!-- endbuild -->
-
-    <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- endbuild -->
+    <title>daterangepicker Examples</title>
+    @@include('partials/_styles.html')
 
   </head>
   <body class="examples">
-    <header>
-      <div class="container">
-        <div class="logo">
-          daterangepicker
-        </div>
-        <nav>
-          <ul>
-            <li><a href="./">Home</a></li>
-            <li><a href="./docs">Docs</a></li>
-            <li class="active"><a href="./examples">Examples</a></li>
-            <li><a href="https://github.com/sensortower/daterangepicker">Fork on Github</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    @@include('partials/_header.html', {"name": "examples"}))
 
     <div class="top-padding"></div>
 
@@ -43,27 +18,8 @@
       </div>
     </section>
 
-    <footer>
-      <div class="container">
-        <p><strong>daterangepicker</strong> is freely distributable under the terms of the MIT license</p>
-        <p>&copy; <a href="https://sensortower.com/">Sensor Tower</a> 2015</p>
-      </div>
-    </footer>
-
-    <!-- build:js scripts/vendor.js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/moment/moment.js"></script>
-    <script src="/bower_components/knockout/dist/knockout.debug.js"></script>
-    <!-- endbuild -->
-
-    <!-- build:js scripts/daterangepicker.js -->
-    <script src="scripts/daterangepicker.js"></script>
-    <!-- endbuild -->
-
-    <!-- build:js scripts/main.js -->
-    <script src="scripts/main.js"></script>
-    <!-- endbuild -->
-
+    @@include('partials/_footer.html')
+    @@include('partials/_scripts.html')
     @@include('partials/_ga.html')
   </body>
 </html>
