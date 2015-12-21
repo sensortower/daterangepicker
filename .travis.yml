@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "node"
-before_run:
+before_script:
   - npm install -g bower gulp
   - bower install
   - gulp clean
