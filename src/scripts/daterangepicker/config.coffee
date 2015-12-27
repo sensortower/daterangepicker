@@ -93,13 +93,13 @@ class Config
           new DateRange(title, from, to)
 
   _locale: (val) ->
-    val || {
+    $.extend({
       applyButtonTitle: 'Apply'
       cancelButtonTitle: 'Cancel'
       inputFormat: 'L'
       startLabel: 'Start'
       endLabel: 'End'
-    }
+    }, val || {})
 
   _orientation: (val) ->
     val = 'right' unless val in ['right', 'left']
