@@ -149,6 +149,7 @@ class Config
       @_dateObservable(observable(), computed.mode, minBoundary, maxBoundary)
 
     computed.isWithinBoundaries = (date) =>
+      date = MomentUtil.tz(date, @timeZone())
       min = minBoundary()
       max = maxBoundary()
       between = date.isBetween(min, max, @period())
