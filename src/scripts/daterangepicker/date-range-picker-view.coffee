@@ -64,9 +64,10 @@ class DateRangePickerView
       opened: @standalone() || @opened()
       expanded: @standalone() || @single() || @expanded()
       standalone: @standalone()
+      'hide-weekdays': @hideWeekdays()
+      'hide-periods': @periods().length == 1
       'orientation-left': @orientation() == 'left'
       'orientation-right': @orientation() == 'right'
-      'hide-periods': @periods().length == 1
     }
     for period in Period.allPeriods
       obj["#{period}-period"] = period == @period()

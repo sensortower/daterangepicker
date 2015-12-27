@@ -25,6 +25,12 @@
     }
   }
 
+  &.hide-weekdays {
+    .weekdays {
+      display: none;
+    }
+  }
+
   &.single {
     flex-direction: column;
 

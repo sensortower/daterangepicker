@@ -302,6 +302,20 @@ standalone: false
 ```
 
 
+### hideWeekdays
+
+```javascript
+hideWeekdays: Boolean
+```
+
+Set `hideWeekdays` to true to hide week days in day & week modes.
+
+Default:
+```javascript
+hideWeekdays: false
+```
+
+
 ### anchorElement
 
 ```javascript

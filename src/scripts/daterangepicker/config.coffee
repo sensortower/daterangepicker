@@ -8,6 +8,7 @@ class Config
     @opened = @_opened(options.opened)
     @expanded = @_expanded(options.expanded)
     @standalone = @_standalone(options.standalone)
+    @hideWeekdays = @_hideWeekdays(options.hideWeekdays)
     @locale = @_locale(options.locale)
     @orientation = @_orientation(options.orientation)
     @forceUpdate = options.forceUpdate
@@ -54,6 +55,9 @@ class Config
     ko.observable(val || false)
 
   _standalone: (val) ->
+    ko.observable(val || false)
+
+  _hideWeekdays: (val) ->
     ko.observable(val || false)
 
   _minDate: (val) ->
