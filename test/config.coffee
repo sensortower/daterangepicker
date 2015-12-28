@@ -1,6 +1,59 @@
 describe 'Config', ->
   Config = $.fn.daterangepicker.Config
   fmt = 'YYYY-MM-DD'
+
+  describe 'ranges', ->
+    it 'works with a valid object', () ->
+      new Config({
+        ranges: {
+          "Test Range": ['2015-05-14', moment()]
+        }
+      })
+
+    it 'fails with a parameter that is not an object', () ->
+      assert.throw( ->
+        new Config({
+          ranges: "invalid parameter"
+        })
+      , /Invalid ranges/)
+
+    it 'fails with a "complex" object', () ->
+      TestClass = ->
+        this["Test Range"] = ['2015-05-14', moment()]
+
+      assert.throw( ->
+        new Config({
+          ranges: new TestClass()
+        })
+      , /Invalid ranges/)
+
+    it 'fails with a object value that is not an array', () ->
+      assert.throw( ->
+        new Config({
+          ranges: {
+            'Test Range': '2015-05-14' # potential typo
+          }
+        })
+      , /Value should be an array/)
+
+    it 'fails with a missing start date', () ->
+      assert.throw( ->
+        new Config({
+          ranges: {
+            'Test Range': [undefined, '2015-05-14']
+          }
+        })
+      , /Missing start date/)
+
+    it 'fails with a missing end date', () ->
+      assert.throw( ->
+        new Config({
+          ranges: {
+            'Test Range': ['2015-05-14']
+          }
+        })
+      , /Missing end date/)
+
   describe 'dateObservable', ->
     describe '#fit()', ->
       describe 'minDate', ->

@@ -80,6 +80,7 @@ class Config
 
   _ranges: (obj) ->
     obj ||= @_defaultRanges()
+    throw new Error('Invalid ranges parameter (should be a plain object)') unless $.isPlainObject(obj)
     for title, value of obj
       switch value
         when 'all-time'
@@ -87,9 +88,14 @@ class Config
         when 'custom'
           new CustomDateRange(title)
         else
+          throw new Error('Value should be an array') unless $.isArray(value)
           [startDate, endDate] = value
+          throw new Error('Missing start date') unless startDate
+          throw new Error('Missing end date') unless endDate
           from = MomentUtil.tz(startDate, @timeZone())
           to = MomentUtil.tz(endDate, @timeZone())
+          throw new Error('Invalid start date') unless from.isValid()
+          throw new Error('Invalid end date') unless to.isValid()
           new DateRange(title, from, to)
 
   _locale: (val) ->
