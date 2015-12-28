@@ -56,163 +56,271 @@ describe 'Config', ->
 
   describe 'dateObservable', ->
     describe '#fit()', ->
-      describe 'minDate', ->
+      describe 'minDate = 2015-05-14, period = month', ->
         describe 'inclusive mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2015-05-14'), 'inclusive']
-              maxDate: [moment.utc('2016-01-01'), 'inclusive']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2015-05-14'), 'inclusive']
+            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+          })
+
+          it 'converts 2015-04-15 into 2015-05-14', () ->
             assert.equal(c.startDate.fit('2015-04-15').format(fmt), '2015-05-14')
+
+          it 'converts 2015-05-05 into 2015-05-14', () ->
             assert.equal(c.startDate.fit('2015-05-05').format(fmt), '2015-05-14')
+
+          it 'converts 2015-05-14 into 2015-05-14', () ->
             assert.equal(c.startDate.fit('2015-05-14').format(fmt), '2015-05-14')
+
+          it 'converts 2015-05-25 into 2015-05-25', () ->
             assert.equal(c.startDate.fit('2015-05-25').format(fmt), '2015-05-25')
+
+          it 'converts 2015-06-15 into 2015-06-15', () ->
             assert.equal(c.startDate.fit('2015-06-15').format(fmt), '2015-06-15')
 
         describe 'exclusive mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2015-05-14'), 'exclusive']
-              maxDate: [moment.utc('2016-01-01'), 'inclusive']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2015-05-14'), 'exclusive']
+            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+          })
+
+          it 'converts 2015-04-15 into 2015-06-01', () ->
             assert.equal(c.startDate.fit('2015-04-15').format(fmt), '2015-06-01')
+
+          it 'converts 2015-05-05 into 2015-06-01', () ->
             assert.equal(c.startDate.fit('2015-05-05').format(fmt), '2015-06-01')
+
+          it 'converts 2015-05-14 into 2015-06-01', () ->
             assert.equal(c.startDate.fit('2015-05-14').format(fmt), '2015-06-01')
+
+          it 'converts 2015-05-25 into 2015-06-01', () ->
             assert.equal(c.startDate.fit('2015-05-25').format(fmt), '2015-06-01')
+
+          it 'converts 2015-06-15 into 2015-06-15', () ->
             assert.equal(c.startDate.fit('2015-06-15').format(fmt), '2015-06-15')
 
         describe 'extended mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2015-05-14'), 'extended']
-              maxDate: [moment.utc('2016-01-01'), 'inclusive']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2015-05-14'), 'extended']
+            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+          })
+
+          it 'converts 2015-04-15 into 2015-05-01', () ->
             assert.equal(c.startDate.fit('2015-04-15').format(fmt), '2015-05-01')
+
+          it 'converts 2015-05-05 into 2015-05-05', () ->
             assert.equal(c.startDate.fit('2015-05-05').format(fmt), '2015-05-05')
+
+          it 'converts 2015-05-14 into 2015-05-14', () ->
             assert.equal(c.startDate.fit('2015-05-14').format(fmt), '2015-05-14')
+
+          it 'converts 2015-05-25 into 2015-05-25', () ->
             assert.equal(c.startDate.fit('2015-05-25').format(fmt), '2015-05-25')
+
+          it 'converts 2015-06-15 into 2015-06-15', () ->
             assert.equal(c.startDate.fit('2015-06-15').format(fmt), '2015-06-15')
 
-      describe 'maxDate', ->
+      describe 'maxDate = 2015-05-14, period = month', ->
         describe 'inclusive mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2014-01-01'), 'inclusive']
-              maxDate: [moment.utc('2015-05-14'), 'inclusive']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2014-01-01'), 'inclusive']
+            maxDate: [moment.utc('2015-05-14'), 'inclusive']
+          })
+
+          it 'converts 2015-04-15 into 2015-04-15', () ->
             assert.equal(c.startDate.fit('2015-04-15').format(fmt), '2015-04-15')
+
+          it 'converts 2015-05-05 into 2015-05-05', () ->
             assert.equal(c.startDate.fit('2015-05-05').format(fmt), '2015-05-05')
+
+          it 'converts 2015-05-14 into 2015-05-14', () ->
             assert.equal(c.startDate.fit('2015-05-14').format(fmt), '2015-05-14')
+
+          it 'converts 2015-05-25 into 2015-05-14', () ->
             assert.equal(c.startDate.fit('2015-05-25').format(fmt), '2015-05-14')
+
+          it 'converts 2015-06-15 into 2015-05-14', () ->
             assert.equal(c.startDate.fit('2015-06-15').format(fmt), '2015-05-14')
 
         describe 'exclusive mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2014-01-01'), 'inclusive']
-              maxDate: [moment.utc('2015-05-14'), 'exclusive']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2014-01-01'), 'inclusive']
+            maxDate: [moment.utc('2015-05-14'), 'exclusive']
+          })
+
+          it 'converts 2015-04-15 into 2015-04-15', () ->
             assert.equal(c.startDate.fit('2015-04-15').format(fmt), '2015-04-15')
+
+          it 'converts 2015-05-05 into 2015-04-30', () ->
             assert.equal(c.startDate.fit('2015-05-05').format(fmt), '2015-04-30')
+
+          it 'converts 2015-05-14 into 2015-04-30', () ->
             assert.equal(c.startDate.fit('2015-05-14').format(fmt), '2015-04-30')
+
+          it 'converts 2015-05-25 into 2015-04-30', () ->
             assert.equal(c.startDate.fit('2015-05-25').format(fmt), '2015-04-30')
+
+          it 'converts 2015-06-15 into 2015-04-30', () ->
             assert.equal(c.startDate.fit('2015-06-15').format(fmt), '2015-04-30')
 
         describe 'extended mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2014-01-01'), 'inclusive']
-              maxDate: [moment.utc('2015-05-14'), 'extended']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2014-01-01'), 'inclusive']
+            maxDate: [moment.utc('2015-05-14'), 'extended']
+          })
+
+          it 'converts 2015-04-15 into 2015-04-15', () ->
             assert.equal(c.startDate.fit('2015-04-15').format(fmt), '2015-04-15')
+
+          it 'converts 2015-05-05 into 2015-05-05', () ->
             assert.equal(c.startDate.fit('2015-05-05').format(fmt), '2015-05-05')
+
+          it 'converts 2015-05-14 into 2015-05-14', () ->
             assert.equal(c.startDate.fit('2015-05-14').format(fmt), '2015-05-14')
+
+          it 'converts 2015-05-25 into 2015-05-25', () ->
             assert.equal(c.startDate.fit('2015-05-25').format(fmt), '2015-05-25')
+
+          it 'converts 2015-06-15 into 2015-05-31', () ->
             assert.equal(c.startDate.fit('2015-06-15').format(fmt), '2015-05-31')
 
     describe '#isWithinBoundaries()', ->
-      describe 'minDate', ->
+      describe 'minDate = 2015-05-14, period = month', ->
         describe 'inclusive mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2015-05-14'), 'inclusive']
-              maxDate: [moment.utc('2016-01-01'), 'inclusive']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2015-05-14'), 'inclusive']
+            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+          })
+
+          it 'returns false for 2015-04-15', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-04-15'), '2015-04-15')
+
+          it 'returns true for 2015-05-05', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-05'), '2015-05-05') # tricky one
+
+          it 'returns true for 2015-05-14', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-14'), '2015-05-14')
+
+          it 'returns true for 2015-05-25', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-25'), '2015-05-25')
+
+          it 'returns true for 2015-06-15', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-06-15'), '2015-06-15')
 
         describe 'exclusive mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2015-05-14'), 'exclusive']
-              maxDate: [moment.utc('2016-01-01'), 'inclusive']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2015-05-14'), 'exclusive']
+            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+          })
+
+          it 'returns false for 2015-04-15', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-04-15'), '2015-04-15')
+
+          it 'returns false for 2015-05-05', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-05-05'), '2015-05-05')
+
+          it 'returns false for 2015-05-14', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-05-14'), '2015-05-14')
+
+          it 'returns false for 2015-05-25', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-05-25'), '2015-05-25')
+
+          it 'returns true for 2015-06-15', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-06-15'), '2015-06-15')
 
         describe 'extended mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2015-05-14'), 'extended']
-              maxDate: [moment.utc('2016-01-01'), 'inclusive']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2015-05-14'), 'extended']
+            maxDate: [moment.utc('2016-01-01'), 'inclusive']
+          })
+
+          it 'returns false for 2015-04-15', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-04-15'), '2015-04-15')
+
+          it 'returns true for 2015-05-05', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-05'), '2015-05-05')
+
+          it 'returns true for 2015-05-14', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-14'), '2015-05-14')
+
+          it 'returns true for 2015-05-25', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-25'), '2015-05-25')
+
+          it 'returns true for 2015-06-15', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-06-15'), '2015-06-15')
 
-      describe 'maxDate', ->
+      describe 'maxDate = 2015-05-14, period = month', ->
         describe 'inclusive mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2014-01-01'), 'inclusive']
-              maxDate: [moment.utc('2015-05-14'), 'inclusive']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2014-01-01'), 'inclusive']
+            maxDate: [moment.utc('2015-05-14'), 'inclusive']
+          })
+
+          it 'returns true for 2015-04-15', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-04-15'), '2015-04-15')
+
+          it 'returns true for 2015-05-05', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-05'), '2015-05-05')
+
+          it 'returns true for 2015-05-14', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-14'), '2015-05-14')
+
+          it 'returns true for 2015-05-25', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-25'), '2015-05-25') # tricky one
+
+          it 'returns false for 2015-06-15', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-06-15'), '2015-06-15')
 
         describe 'exclusive mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2014-01-01'), 'inclusive']
-              maxDate: [moment.utc('2015-05-14'), 'exclusive']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2014-01-01'), 'inclusive']
+            maxDate: [moment.utc('2015-05-14'), 'exclusive']
+          })
+
+          it 'returns true for 2015-04-15', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-04-15'), '2015-04-15')
+
+          it 'returns false for 2015-05-05', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-05-05'), '2015-05-05')
+
+          it 'returns false for 2015-05-14', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-05-14'), '2015-05-14')
+
+          it 'returns false for 2015-05-25', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-05-25'), '2015-05-25')
+
+          it 'returns false for 2015-06-15', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-06-15'), '2015-06-15')
 
         describe 'extended mode', ->
-          it 'should work', () ->
-            c = new Config({
-              period: 'month'
-              minDate: [moment.utc('2014-01-01'), 'inclusive']
-              maxDate: [moment.utc('2015-05-14'), 'extended']
-            })
+          c = new Config({
+            period: 'month'
+            minDate: [moment.utc('2014-01-01'), 'inclusive']
+            maxDate: [moment.utc('2015-05-14'), 'extended']
+          })
+
+          it 'returns true for 2015-04-15', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-04-15'), '2015-04-15')
+
+          it 'returns true for 2015-05-05', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-05'), '2015-05-05')
+
+          it 'returns true for 2015-05-14', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-14'), '2015-05-14')
+
+          it 'returns true for 2015-05-25', () ->
             assert.isTrue(c.startDate.isWithinBoundaries('2015-05-25'), '2015-05-25')
+
+          it 'returns false for 2015-06-15', () ->
             assert.isFalse(c.startDate.isWithinBoundaries('2015-06-15'), '2015-06-15')
