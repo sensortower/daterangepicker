@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/sensortower/daterangepicker.svg?branch=master)](https://travis-ci.org/sensortower/daterangepicker)
 [![Join the chat at https://gitter.im/sensortower/daterangepicker](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sensortower/daterangepicker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![ghit.me](https://ghit.me/badge.svg?repo=sensortower/daterangepicker)](https://ghit.me/repo/sensortower/daterangepicker)
-[![Analytics](https://ga-beacon.appspot.com/UA-71619034-2/daterangepicker/README)](https://github.com/igrigorik/ga-beacon)
+[![Analytics](https://ga-beacon.appspot.com/UA-71619034-2/daterangepicker/README?flat)](https://github.com/igrigorik/ga-beacon)
 
 # daterangepicker
 
