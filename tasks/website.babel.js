@@ -72,7 +72,7 @@ gulp.task('serve', ['html', 'styles', 'scripts'], () => {
     'test/**/*.coffee',
     'src/templates/**/*.html',
     'website/**/*.html',
-    '**/*.md'
+    '{docs,.}/*.md'
   ]).on('change', reload);
 
   gulp.watch('{src,website}/styles/**/*.scss', ['styles']);
@@ -80,7 +80,7 @@ gulp.task('serve', ['html', 'styles', 'scripts'], () => {
   gulp.watch('{src,website}/scripts/**/*.coffee', ['scripts']);
   gulp.watch('src/templates/**/*.html', ['scripts']);
   gulp.watch('website/**/*.html', ['html']);
-  gulp.watch('**/*.md', ['html']);
+  gulp.watch('{docs,.}/*.md', ['html']);
 });
 
 gulp.task('build:website', ['html', 'scripts', 'styles', 'images'], () => {
