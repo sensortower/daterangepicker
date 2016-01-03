@@ -2,6 +2,51 @@ describe 'Config', ->
   Config = $.fn.daterangepicker.Config
   fmt = 'YYYY-MM-DD'
 
+  describe 'orientation', ->
+    it 'defaults to right', () ->
+      c = new Config({})
+      assert.equal(c.orientation(), 'right')
+
+    it 'works with a valid value (left)', () ->
+      c = new Config({ orientation: 'left' })
+      assert.equal(c.orientation(), 'left')
+
+    it 'throws an exception with an invalid value', () ->
+      assert.throw( ->
+        c = new Config({ orientation: 'invalid' })
+      , /Invalid orientation/)
+
+  describe 'period', ->
+    it 'defaults to day', () ->
+      c = new Config({})
+      assert.equal(c.period(), 'day')
+
+    it 'works with a valid value (week)', () ->
+      c = new Config({ period: 'week' })
+      assert.equal(c.period(), 'week')
+
+    it 'throws an exception with an invalid value', () ->
+      assert.throw( ->
+        c = new Config({ period: 'invalid' })
+      , /Invalid period/)
+
+  describe 'callback', ->
+    it 'defaults to undefined', () ->
+      c = new Config({})
+      assert.equal(c.callback, undefined)
+
+    it 'works with a valid value', () ->
+      cb = -> console.log('test')
+      c = new Config({
+        callback: cb
+      })
+      assert.equal(c.callback, cb)
+
+    it 'throws an exception with an invalid value', () ->
+      assert.throw( ->
+        c = new Config({ callback: 'invalid' })
+      , /Invalid callback/)
+
   describe 'ranges', ->
     it 'works with a valid object', () ->
       new Config({
@@ -54,7 +99,7 @@ describe 'Config', ->
         })
       , /Missing end date/)
 
-  describe 'dateObservable', ->
+  describe '_dateObservable', ->
     describe '#fit()', ->
       describe 'minDate = 2015-05-14, period = month', ->
         describe 'inclusive mode', ->

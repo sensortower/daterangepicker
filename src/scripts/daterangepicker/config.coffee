@@ -42,7 +42,7 @@ class Config
 
   _period: (val) ->
     val ||= @periods()[0]
-    console.warn("invalid period #{val}") unless val in ['day', 'week', 'month', 'quarter', 'year']
+    throw new Error('Invalid period') unless val in ['day', 'week', 'month', 'quarter', 'year']
     Period.extendObservable(ko.observable(val))
 
   _single: (val) ->
@@ -108,7 +108,8 @@ class Config
     }, val || {})
 
   _orientation: (val) ->
-    val = 'right' unless val in ['right', 'left']
+    val ||= 'right'
+    throw new Error('Invalid orientation') unless val in ['right', 'left']
     ko.observable(val)
 
   _dateObservable: (val, mode, minBoundary, maxBoundary) ->
@@ -191,4 +192,5 @@ class Config
     $(val || (if @standalone() then @anchorElement else 'body'))
 
   _callback: (val) ->
+    throw new Error('Invalid callback (not a function)') if val && !$.isFunction(val)
     val
