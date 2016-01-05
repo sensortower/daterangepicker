@@ -36,7 +36,7 @@ gulp.task('styles', () => {
       precision: 10,
       includePaths: ['.']
     }).on('error', $.util.log))
-    .pipe($.autoprefixer({browsers: ['last 1 version']}))
+    .pipe($.autoprefixer({browsers: ['last 2 versions']}))
     .pipe(gulp.dest('.tmp/styles'))
     .pipe(reload({stream: true}));
 });
