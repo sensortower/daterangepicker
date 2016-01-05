@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker
- * version: 0.0.5
+ * version: 0.0.6
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -296,6 +296,7 @@
       this.opened = this._opened(options.opened);
       this.expanded = this._expanded(options.expanded);
       this.standalone = this._standalone(options.standalone);
+      this.hideWeekdays = this._hideWeekdays(options.hideWeekdays);
       this.locale = this._locale(options.locale);
       this.orientation = this._orientation(options.orientation);
       this.forceUpdate = options.forceUpdate;
@@ -340,7 +341,7 @@
     Config.prototype._period = function(val) {
       val || (val = this.periods()[0]);
       if (val !== 'day' && val !== 'week' && val !== 'month' && val !== 'quarter' && val !== 'year') {
-        console.warn("invalid period " + val);
+        throw new Error('Invalid period');
       }
       return Period.extendObservable(ko.observable(val));
     };
@@ -358,6 +359,10 @@
     };
 
     Config.prototype._standalone = function(val) {
+      return ko.observable(val || false);
+    };
+
+    Config.prototype._hideWeekdays = function(val) {
       return ko.observable(val || false);
     };
 
@@ -392,6 +397,9 @@
     Config.prototype._ranges = function(obj) {
       var endDate, from, results, startDate, title, to, value;
       obj || (obj = this._defaultRanges());
+      if (!$.isPlainObject(obj)) {
+        throw new Error('Invalid ranges parameter (should be a plain object)');
+      }
       results = [];
       for (title in obj) {
         value = obj[title];
@@ -403,9 +411,24 @@
             results.push(new CustomDateRange(title));
             break;
           default:
+            if (!$.isArray(value)) {
+              throw new Error('Value should be an array');
+            }
             startDate = value[0], endDate = value[1];
+            if (!startDate) {
+              throw new Error('Missing start date');
+            }
+            if (!endDate) {
+              throw new Error('Missing end date');
+            }
             from = MomentUtil.tz(startDate, this.timeZone());
             to = MomentUtil.tz(endDate, this.timeZone());
+            if (!from.isValid()) {
+              throw new Error('Invalid start date');
+            }
+            if (!to.isValid()) {
+              throw new Error('Invalid end date');
+            }
             results.push(new DateRange(title, from, to));
         }
       }
@@ -413,18 +436,19 @@
     };
 
     Config.prototype._locale = function(val) {
-      return val || {
+      return $.extend({
         applyButtonTitle: 'Apply',
         cancelButtonTitle: 'Cancel',
         inputFormat: 'L',
         startLabel: 'Start',
         endLabel: 'End'
-      };
+      }, val || {});
     };
 
     Config.prototype._orientation = function(val) {
+      val || (val = 'right');
       if (val !== 'right' && val !== 'left') {
-        val = 'right';
+        throw new Error('Invalid orientation');
       }
       return ko.observable(val);
     };
@@ -497,6 +521,7 @@
       computed.isWithinBoundaries = (function(_this) {
         return function(date) {
           var between, max, maxExclusive, min, minExclusive, sameMax, sameMin;
+          date = MomentUtil.tz(date, _this.timeZone());
           min = minBoundary();
           max = maxBoundary();
           between = date.isBetween(min, max, _this.period());
@@ -541,6 +566,9 @@
     };
 
     Config.prototype._callback = function(val) {
+      if (val && !$.isFunction(val)) {
+        throw new Error('Invalid callback (not a function)');
+      }
       return val;
     };
 
@@ -991,9 +1019,10 @@
         opened: this.standalone() || this.opened(),
         expanded: this.standalone() || this.single() || this.expanded(),
         standalone: this.standalone(),
+        'hide-weekdays': this.hideWeekdays(),
+        'hide-periods': this.periods().length === 1,
         'orientation-left': this.orientation() === 'left',
-        'orientation-right': this.orientation() === 'right',
-        'hide-periods': this.periods().length === 1
+        'orientation-right': this.orientation() === 'right'
       };
       ref = Period.allPeriods;
       for (j = 0, len = ref.length; j < len; j++) {

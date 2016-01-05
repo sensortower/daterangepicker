@@ -1,6 +1,6 @@
 {
   "name": "knockout-daterangepicker",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "engines": {
     "node": ">=0.12.0"
