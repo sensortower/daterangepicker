@@ -44,6 +44,10 @@
     .controls {
       display: flex;
       justify-content: center;
+
+      .periods {
+        margin-bottom: 0;
+      }
     }
 
     .calendar .calendar-header {
