@@ -6,7 +6,6 @@ import del from 'del';
 
 const $ = gulpLoadPlugins();
 
-
 requireDir('./tasks');
 
 gulp.task('clean', del.bind(null, ['.tmp', '.publish', 'dist']));
@@ -19,4 +18,8 @@ gulp.task('travis-ci', ['build:website'], () => {
 
 gulp.task('default', ['clean'], () => {
   gulp.start('build');
+});
+
+gulp.task('watch', ['default'], () => {
+  gulp.watch('src/**/*', ['default']);
 });
