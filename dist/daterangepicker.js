@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker
- * version: 0.0.7
+ * version: 0.0.8
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -24,9 +24,6 @@
       if (moment.localeData().firstDayOfWeek() !== dow) {
         offset = dow - moment.localeData().firstDayOfWeek();
         return this.patchCurrentLocale({
-          weekdays: ArrayUtils.rotateArray(moment.weekdays(), offset),
-          weekdaysMin: ArrayUtils.rotateArray(moment.weekdaysMin(), offset),
-          weekdaysShort: ArrayUtils.rotateArray(moment.weekdaysShort(), offset),
           week: {
             dow: dow,
             doy: moment.localeData().firstDayOfYear()
@@ -83,6 +80,7 @@
     function ArrayUtils() {}
 
     ArrayUtils.rotateArray = function(array, offset) {
+      offset = offset % array.length;
       return array.slice(offset).concat(array.slice(0, offset));
     };
 
@@ -827,7 +825,7 @@
     };
 
     CalendarView.prototype.weekDayNames = function() {
-      return moment.weekdaysMin();
+      return ArrayUtils.rotateArray(moment.weekdaysMin(), moment.localeData().firstDayOfWeek());
     };
 
     CalendarView.prototype.inRange = function(date) {
