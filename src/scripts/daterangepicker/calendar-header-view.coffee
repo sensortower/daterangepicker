@@ -51,6 +51,7 @@ class CalendarHeaderView
 
   prevArrowCss: ->
     date = @firstDate().clone().subtract(1, 'millisecond')
+    date = date.endOf('month') if @period() in ['day', 'week']
     {'arrow-hidden': !@currentDate.isWithinBoundaries(date)}
 
   nextArrowCss: ->
