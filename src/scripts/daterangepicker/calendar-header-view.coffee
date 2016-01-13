@@ -51,14 +51,14 @@ class CalendarHeaderView
 
   prevArrowCss: ->
     date = @firstDate().clone().subtract(1, 'millisecond')
+    date = date.endOf('month') if @period() in ['day', 'week']
     {'arrow-hidden': !@currentDate.isWithinBoundaries(date)}
 
   nextArrowCss: ->
     [cols, rows] = @period.dimentions()
     date = @firstDate().clone().add(cols * rows, @period())
+    date = date.startOf('month') if @period() in ['day', 'week']
     {'arrow-hidden': !@currentDate.isWithinBoundaries(date)}
-
-
 
   monthOptions: ->
     minMonth = if @currentDate.minBoundary().isSame(@currentDate(), 'year') then @currentDate.minBoundary().month() else 0

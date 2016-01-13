@@ -6,7 +6,6 @@ import del from 'del';
 
 const $ = gulpLoadPlugins();
 
-
 requireDir('./tasks');
 
 gulp.task('clean', del.bind(null, ['.tmp', '.publish', 'dist']));
