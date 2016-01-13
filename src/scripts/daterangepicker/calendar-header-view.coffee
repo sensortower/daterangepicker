@@ -54,21 +54,10 @@ class CalendarHeaderView
     {'arrow-hidden': !@currentDate.isWithinBoundaries(date)}
 
   nextArrowCss: ->
-    currentDate = @currentDate().clone()
-
-    # Calculate the _first_ available date in the next period
-    nextPeriodDate =
-      # Day and week calendars are displayed 'monthly' (6 weeks)
-      if @period() in ['day', 'week']
-        currentDate.endOf('month').add(1, 'day')
-      # Month and quarter calendars are displayed yearly
-      else if @period() in ['month', 'quarter']
-        currentDate.endOf('year').add(1, 'day')
-      # Year calendar is displayed in 10 year chunks
-      else if @period() == 'year'
-        @firstYearOfDecade(currentDate).add(10, 'year')
-
-    {'arrow-hidden': !@currentDate.isWithinBoundaries(nextPeriodDate)}
+    [cols, rows] = @period.dimentions()
+    date = @firstDate().clone().add(cols * rows, @period())
+    date = date.startOf('month') if @period() in ['day', 'week']
+    {'arrow-hidden': !@currentDate.isWithinBoundaries(date)}
 
   monthOptions: ->
     minMonth = if @currentDate.minBoundary().isSame(@currentDate(), 'year') then @currentDate.minBoundary().month() else 0
