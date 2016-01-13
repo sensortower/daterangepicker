@@ -1,10 +1,13 @@
 describe 'MomentUtil', ->
   MomentUtil = $.fn.daterangepicker.MomentUtil
+  DateRangePickerView = $.fn.daterangepicker.DateRangePickerView
+  calendarView = new DateRangePickerView({}).calendars()[0]
   describe '#setFirstDayOfTheWeek()', ->
     originalFirstDayOfWeek = null
     weekTest = (number, day) ->
       MomentUtil.setFirstDayOfTheWeek(number)
-      assert.equal(moment.weekdays()[0], day)
+      assert.equal(moment().startOf('week').format('dddd'), day)
+      assert.equal(calendarView.weekDayNames()[0], day.substr(0, 2))
 
     before ->
       originalFirstDayOfWeek = moment.localeData().firstDayOfWeek()

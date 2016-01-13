@@ -1,5 +1,6 @@
 class ArrayUtils
   @rotateArray: (array, offset) ->
+    offset = offset % array.length
     array.slice(offset).concat(array.slice(0, offset))
 
   @uniqArray: (array) ->

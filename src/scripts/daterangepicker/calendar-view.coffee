@@ -51,7 +51,7 @@ class CalendarView
           date.startOf(@period())
 
   weekDayNames: ->
-    moment.weekdaysMin()
+    ArrayUtils.rotateArray(moment.weekdaysMin(), moment.localeData().firstDayOfWeek())
 
   inRange: (date) =>
     date.isAfter(@startDate(), @period()) && date.isBefore(@endDate(), @period()) || (date.isSame(@startDate(), @period()) || date.isSame(@endDate(), @period()))
