@@ -19,7 +19,3 @@ gulp.task('travis-ci', ['build:website'], () => {
 gulp.task('default', ['clean'], () => {
   gulp.start('build');
 });
-
-gulp.task('watch', ['default'], () => {
-  gulp.watch('src/**/*', ['default']);
-});
