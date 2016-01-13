@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker
- * version: 0.0.8
+ * version: 0.0.9
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -661,17 +661,23 @@
     };
 
     CalendarHeaderView.prototype.prevArrowCss = function() {
-      var date;
+      var date, ref;
       date = this.firstDate().clone().subtract(1, 'millisecond');
+      if ((ref = this.period()) === 'day' || ref === 'week') {
+        date = date.endOf('month');
+      }
       return {
         'arrow-hidden': !this.currentDate.isWithinBoundaries(date)
       };
     };
 
     CalendarHeaderView.prototype.nextArrowCss = function() {
-      var cols, date, ref, rows;
+      var cols, date, ref, ref1, rows;
       ref = this.period.dimentions(), cols = ref[0], rows = ref[1];
       date = this.firstDate().clone().add(cols * rows, this.period());
+      if ((ref1 = this.period()) === 'day' || ref1 === 'week') {
+        date = date.startOf('month');
+      }
       return {
         'arrow-hidden': !this.currentDate.isWithinBoundaries(date)
       };
