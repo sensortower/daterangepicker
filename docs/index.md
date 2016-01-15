@@ -110,7 +110,7 @@ minDate: [null, 'exclusive'] // date defaults to moment().subtract(2, 'years')
 
 ### maxDate
 
-Sets a minimum possible date a user can select.
+Sets a maximum possible date a user can select.
 
 ```javascript
 maxDate: [(moment.js-compatible object), ('inclusive' | 'exclusive' | 'expanded')]
@@ -350,6 +350,20 @@ Examples:
 parentElement: '.daterangepicker-container'
 parentElement: $('.daterangepicker-container')
 parentElement: document.querySelector('.daterangepicker-container')
+```
+
+
+### forceUpdate
+
+```javascript
+forceUpdate: Boolean
+```
+
+Immediately invokes `callback` after constructing daterangepicker.
+
+Default:
+```javascript
+forceUpdate: false
 ```
 
 
