@@ -90,8 +90,6 @@ class DateRangePickerView
 
   setPeriod: (period) ->
     @period(period)
-    # @startDate(@startDate())
-    # @endDate(@endDate())
     @expanded(true)
 
   setDateRange: (dateRange) =>

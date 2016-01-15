@@ -47,6 +47,11 @@ describe 'Config', ->
         c = new Config({ callback: 'invalid' })
       , /Invalid callback/)
 
+  describe 'forceUpdate', ->
+    it 'defaults to undefined', () ->
+      c = new Config({})
+      assert.equal(c.forceUpdate, undefined)
+
   describe 'ranges', ->
     it 'works with a valid object', () ->
       new Config({
