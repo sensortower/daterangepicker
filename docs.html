@@ -101,7 +101,7 @@ minDate: [<span class="hljs-string">'2015-11-10'</span>, <span class="hljs-strin
 minDate: [<span class="hljs-literal">null</span>, <span class="hljs-string">'exclusive'</span>] <span class="hljs-comment">// date defaults to moment().subtract(2, 'years')</span>
 </code></pre>
 <h3 id="maxdate">maxDate</h3>
-<p>Sets a minimum possible date a user can select.</p>
+<p>Sets a maximum possible date a user can select.</p>
 <pre><code class="lang-javascript">maxDate: [(moment.js-compatible object), (<span class="hljs-string">'inclusive'</span> | <span class="hljs-string">'exclusive'</span> | <span class="hljs-string">'expanded'</span>)]
 </code></pre>
 <p>By default, that means you can select days (weeks, months, etc) that are the same as <code>maxDate</code> or after <code>maxDate</code> — this is what we call <strong>inclusive</strong> mode. In <strong>exclusive</strong> you can&#39;t select days (weeks, months, etc) that fall on <code>maxDate</code>. When you select a month (week, quarter, etc) in <strong>expanded</strong> mode and <code>maxDate</code> falls on the middle of the month, the last day of the month will be selected.</p>
@@ -240,6 +240,13 @@ anchorElement: <span class="hljs-built_in">document</span>.querySelector(<span c
 <pre><code class="lang-javascript">parentElement: <span class="hljs-string">'.daterangepicker-container'</span>
 parentElement: $(<span class="hljs-string">'.daterangepicker-container'</span>)
 parentElement: <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'.daterangepicker-container'</span>)
+</code></pre>
+<h3 id="forceupdate">forceUpdate</h3>
+<pre><code class="lang-javascript">forceUpdate: <span class="hljs-built_in">Boolean</span>
+</code></pre>
+<p>Immediately invokes <code>callback</code> after constructing daterangepicker.</p>
+<p>Default:</p>
+<pre><code class="lang-javascript">forceUpdate: <span class="hljs-literal">false</span>
 </code></pre>
 <h2 id="customization">Customization</h2>
 <p>Source code is available on <a href="https://github.com/sensortower/daterangepicker">GitHub</a> for you to fork or monkey-patch. Here are some starting points:</p>
