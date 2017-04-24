@@ -3,6 +3,7 @@ class Config
     @firstDayOfWeek = @_firstDayOfWeek(options.firstDayOfWeek)
     @timeZone = @_timeZone(options.timeZone)
     @periods = @_periods(options.periods)
+    @customPeriodRanges = @_customPeriodRanges(options.customPeriodRanges)
     @period = @_period(options.period)
     @single = @_single(options.single)
     @opened = @_opened(options.opened)
@@ -19,6 +20,7 @@ class Config
     @endDate = @_endDate(options.endDate)
 
     @ranges = @_ranges(options.ranges)
+    @isCustomPeriodRangeActive = ko.observable(false)
 
     @anchorElement = @_anchorElement(options.anchorElement)
     @parentElement = @_parentElement(options.parentElement)
@@ -39,6 +41,11 @@ class Config
 
   _periods: (val) ->
     ko.observableArray(val || Period.allPeriods)
+
+  _customPeriodRanges: (obj) ->
+    obj ||= {}
+    for title, value of obj
+      @parseRange(value, title)
 
   _period: (val) ->
     val ||= @periods()[0]
@@ -88,15 +95,18 @@ class Config
         when 'custom'
           new CustomDateRange(title)
         else
-          throw new Error('Value should be an array') unless $.isArray(value)
-          [startDate, endDate] = value
-          throw new Error('Missing start date') unless startDate
-          throw new Error('Missing end date') unless endDate
-          from = MomentUtil.tz(startDate, @timeZone())
-          to = MomentUtil.tz(endDate, @timeZone())
-          throw new Error('Invalid start date') unless from.isValid()
-          throw new Error('Invalid end date') unless to.isValid()
-          new DateRange(title, from, to)
+          @parseRange(value, title)
+
+  parseRange: (value, title) ->
+    throw new Error('Value should be an array') unless $.isArray(value)
+    [startDate, endDate] = value
+    throw new Error('Missing start date') unless startDate
+    throw new Error('Missing end date') unless endDate
+    from = MomentUtil.tz(startDate, @timeZone())
+    to = MomentUtil.tz(endDate, @timeZone())
+    throw new Error('Invalid start date') unless from.isValid()
+    throw new Error('Invalid end date') unless to.isValid()
+    new DateRange(title, from, to)
 
   _locale: (val) ->
     $.extend({
