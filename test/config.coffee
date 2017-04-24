@@ -104,6 +104,23 @@ describe 'Config', ->
         })
       , /Missing end date/)
 
+  describe 'customPeriodRanges', ->
+    it 'works with a valid object', () ->
+      new Config({
+        customPeriodRanges: {
+          "Test Range": ['2015-05-14', moment()]
+        }
+      })
+
+    it 'fails with a object value that is not an array', () ->
+      assert.throw( ->
+        new Config({
+          ranges: {
+            'Test Range': '2015-05-14'
+          }
+        })
+      , /Value should be an array/)
+
   describe '_dateObservable', ->
     describe '#fit()', ->
       describe 'minDate = 2015-05-14, period = month', ->

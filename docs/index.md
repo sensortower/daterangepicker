@@ -195,10 +195,10 @@ ranges: Object
 Default:
 ```javascript
 {
-  'Last 30 days': [moment().subtract(29, 'days'), moment()]
-  'Last 90 days': [moment().subtract(89, 'days'), moment()]
-  'Last Year': [moment().subtract(1, 'year').add(1,'day'), moment()]
-  'All Time': 'all-time' // [minDate, maxDate]
+  'Last 30 days': [moment().subtract(29, 'days'), moment()],
+  'Last 90 days': [moment().subtract(89, 'days'), moment()],
+  'Last Year': [moment().subtract(1, 'year').add(1,'day'), moment()],
+  'All Time': 'all-time' // [minDate, maxDate],
   'Custom Range': 'custom'
 }
 ```
@@ -206,7 +206,7 @@ Default:
 Examples:
 ```javascript
 ranges: {
-  'Last 245 Days': [moment().subtract(244, 'days'), moment()]
+  'Last 245 Days': [moment().subtract(244, 'days'), moment()],
   'Last 3 Years': [moment().subtract(3, 'years').add(1, 'day'), moment()]
 }
 ```
@@ -233,6 +233,22 @@ Array of available _periods_. Period selector disappears if only one period spec
 
 ```javascript
 periods: String[]
+```
+
+### customPeriodRanges
+
+Similar to ranges except they are appended to the period row across the top of the picker.
+
+```javascript
+ranges: Object
+```
+
+Examples:
+```javascript
+customPeriodRanges: {
+  'Last Year': [moment().subtract(1, 'year').add(1,'day'), moment()],
+  'All Time': 'all-time' // [minDate, maxDate]
+}
 ```
 
 ### single
