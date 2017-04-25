@@ -65,7 +65,7 @@ class DateRangePickerView
       expanded: @standalone() || @single() || @expanded()
       standalone: @standalone()
       'hide-weekdays': @hideWeekdays()
-      'hide-periods': @periods().length == 1
+      'hide-periods': (@periods().length + @customPeriodRanges.length) == 1
       'orientation-left': @orientation() == 'left'
       'orientation-right': @orientation() == 'right'
     }
@@ -85,10 +85,14 @@ class DateRangePickerView
     else
       @startDate().isSame(dateRange.startDate, 'day') && @endDate().isSame(dateRange.endDate, 'day')
 
+  isActiveCustomPeriodRange: (customPeriodRange) ->
+    @isActiveDateRange(customPeriodRange) && @isCustomPeriodRangeActive()
+
   inputFocus: () ->
     @expanded(true)
 
   setPeriod: (period) ->
+    @isCustomPeriodRangeActive(false)
     @period(period)
     @expanded(true)
 
@@ -102,6 +106,10 @@ class DateRangePickerView
       @startDate(dateRange.startDate)
       @endDate(dateRange.endDate)
       @updateDateRange()
+
+  setCustomPeriodRange: (customPeriodRange) =>
+    @isCustomPeriodRangeActive(true)
+    @setDateRange(customPeriodRange)
 
   applyChanges: () ->
     @close()

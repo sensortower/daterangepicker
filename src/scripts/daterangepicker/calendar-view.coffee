@@ -6,6 +6,7 @@ class CalendarView
     @locale = mainView.locale
     @startDate = mainView.startDate
     @endDate = mainView.endDate
+    @isCustomPeriodRangeActive = mainView.isCustomPeriodRangeActive
 
     @type = type
     @label = mainView.locale["#{type}Label"] || ''
@@ -104,8 +105,8 @@ class CalendarView
     {
       "in-range": !@single() && (inRange || onRangeEnd)
       "#{@type}-date": onRangeEnd
-      "clickable": withinBoundaries
-      "out-of-boundaries": !withinBoundaries
+      "clickable": withinBoundaries && !@isCustomPeriodRangeActive()
+      "out-of-boundaries": !withinBoundaries || @isCustomPeriodRangeActive()
       "unavailable": (periodIsDay && differentMonth)
     }
 

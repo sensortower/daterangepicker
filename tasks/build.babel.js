@@ -6,7 +6,6 @@ import browserSync from 'browser-sync';
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
-
 function readJson(path) {
   return JSON.parse(fs.readFileSync(path, 'utf8'));
 }
