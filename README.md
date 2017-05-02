@@ -5,6 +5,8 @@
 
 # daterangepicker
 
+[![Join the chat at https://gitter.im/sensortower/daterangepicker](https://badges.gitter.im/sensortower/daterangepicker.svg)](https://gitter.im/sensortower/daterangepicker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Demo screenshot](https://sensortower.github.io/daterangepicker/images/demo.gif)](https://sensortower.github.io/daterangepicker/)
 
 [Demo available here](https://sensortower.github.io/daterangepicker/)
