@@ -53,6 +53,9 @@ class DateRangePickerView
 
   periodProxy: Period
 
+  getLocale: () ->
+    @locale
+
   calendars: () ->
     if @single()
       [@startCalendar]

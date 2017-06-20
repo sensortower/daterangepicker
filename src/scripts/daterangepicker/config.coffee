@@ -114,7 +114,12 @@ class Config
       cancelButtonTitle: 'Cancel'
       inputFormat: 'L'
       startLabel: 'Start'
-      endLabel: 'End'
+      endLabel: 'End',
+      dayLabel: 'Day',
+      weekLabel: 'Week',
+      monthLabel: 'Month',
+      quarterLabel: 'Quarter',
+      yearLabel: 'Year'
     }, val || {})
 
   _orientation: (val) ->
