@@ -3,3 +3,4 @@ dist/website
 .tmp
 .sass-cache
 bower_components
+/.idea/
