@@ -33,3 +33,9 @@ ko.bindingHandlers.daterangepicker = do ->
 
         $element.data('daterangepicker').startDate(startDate)
         $element.data('daterangepicker').endDate(endDate)
+
+ko.bindingHandlers.fireChange =
+  update: (element, valueAccessor, allBindings) ->
+    selectorValue = ko.unwrap(allBindings.get('value'))
+    if selectorValue
+      $(element).change()

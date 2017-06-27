@@ -31,9 +31,9 @@
           <button data-bind="click: $data.clickPrevButton"><span class="arrow-left"></span></button>
         </div>
         <div class="calendar-selects">
-          <select class="month-select" data-bind="options: $data.monthOptions(), optionsText: $data.monthFormatter, valueAllowUnset: true, value: $data.selectedMonth, css: {hidden: !$data.monthSelectorAvailable()}"></select>
-          <select class="year-select" data-bind="options: $data.yearOptions(), optionsText: $data.yearFormatter, valueAllowUnset: true, value: $data.selectedYear, css: {hidden: !$data.yearSelectorAvailable()}"></select>
-          <select class="decade-select" data-bind="options: $data.decadeOptions(), optionsText: $data.decadeFormatter, valueAllowUnset: true, value: $data.selectedDecade, css: {hidden: !$data.decadeSelectorAvailable()}"></select>
+          <select class="month-select" data-bind="options: $data.monthOptions(), optionsText: $data.monthFormatter, valueAllowUnset: true, value: $data.selectedMonth, fireChange: true, css: {hidden: !$data.monthSelectorAvailable()}"></select>
+          <select class="year-select" data-bind="options: $data.yearOptions(), optionsText: $data.yearFormatter, valueAllowUnset: true, value: $data.selectedYear, fireChange: true, css: {hidden: !$data.yearSelectorAvailable()}"></select>
+          <select class="decade-select" data-bind="options: $data.decadeOptions(), optionsText: $data.decadeFormatter, valueAllowUnset: true, value: $data.selectedDecade, fireChange: true, css: {hidden: !$data.decadeSelectorAvailable()}"></select>
         </div>
         <div class="arrow" data-bind="css: $data.nextArrowCss()">
           <button data-bind="click: $data.clickNextButton"><span class="arrow-right"></span></button>
