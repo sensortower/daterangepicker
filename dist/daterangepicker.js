@@ -882,12 +882,11 @@
     };
 
     CalendarView.prototype.isEvent = function(date) {
-      var d, j, l, len, ref;
+      var j, l, len, ref;
       ref = this.allEvents();
       for (l = 0, len = ref.length; l < len; l++) {
         j = ref[l];
-        d = ref[j];
-        if (date.isSame(d, 'year') && date.isSame(d, 'month') && date.isSame(d, 'day')) {
+        if (date.isSame(j, 'year') && date.isSame(j, 'month') && date.isSame(j, 'day')) {
           return true;
         }
       }

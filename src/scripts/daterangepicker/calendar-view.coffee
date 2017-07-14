@@ -61,8 +61,7 @@ class CalendarView
   isEvent: (date) =>
     ref = @allEvents()
     for j in ref
-      d = ref[j]
-      if (date.isSame(d, 'year') && date.isSame(d, 'month') && date.isSame(d, 'day'))
+      if (date.isSame(j, 'year') && date.isSame(j, 'month') && date.isSame(j, 'day'))
         return true
     return false
 
