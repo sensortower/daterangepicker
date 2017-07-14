@@ -1,5 +1,6 @@
 class CalendarView
   constructor: (mainView, dateSubscribable, type) ->
+    @allEvents = mainView.allEvents
     @period = mainView.period
     @single = mainView.single
     @timeZone = mainView.timeZone
@@ -57,6 +58,15 @@ class CalendarView
   inRange: (date) =>
     date.isAfter(@startDate(), @period()) && date.isBefore(@endDate(), @period()) || (date.isSame(@startDate(), @period()) || date.isSame(@endDate(), @period()))
 
+  isEvent: (date) =>
+    ref = @allEvents()
+    for j in ref
+      d = ref[j]
+      if (date.isSame(d, 'year') && date.isSame(d, 'month') && date.isSame(d, 'day'))
+        return true
+    return false
+
+
   tableValues: (date) =>
     format = @period.format()
     switch @period()
@@ -102,9 +112,11 @@ class CalendarView
     periodIsDay ||= @period() == 'day'
     differentMonth = !date.isSame(@currentDate(), 'month')
     inRange = @inRange(date)
+    isEvent = @isEvent(date)
     {
       "in-range": !@single() && (inRange || onRangeEnd)
       "#{@type}-date": onRangeEnd
+      "allEvents": !@single() && (inRange || onRangeEnd) && isEvent
       "clickable": withinBoundaries && !@isCustomPeriodRangeActive()
       "out-of-boundaries": !withinBoundaries || @isCustomPeriodRangeActive()
       "unavailable": (periodIsDay && differentMonth)
