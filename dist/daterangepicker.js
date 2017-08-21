@@ -842,6 +842,22 @@
           return date;
         };
       })(this));
+      this.lastDate = ko.pureComputed((function(_this) {
+        return function() {
+          var date, firstDate;
+          date = _this.currentDate().clone().endOf(_this.period.scale());
+          switch (_this.period()) {
+            case 'day':
+            case 'week':
+              firstDate = _this.firstDate().clone();
+              date = firstDate.add(6, 'week').subtract(1, 'day');
+              break;
+            case 'year':
+              date = _this.lastYearOfDecade(date);
+          }
+          return date;
+        };
+      })(this));
       this.activeDate.subscribe((function(_this) {
         return function(newValue) {
           return _this.currentDate(newValue);
@@ -989,7 +1005,16 @@
       firstYear = currentYear - 4;
       offset = Math.floor((date.year() - firstYear) / 9);
       year = firstYear + offset * 9;
-      return MomentUtil.tz([year], this.timeZone());
+      return MomentUtil.tz([year], this.timeZone()).startOf('year');
+    };
+
+    CalendarView.prototype.lastYearOfDecade = function(date) {
+      var currentYear, lastYear, offset, year;
+      currentYear = MomentUtil.tz(moment(), this.timeZone()).year();
+      lastYear = currentYear + 4;
+      offset = Math.ceil((date.year() - lastYear) / 9);
+      year = lastYear + offset * 9;
+      return MomentUtil.tz([year], this.timeZone()).endOf('year');
     };
 
     return CalendarView;
@@ -1040,12 +1065,12 @@
           return function(newValue) {
             var endDate, startDate;
             startDate = newValue[0], endDate = newValue[1];
-            return _this.callback(startDate.clone(), endDate.clone(), _this.period());
+            return _this.callback(startDate.clone(), endDate.clone(), _this.period(), _this.startCalendar.firstDate(), _this.endCalendar.lastDate());
           };
         })(this));
         if (this.forceUpdate) {
           ref1 = this.dateRange(), startDate = ref1[0], endDate = ref1[1];
-          this.callback(startDate.clone(), endDate.clone(), this.period());
+          this.callback(startDate.clone(), endDate.clone(), this.period(), this.startCalendar.firstDate(), this.endCalendar.lastDate());
         }
       }
       if (this.anchorElement) {

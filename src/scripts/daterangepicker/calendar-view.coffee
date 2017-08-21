@@ -36,6 +36,16 @@ class CalendarView
           date = @firstYearOfDecade(date)
       date
 
+    @lastDate = ko.pureComputed () =>
+      date = @currentDate().clone().endOf(@period.scale())
+      switch @period()
+        when 'day', 'week'
+          firstDate = @firstDate().clone()
+          date = firstDate.add(6, 'week').subtract(1, 'day')
+        when 'year'
+          date = @lastYearOfDecade(date)
+      date
+
     @activeDate.subscribe (newValue) =>
       @currentDate(newValue)
 
@@ -127,4 +137,12 @@ class CalendarView
     firstYear = currentYear - 4
     offset = Math.floor((date.year() - firstYear) / 9)
     year = firstYear + offset * 9
-    MomentUtil.tz([year], @timeZone())
+    MomentUtil.tz([year], @timeZone()).startOf('year')
+
+  lastYearOfDecade: (date) ->
+    # we use current year here so that it's always in the middle of the calendar
+    currentYear = MomentUtil.tz(moment(), @timeZone()).year()
+    lastYear = currentYear + 4
+    offset = Math.ceil((date.year() - lastYear) / 9)
+    year = lastYear + offset * 9
+    MomentUtil.tz([year], @timeZone()).endOf('year')
