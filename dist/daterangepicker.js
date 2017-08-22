@@ -991,7 +991,7 @@
           "in-range": !this.single() && (inRange || onRangeEnd)
         },
         obj1[this.type + "-date"] = onRangeEnd,
-        obj1["allEvents"] = !this.single() && (inRange || onRangeEnd) && isEvent,
+        obj1["highlight"] = !this.single() && (inRange || onRangeEnd) && isEvent,
         obj1["clickable"] = withinBoundaries && !this.isCustomPeriodRangeActive(),
         obj1["out-of-boundaries"] = !withinBoundaries || this.isCustomPeriodRangeActive(),
         obj1["unavailable"] = periodIsDay && differentMonth,

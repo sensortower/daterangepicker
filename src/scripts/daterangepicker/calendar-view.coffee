@@ -125,7 +125,7 @@ class CalendarView
     {
       "in-range": !@single() && (inRange || onRangeEnd)
       "#{@type}-date": onRangeEnd
-      "allEvents": !@single() && (inRange || onRangeEnd) && isEvent
+      "highlight": !@single() && (inRange || onRangeEnd) && isEvent
       "clickable": withinBoundaries && !@isCustomPeriodRangeActive()
       "out-of-boundaries": !withinBoundaries || @isCustomPeriodRangeActive()
       "unavailable": (periodIsDay && differentMonth)
