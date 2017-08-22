@@ -1068,6 +1068,20 @@
             return _this.callback(startDate.clone(), endDate.clone(), _this.period(), _this.startCalendar.firstDate(), _this.endCalendar.lastDate());
           };
         })(this));
+        this.startCalendar.firstDate.subscribe((function(_this) {
+          return function(newValue) {
+            var endDate, ref1, startDate;
+            ref1 = _this.dateRange(), startDate = ref1[0], endDate = ref1[1];
+            return _this.callback(startDate.clone(), endDate.clone(), _this.period(), newValue, _this.endCalendar.lastDate());
+          };
+        })(this));
+        this.endCalendar.lastDate.subscribe((function(_this) {
+          return function(newValue) {
+            var endDate, ref1, startDate;
+            ref1 = _this.dateRange(), startDate = ref1[0], endDate = ref1[1];
+            return _this.callback(startDate.clone(), endDate.clone(), _this.period(), _this.startCalendar.firstDate(), newValue);
+          };
+        })(this));
         if (this.forceUpdate) {
           ref1 = this.dateRange(), startDate = ref1[0], endDate = ref1[1];
           this.callback(startDate.clone(), endDate.clone(), this.period(), this.startCalendar.firstDate(), this.endCalendar.lastDate());
