@@ -78,4 +78,4 @@ Copyright © 2015 SensorTower Inc. See LICENSE for further details.
 
 We're hiring across the board on our technical teams. Contact us by emailing jobs@sensortower.com or making an application - and mention that you saw this note here. Ask for our recruiter, Rumiko.
 
-Here's more about us and our engineering culture: (Key Values)[https://www.keyvalues.com/sensor-tower]
+Here's more about us and our engineering culture: [Key Values](https://www.keyvalues.com/sensor-tower)
