@@ -20,15 +20,25 @@ class DateRangePickerView
         if @standalone()
           @updateDateRange()
 
+    @endDate.subscribe (newValue) =>
+      if not @single() and @standalone()
+        @updateDateRange()
+
     @style = ko.observable({})
 
     if @callback
       @dateRange.subscribe (newValue) =>
         [startDate, endDate] = newValue
-        @callback(startDate.clone(), endDate.clone(), @period())
+        @callback(startDate.clone(), endDate.clone(), @period(), @startCalendar.firstDate(), @endCalendar.lastDate())
+      @startCalendar.firstDate.subscribe (newValue) =>
+        [startDate, endDate] = @dateRange()
+        @callback(startDate.clone(), endDate.clone(), @period(), newValue, @endCalendar.lastDate())
+      @endCalendar.lastDate.subscribe (newValue) =>
+        [startDate, endDate] = @dateRange()
+        @callback(startDate.clone(), endDate.clone(), @period(), @startCalendar.firstDate(), newValue)
       if @forceUpdate
         [startDate, endDate] = @dateRange()
-        @callback(startDate.clone(), endDate.clone(), @period())
+        @callback(startDate.clone(), endDate.clone(), @period(), @startCalendar.firstDate(), @endCalendar.lastDate())
 
     if @anchorElement
       wrapper = $("<div data-bind=\"stopBinding: true\"></div>").appendTo(@parentElement)
@@ -48,6 +58,9 @@ class DateRangePickerView
       @updatePosition()
 
   periodProxy: Period
+
+  getLocale: () ->
+    @locale
 
   calendars: () ->
     if @single()

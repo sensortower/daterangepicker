@@ -29,18 +29,18 @@ class Period
       when 'year'
         'YYYY'
 
-  @title: (period) ->
+  @title: (period, localeObj) ->
     switch period
       when 'day'
-        'Day'
+        localeObj.dayLabel
       when 'week'
-        'Week'
+        localeObj.weekLabel
       when 'month'
-        'Month'
+        localeObj.monthLabel
       when 'quarter'
-        'Quarter'
+        localeObj.quarterLabel
       when 'year'
-        'Year'
+        localeObj.yearLabel
 
   @dimentions: (period) ->
     switch period

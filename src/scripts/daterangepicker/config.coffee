@@ -1,6 +1,7 @@
 class Config
   constructor: (options = {}) ->
     @firstDayOfWeek = @_firstDayOfWeek(options.firstDayOfWeek)
+    @allEvents = @_allEvents(options.allEvents)
     @timeZone = @_timeZone(options.timeZone)
     @periods = @_periods(options.periods)
     @customPeriodRanges = @_customPeriodRanges(options.customPeriodRanges)
@@ -35,6 +36,9 @@ class Config
 
   _firstDayOfWeek: (val) ->
     ko.observable(if val then val else 0) # default to Sunday (0)
+
+  _allEvents: (val) ->
+    ko.observable(val || [])
 
   _timeZone: (val) ->
     ko.observable(val || 'UTC')
@@ -114,7 +118,12 @@ class Config
       cancelButtonTitle: 'Cancel'
       inputFormat: 'L'
       startLabel: 'Start'
-      endLabel: 'End'
+      endLabel: 'End',
+      dayLabel: 'Day',
+      weekLabel: 'Week',
+      monthLabel: 'Month',
+      quarterLabel: 'Quarter',
+      yearLabel: 'Year'
     }, val || {})
 
   _orientation: (val) ->

@@ -1,5 +1,6 @@
 class CalendarView
   constructor: (mainView, dateSubscribable, type) ->
+    @allEvents = mainView.allEvents
     @period = mainView.period
     @single = mainView.single
     @timeZone = mainView.timeZone
@@ -35,6 +36,16 @@ class CalendarView
           date = @firstYearOfDecade(date)
       date
 
+    @lastDate = ko.pureComputed () =>
+      date = @currentDate().clone().endOf(@period.scale())
+      switch @period()
+        when 'day', 'week'
+          firstDate = @firstDate().clone()
+          date = firstDate.add(6, 'week').subtract(1, 'day')
+        when 'year'
+          date = @lastYearOfDecade(date)
+      date
+
     @activeDate.subscribe (newValue) =>
       @currentDate(newValue)
 
@@ -56,6 +67,14 @@ class CalendarView
 
   inRange: (date) =>
     date.isAfter(@startDate(), @period()) && date.isBefore(@endDate(), @period()) || (date.isSame(@startDate(), @period()) || date.isSame(@endDate(), @period()))
+
+  isEvent: (date) =>
+    ref = @allEvents()
+    for j in ref
+      if (date.isSame(j, 'year') && date.isSame(j, 'month') && date.isSame(j, 'day'))
+        return true
+    return false
+
 
   tableValues: (date) =>
     format = @period.format()
@@ -102,9 +121,11 @@ class CalendarView
     periodIsDay ||= @period() == 'day'
     differentMonth = !date.isSame(@currentDate(), 'month')
     inRange = @inRange(date)
+    isEvent = @isEvent(date)
     {
       "in-range": !@single() && (inRange || onRangeEnd)
       "#{@type}-date": onRangeEnd
+      "highlight": !@single() && (inRange || onRangeEnd) && isEvent
       "clickable": withinBoundaries && !@isCustomPeriodRangeActive()
       "out-of-boundaries": !withinBoundaries || @isCustomPeriodRangeActive()
       "unavailable": (periodIsDay && differentMonth)
@@ -116,4 +137,12 @@ class CalendarView
     firstYear = currentYear - 4
     offset = Math.floor((date.year() - firstYear) / 9)
     year = firstYear + offset * 9
-    MomentUtil.tz([year], @timeZone())
+    MomentUtil.tz([year], @timeZone()).startOf('year')
+
+  lastYearOfDecade: (date) ->
+    # we use current year here so that it's always in the middle of the calendar
+    currentYear = MomentUtil.tz(moment(), @timeZone()).year()
+    lastYear = currentYear + 4
+    offset = Math.ceil((date.year() - lastYear) / 9)
+    year = lastYear + offset * 9
+    MomentUtil.tz([year], @timeZone()).endOf('year')
