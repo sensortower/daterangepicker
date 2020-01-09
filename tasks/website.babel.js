@@ -1,9 +1,11 @@
-import gulp from 'gulp';
-import marked from 'marked';
-import highlight from 'highlight.js';
-import gulpLoadPlugins from 'gulp-load-plugins';
-import browserSync from 'browser-sync';
+const gulp = require('gulp');
+const marked = require('marked');
+const highlight = require('highlight.js');
+const gulpLoadPlugins = require('gulp-load-plugins');
+const browserSync = require('browser-sync');
+const saveLicense = require('uglify-save-license');
 
+const uglifyOptions = { output: { comments: saveLicense } };
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
@@ -34,7 +36,7 @@ gulp.task('images', () => {
     .pipe(gulp.dest('dist/website/images'))
 });
 
-gulp.task('html', ['styles', 'scripts'], () => {
+gulp.task('html', gulp.series('styles', 'scripts', () => {
   return gulp.src('website/*.html')
     .pipe($.fileInclude({
       prefix: '@@',
@@ -45,9 +47,9 @@ gulp.task('html', ['styles', 'scripts'], () => {
     })).on('error', $.util.log)
     .pipe(gulp.dest('.tmp'))
     .pipe(reload({stream: true}));
-});
+}));
 
-gulp.task('serve', ['html', 'styles', 'scripts'], () => {
+gulp.task('serve', gulp.series('html', 'styles', 'scripts', () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -81,22 +83,22 @@ gulp.task('serve', ['html', 'styles', 'scripts'], () => {
   gulp.watch('src/templates/**/*.html', ['scripts']);
   gulp.watch('website/**/*.html', ['html']);
   gulp.watch('{docs,.}/*.md', ['html']);
-});
+}));
 
-gulp.task('build:website', ['html', 'scripts', 'styles', 'images'], () => {
+gulp.task('build:website', gulp.series('html', 'styles', 'scripts', 'images', () => {
   const assets = $.useref.assets({searchPath: ['.tmp', 'website', '.']});
 
   return gulp.src('.tmp/*.html')
     .pipe(assets)
-    .pipe($.if('*.js', $.uglify({preserveComments: 'license'})))
+    .pipe($.if('*.js', $.uglify(uglifyOptions)))
     .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
     .pipe(assets.restore())
     .pipe($.useref())
     .pipe(gulp.dest('dist/website'))
     .pipe($.size({title: 'build:website', gzip: true}));
-});
+}));
 
-gulp.task('serve:website', ['build:website'], () => {
+gulp.task('serve:website', gulp.series('build:website', () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -104,4 +106,4 @@ gulp.task('serve:website', ['build:website'], () => {
       baseDir: ['dist/website']
     }
   });
-});
+}));
