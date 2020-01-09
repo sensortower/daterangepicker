@@ -4,6 +4,7 @@ const highlight = require('highlight.js');
 const gulpLoadPlugins = require('gulp-load-plugins');
 const browserSync = require('browser-sync');
 const saveLicense = require('uglify-save-license');
+const uglify = require('gulp-uglify-es').default;
 
 const uglifyOptions = { output: { comments: saveLicense } };
 const $ = gulpLoadPlugins();
@@ -86,14 +87,10 @@ gulp.task('serve', gulp.series('html', 'styles', 'scripts', () => {
 }));
 
 gulp.task('build:website', gulp.series('html', 'styles', 'scripts', 'images', () => {
-  const assets = $.useref.assets({searchPath: ['.tmp', 'website', '.']});
-
   return gulp.src('.tmp/*.html')
-    .pipe(assets)
-    .pipe($.if('*.js', $.uglify(uglifyOptions)))
-    .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
-    .pipe(assets.restore())
-    .pipe($.useref())
+    .pipe($.useref({searchPath: ['.tmp', 'website', '.']}))
+    .pipe($.if('*.js', uglify(uglifyOptions)))
+    .pipe($.if('*.css', $.cleanCss({compatibility: '*'})))
     .pipe(gulp.dest('dist/website'))
     .pipe($.size({title: 'build:website', gzip: true}));
 }));
