@@ -990,6 +990,15 @@
           }
         };
       })(this));
+      this.endDate.subscribe((function(_this) {
+        return function(newValue) {
+          if (!_this.single()) {
+            if (_this.standalone()) {
+              return _this.updateDateRange();
+            }
+          }
+        };
+      })(this));
       this.style = ko.observable({});
       if (this.callback) {
         this.dateRange.subscribe((function(_this) {

@@ -20,6 +20,11 @@ class DateRangePickerView
         if @standalone()
           @updateDateRange()
 
+    @endDate.subscribe (newValue) =>
+      unless @single() # if single() then @updateDateRange() is called from @startDate subscriber
+        if @standalone() # if not standalone() then @updateDateRange() is called by applyChanges
+          @updateDateRange()
+
     @style = ko.observable({})
 
     if @callback
