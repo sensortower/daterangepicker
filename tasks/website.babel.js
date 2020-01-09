@@ -1,8 +1,8 @@
-import gulp from 'gulp';
-import marked from 'marked';
-import highlight from 'highlight.js';
-import gulpLoadPlugins from 'gulp-load-plugins';
-import browserSync from 'browser-sync';
+const gulp = require('gulp');
+const marked = require('marked');
+const highlight = require('highlight.js');
+const gulpLoadPlugins = require('gulp-load-plugins');
+const browserSync = require('browser-sync');
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -34,7 +34,10 @@ gulp.task('images', () => {
     .pipe(gulp.dest('dist/website/images'))
 });
 
-gulp.task('html', ['styles', 'scripts'], () => {
+gulp.task('html', () => {
+  gulp.start('styles');
+  gulp.start('scripts');
+
   return gulp.src('website/*.html')
     .pipe($.fileInclude({
       prefix: '@@',
@@ -47,7 +50,11 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe(reload({stream: true}));
 });
 
-gulp.task('serve', ['html', 'styles', 'scripts'], () => {
+gulp.task('serve', () => {
+  gulp.start('html');
+  gulp.start('styles');
+  gulp.start('scripts');
+
   browserSync({
     notify: false,
     port: 9000,
@@ -83,7 +90,12 @@ gulp.task('serve', ['html', 'styles', 'scripts'], () => {
   gulp.watch('{docs,.}/*.md', ['html']);
 });
 
-gulp.task('build:website', ['html', 'scripts', 'styles', 'images'], () => {
+gulp.task('build:website', () => {
+  gulp.start('html');
+  gulp.start('scripts');
+  gulp.start('styles');
+  gulp.start('images');
+
   const assets = $.useref.assets({searchPath: ['.tmp', 'website', '.']});
 
   return gulp.src('.tmp/*.html')
@@ -96,7 +108,9 @@ gulp.task('build:website', ['html', 'scripts', 'styles', 'images'], () => {
     .pipe($.size({title: 'build:website', gzip: true}));
 });
 
-gulp.task('serve:website', ['build:website'], () => {
+gulp.task('serve:website', () => {
+  gulp.start('build:website');
+
   browserSync({
     notify: false,
     port: 9000,

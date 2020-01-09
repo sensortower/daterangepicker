@@ -1,5 +1,5 @@
-import gulp from 'gulp';
-import gulpLoadPlugins from 'gulp-load-plugins';
+const gulp = require('gulp');
+const gulpLoadPlugins = require('gulp-load-plugins');
 
 const $ = gulpLoadPlugins();
 

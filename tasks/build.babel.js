@@ -1,7 +1,7 @@
-import gulp from 'gulp';
-import fs from 'fs';
-import gulpLoadPlugins from 'gulp-load-plugins';
-import browserSync from 'browser-sync';
+const gulp = require('gulp');
+const fs = require('fs');
+const gulpLoadPlugins = require('gulp-load-plugins');
+const browserSync = require('browser-sync');
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -52,17 +52,22 @@ gulp.task('scripts', () => {
     .pipe(reload({stream: true}));
 });
 
-gulp.task('build', ['scripts', 'styles'], () => {
+gulp.task('build', () => {
+  gulp.start('scripts');
+  gulp.start('styles');
+
   return gulp.src(['.tmp/scripts/daterangepicker.js', '.tmp/styles/daterangepicker.css'])
     .pipe($.header(banner()))
     .pipe(gulp.dest('dist/'))
     .pipe($.size({title: 'build', gzip: true}));
 });
 
-gulp.task('build:min', ['build'], () => {
+gulp.task('build:min', () => {
+  gulp.start('build');
+
   return gulp.src(['dist/daterangepicker.js', 'dist/daterangepicker.css'])
     .pipe($.if('*.js', $.uglify({preserveComments: 'license'})))
-    .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
+    .pipe($.if('*.css', $.cleanCSS({compatibility: '*'})))
     .pipe($.if('*.js', $.extReplace('.min.js')))
     .pipe($.if('*.css', $.extReplace('.min.css')))
     .pipe(gulp.dest('dist/'))

@@ -1,7 +1,7 @@
-import gulp from 'gulp';
-import fs from 'fs';
-import gulpLoadPlugins from 'gulp-load-plugins';
-import childProcess from 'child_process';
+const gulp = require('gulp');
+const fs = require('fs');
+const gulpLoadPlugins = require('gulp-load-plugins');
+const childProcess = require('child_process');
 
 const $ = gulpLoadPlugins();
 const exec = childProcess.exec;
@@ -11,12 +11,16 @@ function readJson(path) {
   return JSON.parse(fs.readFileSync(path, 'utf8'));
 }
 
-gulp.task('github:pages', ['build:website'], () => {
+gulp.task('github:pages', () => {
+  gulp.start('build:website');
+
   return gulp.src('./dist/website/**/*')
     .pipe($.ghPages());
 });
 
-gulp.task('consistency-check', ['build:min'], (cb) => {
+gulp.task('consistency-check', (cb) => {
+  gulp.start('build:min');
+
   exec('git status', function callback(error, stdout, stderr) {
     const pendingChanges = stdout.match(/modified:\s*dist/)
     if (pendingChanges) {
@@ -27,7 +31,9 @@ gulp.task('consistency-check', ['build:min'], (cb) => {
   });
 });
 
-gulp.task('github:release', ['consistency-check'], () => {
+gulp.task('github:release', () => {
+  gulp.start('consistency-check');
+
   if (!process.env.GITHUB_TOKEN) {
     throw new Error('env.GITHUB_TOKEN is empty');
   }
