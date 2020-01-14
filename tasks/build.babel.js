@@ -1,8 +1,11 @@
-import gulp from 'gulp';
-import fs from 'fs';
-import gulpLoadPlugins from 'gulp-load-plugins';
-import browserSync from 'browser-sync';
+const gulp = require('gulp');
+const fs = require('fs');
+const gulpLoadPlugins = require('gulp-load-plugins');
+const browserSync = require('browser-sync');
+const saveLicense = require('uglify-save-license');
+const uglify = require('gulp-uglify-es').default;
 
+const uglifyOptions = { output: { comments: saveLicense } };
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
@@ -35,7 +38,7 @@ gulp.task('styles', () => {
       precision: 10,
       includePaths: ['.']
     }).on('error', $.util.log))
-    .pipe($.autoprefixer({browsers: ['last 2 versions']}))
+    .pipe($.autoprefixer())
     .pipe(gulp.dest('.tmp/styles'))
     .pipe(reload({stream: true}));
 });
@@ -52,19 +55,19 @@ gulp.task('scripts', () => {
     .pipe(reload({stream: true}));
 });
 
-gulp.task('build', ['scripts', 'styles'], () => {
+gulp.task('build', gulp.series('scripts', 'styles', () => {
   return gulp.src(['.tmp/scripts/daterangepicker.js', '.tmp/styles/daterangepicker.css'])
     .pipe($.header(banner()))
     .pipe(gulp.dest('dist/'))
     .pipe($.size({title: 'build', gzip: true}));
-});
+}));
 
-gulp.task('build:min', ['build'], () => {
+gulp.task('build:min', gulp.series('build', () => {
   return gulp.src(['dist/daterangepicker.js', 'dist/daterangepicker.css'])
-    .pipe($.if('*.js', $.uglify({preserveComments: 'license'})))
-    .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
+    .pipe($.if('*.js', uglify(uglifyOptions)))
+    .pipe($.if('*.css', $.cleanCss({compatibility: '*'})))
     .pipe($.if('*.js', $.extReplace('.min.js')))
     .pipe($.if('*.css', $.extReplace('.min.css')))
     .pipe(gulp.dest('dist/'))
     .pipe($.size({title: 'build:min', gzip: true}));
-});
+}));
