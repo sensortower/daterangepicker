@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker
- * version: 0.1.0
+ * version: 0.1.1
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
