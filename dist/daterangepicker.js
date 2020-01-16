@@ -992,10 +992,8 @@
       })(this));
       this.endDate.subscribe((function(_this) {
         return function(newValue) {
-          if (!_this.single()) {
-            if (_this.standalone()) {
-              return _this.updateDateRange();
-            }
+          if (!_this.single() && _this.standalone()) {
+            return _this.updateDateRange();
           }
         };
       })(this));
