@@ -1,6 +1,6 @@
 /*!
  * knockout-daterangepicker
- * version: 0.1.1
+ * version: 0.1.2
  * authors: Sensor Tower team
  * license: MIT
  * https://sensortower.github.io/daterangepicker
@@ -987,6 +987,13 @@
             if (_this.standalone()) {
               return _this.updateDateRange();
             }
+          }
+        };
+      })(this));
+      this.endDate.subscribe((function(_this) {
+        return function(newValue) {
+          if (!_this.single() && _this.standalone()) {
+            return _this.updateDateRange();
           }
         };
       })(this));
