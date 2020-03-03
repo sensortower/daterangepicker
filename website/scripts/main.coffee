@@ -39,7 +39,7 @@ class View
       $("pre").each ->
         code = $(this).text()
         nodeType =
-          if $(this).children("code").is(".lang-html")
+          if $(this).children("code").is(".language-html")
             "div"
           else
             "script"
