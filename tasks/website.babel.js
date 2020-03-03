@@ -78,12 +78,12 @@ gulp.task('serve', gulp.series('html', 'styles', 'scripts', () => {
     '{docs,.}/*.md'
   ]).on('change', reload);
 
-  gulp.watch('{src,website}/styles/**/*.scss', ['styles']);
-  gulp.watch('test/**/*.coffee', ['scripts']);
-  gulp.watch('{src,website}/scripts/**/*.coffee', ['scripts']);
-  gulp.watch('src/templates/**/*.html', ['scripts']);
-  gulp.watch('website/**/*.html', ['html']);
-  gulp.watch('{docs,.}/*.md', ['html']);
+  gulp.watch('{src,website}/styles/**/*.scss', gulp.series('styles'));
+  gulp.watch('test/**/*.coffee', gulp.series('scripts'));
+  gulp.watch('{src,website}/scripts/**/*.coffee', gulp.series('scripts'));
+  gulp.watch('src/templates/**/*.html', gulp.series('scripts'));
+  gulp.watch('website/**/*.html', gulp.series('html'));
+  gulp.watch('{docs,.}/*.md', gulp.series('html'));
 }));
 
 gulp.task('build:website', gulp.series('html', 'styles', 'scripts', 'images', () => {
