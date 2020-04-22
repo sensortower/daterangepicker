@@ -28,7 +28,7 @@ class CalendarView
       switch @period()
         when 'day', 'week'
           firstDayOfMonth = date.clone()
-          date.weekday(0)
+          date.weekday(moment.localeData().firstDayOfWeek())
           if date.isAfter(firstDayOfMonth) || date.isSame(firstDayOfMonth, 'day')
             date.subtract(1, 'week')
         when 'year'
