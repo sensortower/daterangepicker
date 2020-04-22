@@ -1,7 +1,7 @@
 $grey-color: #f5f5f5;
 $slightly-darker-grey-color: #eee;
 $dark-grey-color: #bbb;
-$active-color: #08c;
+$active-color: #08c !default;
 $in-range-color: rgba($active-color, 0.1);
 $green-color: #38A551;
 $border-radius: 4px;
