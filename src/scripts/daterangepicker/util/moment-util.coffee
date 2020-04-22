@@ -1,6 +1,6 @@
 class MomentUtil
   @patchCurrentLocale: (obj) ->
-    moment.locale(moment.locale(), obj)
+    moment.updateLocale(moment.locale(), obj)
 
   @setFirstDayOfTheWeek: (dow) ->
     dow = (dow % 7 + 7) % 7
